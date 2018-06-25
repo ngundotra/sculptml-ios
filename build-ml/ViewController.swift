@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         layerViewDelegate = LayerTableViewController(names: layersAvailable, photos: layerPhotos)
         tableView.dataSource = layerViewDelegate
         tableView.delegate = layerViewDelegate
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

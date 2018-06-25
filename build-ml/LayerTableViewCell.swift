@@ -56,15 +56,22 @@ class LayerTableViewCell: UITableViewCell {
         contentView.addSubview(layerName)
         contentView.addSubview(layerImg)
         
-        self.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(70)
+//        self.snp.makeConstraints { (make) -> Void in
+//            make.height.equalTo(70)
+//        }
+        layerName.snp.makeConstraints { (make) -> Void in
+            make.top.equalToSuperview().offset(20)
+            make.left.equalToSuperview().offset(10)
+            
         }
         
-        layerImg.snp.makeConstraints {(make) -> Void in
-            make.width.equalTo(50)
-            make.height.equalTo(50)
-//            make.right.equalTo(self.snp.right)
+        layerImg.snp.makeConstraints{(make) -> Void in
+            make.top.equalToSuperview().offset(5)
+            make.right.equalToSuperview().offset(-10)
         }
+        
+        
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -15,6 +15,7 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     var photos: [String]
     // Used to connect to Prototype Cells
     let cellID = "layerCell"
+    let defaultCellHeight = 70
     
     // Init data from the OG View Controller
     init(names: [String], photos: [String]) {
@@ -50,10 +51,20 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     
     // User selects row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let cell = tableView.cellForRow(at: indexPath)
         
         print("selected row at \(indexPath.row)")
-        print(cell.subviews)
+        if let cell = cell {
+            print(cell.subviews)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row < layerNames.count {
+            return CGFloat(defaultCellHeight)
+        } else {
+            return CGFloat(25.0)
+        }
     }
 
 }
