@@ -13,7 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     // Example layers to fill out the table
-    var layersAvailable = ["Input", "Dense", "Conv2D", "LSTM", "UpSample2D"]
+    var layersAvailable = ["Input", "Dense", "Conv2D"]
+    var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
                       "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
     
@@ -22,7 +23,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        layerViewDelegate = LayerTableViewController(names: layersAvailable)
+        layerViewDelegate = LayerTableViewController(names: layersAvailable, photos: layerPhotos)
         tableView.dataSource = layerViewDelegate
         tableView.delegate = layerViewDelegate
     }

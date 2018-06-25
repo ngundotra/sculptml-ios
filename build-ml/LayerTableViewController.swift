@@ -12,17 +12,21 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     
     var layerNames: [String]
     var layerDescriptions: [String]?
+    var photos: [String]
     // Used to connect to Prototype Cells
     let cellID = "layerCell"
     
     // Init data from the OG View Controller
-    init(names: [String]) {
+    init(names: [String], photos: [String]) {
         layerNames = names
+        self.photos = photos
     }
     
-    init(names: [String], descriptions: [String]) {
+    init(names: [String], photos: [String], descriptions: [String]) {
         layerNames = names
+        self.photos = photos
         layerDescriptions = descriptions
+        
     }
     
     // Required: Gives the number of rows in a "section"
@@ -34,8 +38,9 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        if let lCell = cell as? LayerTableViewCell {
-            lCell.labUserName.text = layerNames[indexPath.row]
+        if let cell = cell as? LayerTableViewCell {
+            cell.layerName.text = layerNames[indexPath.row]
+            cell.layerImg.image = UIImage(imageLiteralResourceName: photos[indexPath.row])
 //            (lCell.viewsDict["message"] as! UILabel).text = "m: \(indexPath.row)"
 //            (lCell.viewsDict["labTime"] as! UILabel).text = "t: time"
         }
