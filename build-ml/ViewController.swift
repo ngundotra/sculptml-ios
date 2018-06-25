@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     // Example layers to fill out the table
     var layersAvailable = ["Input", "Dense", "Conv2D", "LSTM", "UpSample2D"]
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
@@ -21,8 +23,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         layerViewDelegate = LayerTableViewController(names: layersAvailable)
-        tableView
-        
+        tableView.dataSource = layerViewDelegate
+        tableView.delegate = layerViewDelegate
     }
 
     override func didReceiveMemoryWarning() {
