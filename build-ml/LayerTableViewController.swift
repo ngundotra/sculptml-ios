@@ -34,8 +34,11 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
-        // Set the layer cell name
-        cell.textLabel?.text = layerNames[indexPath.row]
+        if let lCell = cell as? LayerTableViewCell {
+            lCell.labUserName.text = layerNames[indexPath.row]
+//            (lCell.viewsDict["message"] as! UILabel).text = "m: \(indexPath.row)"
+//            (lCell.viewsDict["labTime"] as! UILabel).text = "t: time"
+        }
         
         return cell
     }
