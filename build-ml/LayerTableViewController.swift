@@ -12,6 +12,8 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     
     var layerNames: [String]
     var layerDescriptions: [String]?
+    // Used to connect to Prototype Cells
+    let cellID = "layerCell"
     
     // Init data from the OG View Controller
     init(names: [String]) {
@@ -30,12 +32,20 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     
     // Required: Creates cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         
         // Set the layer cell name
         cell.textLabel?.text = layerNames[indexPath.row]
         
         return cell
+    }
+    
+    // User selects row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        
+        print("selected row at \(indexPath.row)")
+        print(cell.subviews)
     }
 
 }
