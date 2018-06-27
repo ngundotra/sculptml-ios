@@ -28,7 +28,10 @@ class GraphBuilderViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.addSubview(debugLabel)
+        view.addSubview(viewTitle)
+        view.backgroundColor = UIColor.white
         // Do any additional setup after loading the view.
         
         // Title Label
@@ -43,9 +46,10 @@ class GraphBuilderViewController: UIViewController {
     
     func makeTitleLabel() {
         viewTitle.snp.makeConstraints { (make) -> Void in
-            make.top.equalToSuperview().offset(20.0)
+            make.top.equalToSuperview().offset(40.0)
             make.centerX.equalToSuperview()
         }
+        viewTitle.font = UIFont.boldSystemFont(ofSize: 35.0)
         viewTitle.text = "Graph Builder"
     }
     

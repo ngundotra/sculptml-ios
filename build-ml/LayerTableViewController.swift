@@ -54,7 +54,7 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
         
         print("selected row at \(indexPath.row)")
         
-//        self.layerTapper(self.layerNames[indexPath.row])
+        self.layerTapper(self.layerNames[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
