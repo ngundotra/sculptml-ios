@@ -10,6 +10,7 @@
 		2D39958CEE53829D6E66A0F8 /* Pods_build_ml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 966F2038B486190B65017186 /* Pods_build_ml.framework */; };
 		7B0835E720E19CD3005323E0 /* LayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */; };
 		7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */; };
+		7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EC20E337EB005323E0 /* MainViewController.swift */; };
 		7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2320E181BF00651337 /* AppDelegate.swift */; };
 		7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2520E181BF00651337 /* ViewController.swift */; };
 		7BCA3E2920E181BF00651337 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2720E181BF00651337 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LayerTableViewCell.swift; path = "/Users/ngundotra/Documents/Dev/build-ml/build-ml/LayerTableViewCell.swift"; sourceTree = "<absolute>"; };
 		7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderViewController.swift; sourceTree = "<group>"; };
+		7B0835EC20E337EB005323E0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7BCA3E2020E181BF00651337 /* build-ml.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "build-ml.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BCA3E2320E181BF00651337 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BCA3E2520E181BF00651337 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
+				7B0835EC20E337EB005323E0 /* MainViewController.swift */,
 				7BCA3E2520E181BF00651337 /* ViewController.swift */,
 				7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */,
 				7BCA3E3A20E1886E00651337 /* LayerTableViewController.swift */,
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				7BCA3E3B20E1886E00651337 /* LayerTableViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,

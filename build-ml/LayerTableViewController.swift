@@ -35,16 +35,19 @@ class LayerTableViewController: NSObject, UITableViewDelegate, UITableViewDataSo
     
     // Required: Creates cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
         if let cell = cell as? LayerTableViewCell {
-            cell.layerName.text = layerNames[indexPath.row]
-            cell.layerDesc.text = layerDescriptions[indexPath.row]
-            cell.layerImg.image = UIImage(imageLiteralResourceName: photos[indexPath.row])
+            print("cell already created")
 //            (lCell.viewsDict["message"] as! UILabel).text = "m: \(indexPath.row)"
 //            (lCell.viewsDict["labTime"] as! UILabel).text = "t: time"
+        } else {
+            print("creating cell")
+            cell = LayerTableViewCell(style: .default, reuseIdentifier: cellID)
         }
-        
+        let layerCell = cell as! LayerTableViewCell
+        layerCell.layerName.text = layerNames[indexPath.row]
+        layerCell.layerDesc.text = layerDescriptions[indexPath.row]
+        layerCell.layerImg.image = UIImage(imageLiteralResourceName: photos[indexPath.row])
         return cell
     }
     
