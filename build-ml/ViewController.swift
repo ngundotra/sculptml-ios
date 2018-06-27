@@ -18,12 +18,16 @@ class ViewController: UIViewController {
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
                       "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
     
-    var layerViewDelegate: LayerTableViewController?
+    var layerViewDelegate: LayerTableViewController!
+    var graphBuilderVC: GraphBuilderViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        layerViewDelegate = LayerTableViewController(names: layersAvailable, photos: layerPhotos)
+        graphBuilderVC = GraphBuilderViewController(tableVC: self)
+        
+        layerViewDelegate = LayerTableViewController(names: layersAvailable, photos: layerPhotos, descriptions: layersInfo, rowTapper: layerSelected)
         tableView.dataSource = layerViewDelegate
         tableView.delegate = layerViewDelegate
         tableView.reloadData()
@@ -34,6 +38,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @objc
+    func layerSelected(_ layerName: String) -> Void {
+        graphBuilderVC.addLayer(layerName: layerName)
+        self.present(graphBuilderVC, animated: true, completion: nil)
+    }
 
 }
 
