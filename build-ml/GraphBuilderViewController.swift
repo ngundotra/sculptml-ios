@@ -11,9 +11,12 @@ import UIKit
 class GraphBuilderViewController: UIViewController {
     let debugLabel = UILabel()
     let viewTitle = UILabel()
+    let backButton = UIButton()
+    let debugHeader: String = "Debug Label:"
+    
+    // Things to be updated in response to actions
     var tableVC = UIViewController()
     var layers = [String]()
-    let debugHeader: String = "Debug Label:"
     
     init(tableVC: UIViewController) {
         // Do some cool persistence stuff here (?)
@@ -40,13 +43,16 @@ class GraphBuilderViewController: UIViewController {
         // Debug Label
         makeDebugLabel()
         
+        // Set Back Button
+        makeBackButton()
+        
         // Make sure to display data loaded from persistence
         updateLayers()
     }
     
     func makeTitleLabel() {
         viewTitle.snp.makeConstraints { (make) -> Void in
-            make.top.equalToSuperview().offset(40.0)
+            make.top.equalToSuperview().offset(60.0)
             make.centerX.equalToSuperview()
         }
         viewTitle.font = UIFont.boldSystemFont(ofSize: 35.0)
@@ -61,6 +67,18 @@ class GraphBuilderViewController: UIViewController {
         }
         debugLabel.numberOfLines = 0
         debugLabel.text = debugHeader
+    }
+    
+    func makeBackButton() {
+        backButton.setTitle("Layers", for: .normal)
+        backButton.setTitleColor(UIColor.black, for: .normal)
+        backButton.addTarget(self, action: #selector(self.backToLayer), for: .touchUpInside)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    @objc func backToLayer() {
+        self.navigationController?.popViewController(animated: true)
+        print("nav button has been hit")
     }
     
     override func didReceiveMemoryWarning() {

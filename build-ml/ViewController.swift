@@ -41,7 +41,8 @@ class ViewController: UIViewController {
     @objc
     func layerSelected(_ layerName: String) -> Void {
         graphBuilderVC.addLayer(layerName: layerName)
-        self.present(graphBuilderVC, animated: true, completion: nil)
+        let navCtrl = UINavigationController(rootViewController: graphBuilderVC)
+        self.present(navCtrl, animated: true, completion: nil)
     }
 
 }
