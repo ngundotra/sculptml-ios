@@ -19,7 +19,6 @@
 		7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2A20E181BF00651337 /* build_ml.xcdatamodeld */; };
 		7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2D20E181BF00651337 /* Assets.xcassets */; };
 		7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2F20E181BF00651337 /* LaunchScreen.storyboard */; };
-		7BCA3E3B20E1886E00651337 /* LayerTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA3E3A20E1886E00651337 /* LayerTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +35,6 @@
 		7BCA3E2D20E181BF00651337 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7BCA3E3020E181BF00651337 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7BCA3E3220E181BF00651337 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7BCA3E3A20E1886E00651337 /* LayerTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerTableViewController.swift; sourceTree = "<group>"; };
 		88F5967C7A9E6B3BEEDE2E24 /* Pods-build-ml.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-build-ml.release.xcconfig"; path = "Pods/Target Support Files/Pods-build-ml/Pods-build-ml.release.xcconfig"; sourceTree = "<group>"; };
 		8BDCAF1B49F17803EC4215A2 /* Pods-build-ml.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-build-ml.debug.xcconfig"; path = "Pods/Target Support Files/Pods-build-ml/Pods-build-ml.debug.xcconfig"; sourceTree = "<group>"; };
 		966F2038B486190B65017186 /* Pods_build_ml.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_build_ml.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +97,6 @@
 				7BCA3E2520E181BF00651337 /* ViewController.swift */,
 				7B0835EE20E49B04005323E0 /* GraphModel.swift */,
 				7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */,
-				7BCA3E3A20E1886E00651337 /* LayerTableViewController.swift */,
 				7BCA3E2720E181BF00651337 /* Main.storyboard */,
 				7BCA3E2D20E181BF00651337 /* Assets.xcassets */,
 				7BCA3E2F20E181BF00651337 /* LaunchScreen.storyboard */,
@@ -224,7 +221,6 @@
 			files = (
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
-				7BCA3E3B20E1886E00651337 /* LayerTableViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,

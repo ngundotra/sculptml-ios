@@ -53,6 +53,9 @@ class ViewController: UITableViewController {
         // Add the layer to the model
         tabVC.userModel.addLayer(layer: layerName)
         tabVC.updateGraphBuilder()
+        // Need some animation here!!
+        print("need some animation to switch between tab views...\nCurrently too rough")
+        tabVC.selectedViewController = tabVC.graphBuilderVC
     }
     
     // Required: Gives the number of rows in a "section"

@@ -28,8 +28,8 @@ class MainViewController: UITabBarController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        graphBuilderVC.tabBarItem = UITabBarItem(title: "Graph", image: nil, selectedImage: nil)
-        layerVC.tabBarItem = UITabBarItem(title: "Layers", image: nil, selectedImage: nil)
+        graphBuilderVC.tabBarItem = UITabBarItem(title: "Graph", image: #imageLiteral(resourceName: "graph-icon"), selectedImage: #imageLiteral(resourceName: "graph-icon"))
+        layerVC.tabBarItem = UITabBarItem(title: "Layers", image: #imageLiteral(resourceName: "layer-bar-icon"), selectedImage: #imageLiteral(resourceName: "layer-bar-icon"))
         viewControllers = [graphBuilderVC, layerVC]
         
     }
