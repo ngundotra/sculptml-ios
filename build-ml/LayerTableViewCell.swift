@@ -17,8 +17,17 @@ class LayerTableViewCell: UITableViewCell {
     
     // FIXME: add layer description, maybe button to detail page
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setEverything()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func setEverything() {
         let layerDescSize: CGFloat = 12.5
         
         contentView.addSubview(layerName)
@@ -48,9 +57,13 @@ class LayerTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(5)
             make.right.equalToSuperview().offset(-10)
         }
+    }
+    
+    // No longer used because there is no storyboard connection XD
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
-        
-        
+        setEverything()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

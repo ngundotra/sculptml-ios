@@ -8,35 +8,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    var tableView: UITableView!
-    
+class ViewController: UITableViewController {
     // Example layers to fill out the table
-    var layersAvailable = ["Input", "Dense", "Conv2D"]
-    var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
+    var layerNames = ["Input", "Dense", "Conv2D"]
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
                       "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
+    var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
     
-    var layerViewDelegate: LayerTableViewController!
-    var graphBuilderVC: GraphBuilderViewController!
+    let cellID = "layerCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = UIColor.white
         
-        graphBuilderVC = GraphBuilderViewController(tableVC: self)
-        
+        tableView.delegate = self
+        tableView.dataSource = self
         // Setup Table View
         makeTableView()
-        layerViewDelegate = LayerTableViewController(names: layersAvailable, photos: layerPhotos, descriptions: layersInfo, rowTapper: layerSelected)
-        tableView.dataSource = layerViewDelegate
-        tableView.delegate = layerViewDelegate
-        tableView.reloadData()
         
-        // make bar button item
-        makeBarButton()
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,24 +35,57 @@ class ViewController: UIViewController {
     }
     
     func makeTableView() {
-        let rect = CGRect(
-            origin: CGPoint(x: 0, y: 0),
-            size: UIScreen.main.bounds.size
-        )
-        tableView = UITableView(frame: rect, style: UITableViewStyle.plain)
-        tableView.register(LayerTableViewCell.self, forCellReuseIdentifier: "layerCell")
+        tableView.register(LayerTableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.isHidden = false
+    }
+    
+    // Handling layer selection
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //        let cell = tableView.cellForRow(at: indexPath)
+        
+        print("selected row at \(indexPath.row)")
+        
+//        layerSelected(self.layerNames[indexPath.row])
+    }
+    
+    // Required: Gives the number of rows in a "section"
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return layerNames.count
+    }
+    
+    // Make cells
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        if let cell = cell as? LayerTableViewCell {
+            print("cell already created")
+            //            (lCell.viewsDict["message"] as! UILabel).text = "m: \(indexPath.row)"
+            //            (lCell.viewsDict["labTime"] as! UILabel).text = "t: time"
+        } else {
+            print("creating cell")
+            cell = LayerTableViewCell(style: .default, reuseIdentifier: cellID)
+        }
+        let layerCell = cell as! LayerTableViewCell
+        layerCell.layerName.text = layerNames[indexPath.row]
+        print(layerCell.layerName)
+        layerCell.layerDesc.text = layersInfo[indexPath.row]
+        layerCell.layerImg.image = UIImage(imageLiteralResourceName: layerPhotos[indexPath.row])
+        layerCell.isHidden = false
+        return layerCell
     }
 
     @objc func layerSelected(_ layerName: String) -> Void {
-        graphBuilderVC.addLayer(layerName: layerName)
-//        let navCtrl = UINavigationController(rootViewController: graphBuilderVC)
-        self.tabBarController?.present(graphBuilderVC, animated: true, completion: nil)
+        // Shorthand for actually writing to a model...
+//        graphBuilderVC.addLayer(layerName: layerName)
+//        self.tabBarController?.present(graphBuilderVC, animated: true, completion: nil)
     }
     
-    func makeBarButton() {
-        self.tabBarItem = UITabBarItem(title: "Layers", image: nil, selectedImage: nil)
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if indexPath.row < layerNames.count {
+//            return CGFloat(default.CellHeight)
+//        } else {
+//            return CGFloat(25.0)
+//        }
+//    }
 
 }
 
