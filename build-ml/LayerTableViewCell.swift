@@ -62,7 +62,6 @@ class LayerTableViewCell: UITableViewCell {
     // No longer used because there is no storyboard connection XD
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         setEverything()
     }
 

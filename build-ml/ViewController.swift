@@ -17,6 +17,10 @@ class ViewController: UITableViewController {
     
     let cellID = "layerCell"
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -26,7 +30,6 @@ class ViewController: UITableViewController {
         tableView.dataSource = self
         // Setup Table View
         makeTableView()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,24 +58,17 @@ class ViewController: UITableViewController {
     
     // Make cells
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        if let cell = cell as? LayerTableViewCell {
-            print("cell already created")
-            //            (lCell.viewsDict["message"] as! UILabel).text = "m: \(indexPath.row)"
-            //            (lCell.viewsDict["labTime"] as! UILabel).text = "t: time"
-        } else {
-            print("creating cell")
-            cell = LayerTableViewCell(style: .default, reuseIdentifier: cellID)
-        }
-        let layerCell = cell as! LayerTableViewCell
-        layerCell.layerName.text = layerNames[indexPath.row]
-        print(layerCell.layerName)
-        layerCell.layerDesc.text = layersInfo[indexPath.row]
-        layerCell.layerImg.image = UIImage(imageLiteralResourceName: layerPhotos[indexPath.row])
-        layerCell.isHidden = false
-        return layerCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! LayerTableViewCell
+        
+        // Pass information from the database to the custom tableview cell
+        cell.layerName.text = layerNames[indexPath.row]
+        cell.layerDesc.text = layersInfo[indexPath.row]
+        cell.layerImg.image = UIImage(imageLiteralResourceName: layerPhotos[indexPath.row])
+        cell.isHidden = false
+        return cell
     }
 
+    // How to pass information back to graph?
     @objc func layerSelected(_ layerName: String) -> Void {
         // Shorthand for actually writing to a model...
 //        graphBuilderVC.addLayer(layerName: layerName)

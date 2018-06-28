@@ -11,6 +11,19 @@ import UIKit
 class MainViewController: UITabBarController {
     let graphBuilderVC = GraphBuilderViewController()
     let layerVC = ViewController()
+    
+    var userModel: GraphModel!
+    
+    init(graphModel: GraphModel) {
+        super.init(nibName: nil, bundle: nil)
+        self.userModel = graphModel
+    }
+    
+    // FIXME: I should probably use this...
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
