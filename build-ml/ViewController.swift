@@ -46,7 +46,8 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //        let cell = tableView.cellForRow(at: indexPath)
         
-        print("selected row at \(indexPath.row)")
+        // For debugging
+//        print("selected row at \(indexPath.row)")
         
         let tabVC: MainViewController = self.tabBarController as! MainViewController
         let layerName = layerNames[indexPath.row]
@@ -54,7 +55,7 @@ class ViewController: UITableViewController {
         tabVC.userModel.addLayer(layer: layerName)
         tabVC.updateGraphBuilder()
         // Need some animation here!!
-        print("need some animation to switch between tab views...\nCurrently too rough")
+        print("\n\nNeed some animation to switch between tab views...\nCurrently too rough\n")
         tabVC.selectedViewController = tabVC.graphBuilderVC
     }
     
