@@ -23,10 +23,9 @@ class GraphModel {
     
     // Returns multiline description of the model (assuming it's sequential)
     func convertLayersToString() -> String {
-        
-        var desc = "\(name)"
+        var desc: String = name
         for layer in self.layers {
-            desc = desc + "\n" + layer
+            desc = desc + "\n - " + layer
         }
         return desc
     }

@@ -16,7 +16,6 @@ class GraphBuilderViewController: UIViewController {
     
     // Things to be updated in response to actions
     var tableVC = UIViewController()
-    var layers = [String]()
     
     init(tableVC: UIViewController) {
         // Do some cool persistence stuff here (?)
@@ -51,7 +50,7 @@ class GraphBuilderViewController: UIViewController {
         makeBackButton()
         
         // Make sure to display data loaded from persistence
-        updateLayers()
+        updateView()
     }
     
     func makeTitleLabel() {
@@ -63,7 +62,19 @@ class GraphBuilderViewController: UIViewController {
         viewTitle.text = "Graph Builder"
     }
     
-    func makeDebugLabel() {
+    func updateView() {
+        updateDebugLabel()
+    }
+    
+    fileprivate func updateDebugLabel() {
+        let tabVC: MainViewController = tabBarController as! MainViewController
+        
+        if let userModel = tabVC.userModel {
+            debugLabel.text = userModel.convertLayersToString()
+        }
+    }
+    
+    fileprivate func makeDebugLabel() {
         debugLabel.snp.makeConstraints{(make) -> Void in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(20.0)
@@ -73,13 +84,14 @@ class GraphBuilderViewController: UIViewController {
         debugLabel.text = debugHeader
     }
     
-    func makeBackButton() {
+    fileprivate func makeBackButton() {
         backButton.setTitle("Layers", for: .normal)
         backButton.setTitleColor(UIColor.black, for: .normal)
         backButton.addTarget(self, action: #selector(self.backToLayer), for: .touchUpInside)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
+    // Currently unused
     @objc func backToLayer() {
         self.navigationController?.popViewController(animated: true)
         print("nav button has been hit")
@@ -88,19 +100,6 @@ class GraphBuilderViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func addLayer(layerName: String) {
-        // Adds a layer to the debug label
-        layers.append(layerName)
-    }
-    
-    func updateLayers() {
-        var newText = debugHeader
-        for layerName in layers {
-            newText = newText + "\n" + layerName
-        }
-        debugLabel.text = newText
     }
 
     /*

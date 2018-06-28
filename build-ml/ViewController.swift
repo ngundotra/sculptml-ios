@@ -48,7 +48,11 @@ class ViewController: UITableViewController {
         
         print("selected row at \(indexPath.row)")
         
-//        layerSelected(self.layerNames[indexPath.row])
+        let tabVC: MainViewController = self.tabBarController as! MainViewController
+        let layerName = layerNames[indexPath.row]
+        // Add the layer to the model
+        tabVC.userModel.addLayer(layer: layerName)
+        tabVC.updateGraphBuilder()
     }
     
     // Required: Gives the number of rows in a "section"
