@@ -14,16 +14,6 @@ class GraphBuilderViewController: UIViewController {
     let backButton = UIButton()
     let debugHeader: String = "Debug Label:"
     
-    // Things to be updated in response to actions
-    var tableVC = UIViewController()
-    
-    init(tableVC: UIViewController) {
-        // Do some cool persistence stuff here (?)
-        
-        self.tableVC = tableVC
-        super.init(nibName: nil, bundle: nil)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -49,10 +39,17 @@ class GraphBuilderViewController: UIViewController {
         // Set Back Button
         makeBackButton()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Set Drag N Drop
+        print("entered")
+        
         // Make sure to display data loaded from persistence
         updateView()
     }
     
+    // Set constraints and information about the view controller title
     func makeTitleLabel() {
         viewTitle.snp.makeConstraints { (make) -> Void in
             make.top.equalToSuperview().offset(60.0)
@@ -62,6 +59,26 @@ class GraphBuilderViewController: UIViewController {
         viewTitle.text = "Graph Builder"
     }
     
+    // Set up dragging of the debug label
+    func allowDragDebug() {
+        debugLabel.isUserInteractionEnabled = true
+        
+        // Note that there is a specific delegate for dragging text boxes...(?)
+//        let dropInteraction = UIDragInteraction(delegate: self.debugLabel.view)
+//        view.addInteraction(dropInteraction)
+//        let masterVC = tabBarController! as! MainViewController
+        let panGesture = UIPanGestureRecognizer(target: debugLabel, action: #selector(self.debugPan(_:)))
+        debugLabel.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func debugPan(_ gestureRecognizer: UIPanGestureRecognizer) {
+        let translation = gestureRecognizer.translation(in: self.view)
+        let center = debugLabel.center
+        debugLabel.center = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
+        gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
+    }
+    
+    // Called by TabVC when showing the
     func updateView() {
         updateDebugLabel()
     }
@@ -69,6 +86,7 @@ class GraphBuilderViewController: UIViewController {
     fileprivate func updateDebugLabel() {
         let tabVC: MainViewController = tabBarController as! MainViewController
         
+        // Only a problem for initialization
         if let userModel = tabVC.userModel {
             debugLabel.text = userModel.convertLayersToString()
         }
@@ -82,6 +100,8 @@ class GraphBuilderViewController: UIViewController {
         }
         debugLabel.numberOfLines = 0
         debugLabel.text = debugHeader
+        
+        allowDragDebug()
     }
     
     fileprivate func makeBackButton() {

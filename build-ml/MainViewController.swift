@@ -34,13 +34,13 @@ class MainViewController: UITabBarController {
         
     }
     
-    func updateGraphBuilder() {
-        graphBuilderVC.updateView()
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // Add drag & drop view to add to the graph
+    func addView(layerName: String) {
     }
     
 

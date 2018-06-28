@@ -51,7 +51,6 @@ class LayerTableViewCell: UITableViewCell {
         // set layer description font size
         layerDesc.font = UIFont(name: layerDesc.font.fontName, size: layerDescSize)
         
-        
         // Layer Image constraints
         layerImg.snp.makeConstraints{(make) -> Void in
             make.top.equalToSuperview().offset(5)
