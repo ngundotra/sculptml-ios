@@ -8,12 +8,14 @@
 
 import UIKit
 
+// Really the LayerTableVC
 class ViewController: UITableViewController {
     // Example layers to fill out the table
     var layerNames = ["Input", "Dense", "Conv2D"]
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
                       "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
     var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
+    var layerHeight = [false, true, false]
     
     let cellID = "layerCell"
     
@@ -44,19 +46,36 @@ class ViewController: UITableViewController {
     
     // Handling layer selection
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //        let cell = tableView.cellForRow(at: indexPath)
-        
-        // For debugging
-//        print("selected row at \(indexPath.row)")
+        let cell = tableView.cellForRow(at: indexPath) as! LayerTableViewCell
+//        cell.snp.updateConstraints { (make) -> Void in
+//            make.center.equalTo(cell.contentView.snp.center)
+//            make.centerY.equalTo(cell.contentView.snp.centerY)
+//            make.width.equalTo(cell.contentView.snp.width)
+//            make.height.equalTo(cell.contentView.snp.height)
+//        }
+        self.updateViewConstraints()
+        super.updateViewConstraints()
         
         let tabVC: MainViewController = self.tabBarController as! MainViewController
         let layerName = layerNames[indexPath.row]
+        
         // Add the layer to the model
         tabVC.userModel.addLayer(layer: layerName)
         // Need some animation here!!
         print("\n\nNeed some animation to switch between tab views...\nCurrently too rough\n")
         tabVC.selectedViewController = tabVC.graphBuilderVC
     }
+    
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        let cell = tableView.cellForRow(at: indexPath)
+//        let height = cell!.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+//
+//        if layerHeight[indexPath.row] {
+//            return 120.0
+//        } else {
+//            return height
+//        }
+//    }
     
     // Required: Gives the number of rows in a "section"
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,6 +91,11 @@ class ViewController: UITableViewController {
         cell.layerDesc.text = layersInfo[indexPath.row]
         cell.layerImg.image = UIImage(imageLiteralResourceName: layerPhotos[indexPath.row])
         cell.isHidden = false
+        
+//        cell.snp.makeConstraints{ (make) -> Void in
+//            make.left.greaterThanOrEqualTo(self.view)
+//            make.right.lessThanOrEqualTo(self.view)
+//        }
         return cell
     }
 

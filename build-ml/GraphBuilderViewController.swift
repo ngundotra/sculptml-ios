@@ -39,6 +39,8 @@ class GraphBuilderViewController: UIViewController {
         // Set Back Button
         makeBackButton()
         
+        view.clipsToBounds = true
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +69,7 @@ class GraphBuilderViewController: UIViewController {
 //        let dropInteraction = UIDragInteraction(delegate: self.debugLabel.view)
 //        view.addInteraction(dropInteraction)
 //        let masterVC = tabBarController! as! MainViewController
-        let panGesture = UIPanGestureRecognizer(target: debugLabel, action: #selector(self.debugPan(_:)))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.debugPan(_:)))
         debugLabel.addGestureRecognizer(panGesture)
     }
     

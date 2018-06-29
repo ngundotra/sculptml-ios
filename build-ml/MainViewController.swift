@@ -38,11 +38,6 @@ class MainViewController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    // Add drag & drop view to add to the graph
-    func addView(layerName: String) {
-    }
-    
 
     /*
     // MARK: - Navigation

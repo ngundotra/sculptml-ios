@@ -39,6 +39,7 @@ class LayerTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(20)
             make.left.equalToSuperview().offset(10)
         }
+        
         // make layer name bold
         layerName.font = UIFont.boldSystemFont(ofSize: layerName.font.pointSize)
         
