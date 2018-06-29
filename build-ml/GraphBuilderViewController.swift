@@ -40,7 +40,6 @@ class GraphBuilderViewController: UIViewController {
         makeBackButton()
         
         view.clipsToBounds = true
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,12 +72,20 @@ class GraphBuilderViewController: UIViewController {
         debugLabel.addGestureRecognizer(panGesture)
     }
     
+    // Manual hand-coding to add extra space between top of view and the iOS pull down menu
     @objc func debugPan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: self.view)
         let center = debugLabel.center
         debugLabel.center = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
+        
+        if let frame = tabBarController?.tabBar.frame {
+            let bigFrame = self.view.frame
+            let usableFrame = CGRect(x: bigFrame.minX, y: bigFrame.minY + 20.0, width: bigFrame.width, height: bigFrame.height - frame.height)
+            Utils.clipToBounds(view: debugLabel, frame: usableFrame)
+        }
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
+    
     
     // Called by TabVC when showing the
     func updateView() {
