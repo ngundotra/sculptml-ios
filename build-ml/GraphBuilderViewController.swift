@@ -40,11 +40,15 @@ class GraphBuilderViewController: UIViewController {
         makeDebugLabel()
         
         // Set Back Button
-        makeBackButton()
+//        makeBackButton()
         
         // Debug only
         layerObjs = [testLayerObj]
         view.clipsToBounds = true
+        
+        // Scroll Graph
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(scrollGraph))
+        view.addGestureRecognizer(panGesture)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,6 +96,23 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
+    // Be able to scroll up on the whole graph by tourching any of the elements..?
+    @objc func scrollGraph(_ gestureRecognizer: UIPanGestureRecognizer) {
+        let translation = gestureRecognizer.translation(in: self.view)
+        for obj in layerObjs {
+            let center = obj.center
+            obj.center = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
+            // clip everything to bounds...
+            if let frame = tabBarController?.tabBar.frame {
+                let bigFrame = self.view.frame
+                let usableFrame = CGRect(x: bigFrame.minX, y: bigFrame.minY + 20.0, width: bigFrame.width, height: bigFrame.height - frame.height)
+//                Utils.clipToBounds(view: obj, frame: usableFrame)
+//                obj.frame = Utils.clipToBounds(view: obj.frame, frame: usableFrame)
+            }
+        }
+        gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
+    }
+    
     @objc func touchInputLayer() {
         let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC")
         modalPresentationStyle = .popover
@@ -100,15 +121,25 @@ class GraphBuilderViewController: UIViewController {
     }
     
     func updateLayerObjs() {
-        if layerObjs.count == 1 {
-            let layer = layerObjs[0]
-            layer.snp.makeConstraints { (make) -> Void in
-                make.top.equalTo(debugLabel).offset(15.0)
-                make.centerX.equalTo(debugLabel)
-                make.height.greaterThanOrEqualTo(75.0).priority(600)
-                make.width.greaterThanOrEqualTo(75.0).priority(600)
-            }
+        layerObjs = []
+        let tabVC = self.tabBarController! as! MainViewController
+        var prev: CGRect = debugLabel.frame
+        for layer in tabVC.userModel.layers {
+            let but = instantiateLayerButton(layerName: layer)
+            layerObjs.append(but)
+            print("button: \(layer) added")
+            view.addSubview(but)
+            but.frame = CGRect(x: 50.0, y: prev.maxY, width: 75.0, height: 75.0)
+            //            layer.snp.makeConstraints { (make) -> Void in
+            //                make.top.equalTo(prev).offset(15.0)
+            //                make.centerX.equalTo(prev)
+            //                make.height.greaterThanOrEqualTo(75.0).priority(600)
+            //                make.width.greaterThanOrEqualTo(75.0).priority(600)
+            //            }
+            prev = but.frame
         }
+        
+        
     }
     
     // Called by TabVC when showing the
@@ -126,6 +157,7 @@ class GraphBuilderViewController: UIViewController {
         }
     }
     
+    // Makes debug label programmatically
     fileprivate func makeDebugLabel() {
         debugLabel.snp.makeConstraints{(make) -> Void in
             make.centerX.equalToSuperview()
@@ -138,6 +170,7 @@ class GraphBuilderViewController: UIViewController {
         allowDragDebug()
     }
     
+    // Currently deprecated
     fileprivate func makeBackButton() {
         backButton.setTitle("Layers", for: .normal)
         backButton.setTitleColor(UIColor.black, for: .normal)
@@ -156,6 +189,7 @@ class GraphBuilderViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Handles creation of the layer button objects
     func instantiateLayerButton(layerName: String) -> UIButton {
         let button = UIButton(type: .custom)
         var img = UIImage()

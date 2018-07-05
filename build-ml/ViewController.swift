@@ -50,7 +50,7 @@ class ViewController: UITableViewController {
 //        cell.snp.updateConstraints { (make) -> Void in
 //            make.center.equalTo(cell.contentView.snp.center)
 //            make.centerY.equalTo(cell.contentView.snp.centerY)
-//            make.width.equalTo(cell.contentView.snp.width)
+//            make.width.equalTo(cell.contentView.snpwidth)
 //            make.height.equalTo(cell.contentView.snp.height)
 //        }
         self.updateViewConstraints()
