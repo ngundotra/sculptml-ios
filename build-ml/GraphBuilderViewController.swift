@@ -9,6 +9,8 @@
 import UIKit
 
 class GraphBuilderViewController: UIViewController {
+    var layerObjs = [UIButton]()
+    var testLayerObj: UIButton = LayerButton(layerImgName: "inputLayer")
     let debugLabel = UILabel()
     let viewTitle = UILabel()
     let backButton = UIButton()
@@ -24,9 +26,10 @@ class GraphBuilderViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        testLayerObj = instantiateLayerButton(layerName: "Input")
         view.addSubview(debugLabel)
         view.addSubview(viewTitle)
+        view.addSubview(testLayerObj)
         view.backgroundColor = UIColor.white
         // Do any additional setup after loading the view.
         
@@ -39,6 +42,8 @@ class GraphBuilderViewController: UIViewController {
         // Set Back Button
         makeBackButton()
         
+        // Debug only
+        layerObjs = [testLayerObj]
         view.clipsToBounds = true
     }
     
@@ -78,6 +83,7 @@ class GraphBuilderViewController: UIViewController {
         let center = debugLabel.center
         debugLabel.center = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
         
+        // clip everything to bounds...
         if let frame = tabBarController?.tabBar.frame {
             let bigFrame = self.view.frame
             let usableFrame = CGRect(x: bigFrame.minX, y: bigFrame.minY + 20.0, width: bigFrame.width, height: bigFrame.height - frame.height)
@@ -86,10 +92,29 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
+    @objc func touchInputLayer() {
+        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC")
+        modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
+        print("touched!")
+    }
+    
+    func updateLayerObjs() {
+        if layerObjs.count == 1 {
+            let layer = layerObjs[0]
+            layer.snp.makeConstraints { (make) -> Void in
+                make.top.equalTo(debugLabel).offset(15.0)
+                make.centerX.equalTo(debugLabel)
+                make.height.greaterThanOrEqualTo(75.0).priority(600)
+                make.width.greaterThanOrEqualTo(75.0).priority(600)
+            }
+        }
+    }
     
     // Called by TabVC when showing the
     func updateView() {
         updateDebugLabel()
+        updateLayerObjs()
     }
     
     fileprivate func updateDebugLabel() {
@@ -129,6 +154,29 @@ class GraphBuilderViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func instantiateLayerButton(layerName: String) -> UIButton {
+        let button = UIButton(type: .custom)
+        var img = UIImage()
+        if layerName.elementsEqual("Conv2D") {
+            img = #imageLiteral(resourceName: "conv2dlayer")
+            //            return LayerButton(layerImgName: layerName)
+        } else if layerName.elementsEqual("Input") {
+            img = #imageLiteral(resourceName: "inputlayer")
+            button.addTarget(self, action: #selector(touchInputLayer), for: UIControlEvents.touchUpInside)
+//            return LayerButton(layerImgName: layerName)
+        } else if layerName.elementsEqual("Dense") {
+            img = #imageLiteral(resourceName: "denselayer")
+//            return LayerButton(layerImgName: layerName)
+        } else {
+            fatalError("bad layer name given: \(layerName)")
+        }
+        button.setBackgroundImage(img, for: .normal)
+        button.setBackgroundImage(img, for: .selected)
+        button.setTitle(layerName, for: .normal)
+        button.setTitle(layerName, for: .selected)
+        return button
     }
 
     /*
