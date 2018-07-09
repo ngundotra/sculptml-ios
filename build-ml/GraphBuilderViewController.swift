@@ -115,13 +115,19 @@ class GraphBuilderViewController: UIViewController {
     
     @objc func touchInputLayer() {
         let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC")
+//        vc.setLayer(layer: )
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
         print("touched!")
     }
     
     func updateLayerObjs() {
+        let ct = view.subviews.count
+        for subv in layerObjs {
+            subv.removeFromSuperview()
+        }
         layerObjs = []
+        print("Delta = \(view.subviews.count - ct)")
         let tabVC = self.tabBarController! as! MainViewController
         var prev: CGRect = debugLabel.frame
         for layer in tabVC.userModel.layers {
