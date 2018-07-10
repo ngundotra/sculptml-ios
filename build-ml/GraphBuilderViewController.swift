@@ -122,15 +122,10 @@ class GraphBuilderViewController: UIViewController {
     }
     
     func updateLayerObjs() {
-        let ct = view.subviews.count
-        for subv in layerObjs {
-            subv.removeFromSuperview()
-        }
-        layerObjs = []
-        print("Delta = \(view.subviews.count - ct)")
         let tabVC = self.tabBarController! as! MainViewController
         var prev: CGRect = debugLabel.frame
-        for layer in tabVC.userModel.layers {
+        
+        for layer in tabVC.userModel.toAdd {
             let but = instantiateLayerButton(layerName: layer)
             layerObjs.append(but)
             print("button: \(layer) added")
@@ -145,7 +140,7 @@ class GraphBuilderViewController: UIViewController {
             prev = but.frame
         }
         
-        
+        tabVC.userModel.flush()
     }
     
     // Called by TabVC when showing the

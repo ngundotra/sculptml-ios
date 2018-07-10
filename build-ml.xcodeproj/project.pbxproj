@@ -14,6 +14,7 @@
 		7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EE20E49B04005323E0 /* GraphModel.swift */; };
 		7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0835F020E4A028005323E0 /* Default-568h@2x.png */; };
 		7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */; };
+		7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */; };
 		7B7C84DB20E5CC5400DE3251 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7C84DA20E5CC5400DE3251 /* Utils.swift */; };
 		7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7C84DC20E5DFC600DE3251 /* LayerButton.swift */; };
 		7B7C84DF20E5F1FA00DE3251 /* InputAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */; };
@@ -32,6 +33,7 @@
 		7B0835EE20E49B04005323E0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 		7B0835F020E4A028005323E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputLayerAlertViewController.swift; sourceTree = "<group>"; };
+		7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conv2DAlert.storyboard; sourceTree = "<group>"; };
 		7B7C84DA20E5CC5400DE3251 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7B7C84DC20E5DFC600DE3251 /* LayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerButton.swift; sourceTree = "<group>"; };
 		7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InputAlert.storyboard; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */,
 				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
+				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
 				7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
@@ -179,6 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B7C84DF20E5F1FA00DE3251 /* InputAlert.storyboard in Resources */,
+				7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */,
 				7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */,
 				7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */,
 				7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */,

@@ -60,7 +60,7 @@ class ViewController: UITableViewController {
         let layerName = layerNames[indexPath.row]
         
         // Add the layer to the model
-        tabVC.userModel.addLayer(layer: layerName)
+        tabVC.userModel.queueLayer(layer: layerName)
         // Need some animation here!!
         print("\n\nNeed some animation to switch between tab views...\nCurrently too rough\n")
         tabVC.selectedViewController = tabVC.graphBuilderVC

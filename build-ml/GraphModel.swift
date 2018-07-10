@@ -11,6 +11,7 @@ import Foundation
 class GraphModel {
     
     var layers = [String]()
+    var toAdd = [String]()
     var name: String!
     
     init(name: String) {
@@ -28,6 +29,14 @@ class GraphModel {
             desc = desc + "\n - " + layer
         }
         return desc
+    }
+    
+    func flush() {
+        toAdd = []
+    }
+    
+    func queueLayer(layer: String) {
+        toAdd.append(layer)
     }
 
 }
