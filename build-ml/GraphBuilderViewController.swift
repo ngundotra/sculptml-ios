@@ -102,18 +102,6 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
-    // Passes the underlying ModelLayer to the corresponding popup ViewController
-    @objc func touchInputLayer(button: LayerButton) {
-        let prevStyle = modalPresentationStyle
-        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC") as! InputLayerAlertViewController
-        vc.modelLayer = button.modelLayer as! SPInputLayer
-//        vc.setLayer(layer: )
-        modalPresentationStyle = .popover
-        present(vc, animated: true, completion: nil)
-        print("touched!")
-        modalPresentationStyle = prevStyle
-    }
-    
     func updateLayerObjs() {
         let tabVC = self.tabBarController! as! MainViewController
         var prev: CGRect = debugLabel.frame
@@ -165,22 +153,13 @@ class GraphBuilderViewController: UIViewController {
     // Makes debug label programmatically
     fileprivate func makeDebugLabel() {
         debugLabel.snp.makeConstraints{(make) -> Void in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(20.0)
+            make.right.equalTo(viewTitle)
             make.height.greaterThanOrEqualTo(20.0)
         }
         debugLabel.numberOfLines = 0
         debugLabel.text = debugHeader
         
-        allowDragDebug()
-    }
-    
-    // Currently deprecated
-    fileprivate func makeBackButton() {
-        backButton.setTitle("Layers", for: .normal)
-        backButton.setTitleColor(UIColor.black, for: .normal)
-        backButton.addTarget(self, action: #selector(self.backToLayer), for: .touchUpInside)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+//        allowDragDebug()
     }
     
     // Currently unused
@@ -194,18 +173,47 @@ class GraphBuilderViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // Passes the underlying ModelLayer to the corresponding popup ViewController
+    @objc func touchInputLayer(button: LayerButton) {
+        let prevStyle = modalPresentationStyle
+        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC") as! InputLayerAlertViewController
+        vc.modelLayer = (button.modelLayer as! SPInputLayer)
+        //        vc.setLayer(layer: )
+        modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
+        print("touched!")
+        modalPresentationStyle = prevStyle
+    }
+    
+    @objc func touchConv2DLayer(button: LayerButton) {
+        let prevStyle = modalPresentationStyle
+        let vc = UIStoryboard(name: "Conv2DAlert", bundle: nil).instantiateViewController(withIdentifier: "Conv2DAlertVC") as! Conv2DAlertViewController
+        vc.modelLayer = (button.modelLayer as! SPConv2DLayer)
+        modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
+        modalPresentationStyle = prevStyle
+    }
+    
+    @objc func touchDenseLayer(button: LayerButton) {
+        let prevStyle = modalPresentationStyle
+        let vc = UIStoryboard(name: "DenseAlert", bundle: nil).instantiateViewController(withIdentifier: "DenseLayerVC") as! DenseAlertViewController
+        vc.modelLayer = (button.modelLayer as! SPDenseLayer)
+        modalPresentationStyle = .popover
+        present(vc, animated: true, completion: nil)
+        modalPresentationStyle = prevStyle
+    }
+    
     // Handles creation of the layer button objects
     // Attaches the ModelLayer to the Layer upon creation, and attaches corresponding UIInteractions
     func instantiateLayerButton(layer: ModelLayer) -> UIButton {
         let button = LayerButton(actualLayer: layer)
         let layerName = type(of: layer).name
         if layerName.elementsEqual("Conv2D") {
-//            return LayerButton(layerImgName: layerName)
+            button.addTarget(self, action: #selector(touchConv2DLayer(button:)), for: UIControlEvents.touchUpInside)
         } else if layerName.elementsEqual("Input") {
             button.addTarget(self, action: #selector(touchInputLayer(button:)), for: UIControlEvents.touchUpInside)
-//            return LayerButton(layerImgName: layerName)
         } else if layerName.elementsEqual("Dense") {
-//            return LayerButton(layerImgName: layerName)
+            button.addTarget(self, action: #selector(touchDenseLayer(button:)), for: .touchUpInside)
         } else {
             fatalError("bad layer name given: \(layerName)")
         }

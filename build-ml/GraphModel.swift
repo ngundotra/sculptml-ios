@@ -16,6 +16,7 @@ class GraphModel {
     
     init(name: String) {
         self.name = name
+        toAdd.append(SPInputLayer())
     }
     
     func addLayer(actualLayer: ModelLayer) {

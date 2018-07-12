@@ -34,7 +34,6 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     
     // Reload the settings from the model
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         if let iLayer = modelLayer {
             let shape = iLayer.outputShape
             picker1.selectRow(shape.d0, inComponent: 0, animated: false)
@@ -52,7 +51,6 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
         let dim2 = picker2.selectedRow(inComponent: 0)
         let dim3 = picker3.selectedRow(inComponent: 0)
         modelLayer?.inputShape = ShapeTup(dim1, dim2, dim3)
-        print(modelLayer?.outputShape)
         dismiss(animated: true, completion: nil)
     }
     

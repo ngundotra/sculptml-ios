@@ -15,6 +15,9 @@
 		7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0835F020E4A028005323E0 /* Default-568h@2x.png */; };
 		7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */; };
 		7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */; };
+		7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */; };
+		7B6DCEEB20F7F7ED00492042 /* DenseAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */; };
+		7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */; };
 		7B7C84DB20E5CC5400DE3251 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7C84DA20E5CC5400DE3251 /* Utils.swift */; };
 		7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7C84DC20E5DFC600DE3251 /* LayerButton.swift */; };
 		7B7C84DF20E5F1FA00DE3251 /* InputAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */; };
@@ -34,6 +37,9 @@
 		7B0835F020E4A028005323E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputLayerAlertViewController.swift; sourceTree = "<group>"; };
 		7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conv2DAlert.storyboard; sourceTree = "<group>"; };
+		7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conv2DAlertViewController.swift; sourceTree = "<group>"; };
+		7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DenseAlert.storyboard; sourceTree = "<group>"; };
+		7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenseAlertViewController.swift; sourceTree = "<group>"; };
 		7B7C84DA20E5CC5400DE3251 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7B7C84DC20E5DFC600DE3251 /* LayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerButton.swift; sourceTree = "<group>"; };
 		7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InputAlert.storyboard; sourceTree = "<group>"; };
@@ -104,6 +110,9 @@
 				7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */,
 				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
 				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
+				7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */,
+				7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */,
+				7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */,
 				7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
@@ -181,6 +190,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B6DCEEB20F7F7ED00492042 /* DenseAlert.storyboard in Resources */,
 				7B7C84DF20E5F1FA00DE3251 /* InputAlert.storyboard in Resources */,
 				7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */,
 				7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */,
@@ -237,11 +247,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
+				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
 				7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */,
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
+				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
 				7B0835E720E19CD3005323E0 /* LayerTableViewCell.swift in Sources */,
 				7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */,
