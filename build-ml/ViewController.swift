@@ -15,6 +15,7 @@ class ViewController: UITableViewController {
     var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
                       "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
     var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
+    var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}]
     var layerHeight = [false, true, false]
     
     let cellID = "layerCell"
@@ -46,36 +47,18 @@ class ViewController: UITableViewController {
     
     // Handling layer selection
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! LayerTableViewCell
-//        cell.snp.updateConstraints { (make) -> Void in
-//            make.center.equalTo(cell.contentView.snp.center)
-//            make.centerY.equalTo(cell.contentView.snp.centerY)
-//            make.width.equalTo(cell.contentView.snpwidth)
-//            make.height.equalTo(cell.contentView.snp.height)
-//        }
-        self.updateViewConstraints()
-        super.updateViewConstraints()
-        
+//        let cell = tableView.cellForRow(at: indexPath) as! LayerTableViewCell
+
         let tabVC: MainViewController = self.tabBarController as! MainViewController
-        let layerName = layerNames[indexPath.row]
         
         // Add the layer to the model
-        tabVC.userModel.queueLayer(layer: layerName)
+        let actualLayer = layerClasses[indexPath.row]()
+        tabVC.userModel.queueLayer(actualLayer: actualLayer)
+        
         // Need some animation here!!
         print("\n\nNeed some animation to switch between tab views...\nCurrently too rough\n")
         tabVC.selectedViewController = tabVC.graphBuilderVC
     }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let cell = tableView.cellForRow(at: indexPath)
-//        let height = cell!.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-//
-//        if layerHeight[indexPath.row] {
-//            return 120.0
-//        } else {
-//            return height
-//        }
-//    }
     
     // Required: Gives the number of rows in a "section"
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,21 +81,5 @@ class ViewController: UITableViewController {
 //        }
         return cell
     }
-
-    // How to pass information back to graph?
-    @objc func layerSelected(_ layerName: String) -> Void {
-        // Shorthand for actually writing to a model...
-//        graphBuilderVC.addLayer(layerName: layerName)
-//        self.tabBarController?.present(graphBuilderVC, animated: true, completion: nil)
-    }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if indexPath.row < layerNames.count {
-//            return CGFloat(default.CellHeight)
-//        } else {
-//            return CGFloat(25.0)
-//        }
-//    }
-
 }
 

@@ -10,23 +10,23 @@ import Foundation
 // Should I add a Layer struct??
 class GraphModel {
     
-    var layers = [String]()
-    var toAdd = [String]()
+    var layers = [ModelLayer]()
+    var toAdd = [ModelLayer]()
     var name: String!
     
     init(name: String) {
         self.name = name
     }
     
-    func addLayer(layer: String) {
-        layers.append(layer)
+    func addLayer(actualLayer: ModelLayer) {
+        layers.append(actualLayer)
     }
     
     // Returns multiline description of the model (assuming it's sequential)
     func convertLayersToString() -> String {
         var desc: String = name
         for layer in self.layers {
-            desc = desc + "\n - " + layer
+            desc = desc + "\n - " + type(of: layer).name
         }
         return desc
     }
@@ -35,10 +35,9 @@ class GraphModel {
         toAdd = []
     }
     
-    func queueLayer(layer: String) {
-        toAdd.append(layer)
+    func queueLayer(actualLayer: ModelLayer) {
+        toAdd.append(actualLayer)
     }
-
 }
 
 // Named all the layers prefixed with 'SP' - squinch + peeze
@@ -47,6 +46,8 @@ protocol ModelLayer {
     // Set property is for changing which layer precedes current layer
     var inputShape: ShapeTup { get set }
     var outputShape: ShapeTup { get }
+    static var imgName: String { get }
+    static var name: String { get }
     
     func updateParams(params: [String : Int]) -> Void
 }
@@ -77,6 +78,8 @@ struct ShapeTup: CustomStringConvertible {
 }
 
 class SPInputLayer: ModelLayer {
+    static let imgName: String = "inputlayer"
+    static let name: String = "Input"
     var inputShape: ShapeTup
     var outputShape: ShapeTup {
         return inputShape
@@ -104,6 +107,8 @@ class SPInputLayer: ModelLayer {
 }
 
 class SPConv2DLayer: ModelLayer {
+    static let imgName: String = "conv2dlayer"
+    static let name: String = "Conv2D"
     var inputShape: ShapeTup
     var kernelSize: (Int, Int)
     var stride: (Int, Int)
@@ -168,6 +173,8 @@ class SPConv2DLayer: ModelLayer {
 }
 
 class SPDenseLayer: ModelLayer {
+    static let imgName: String = "denselayer"
+    static let name: String = "Dense"
     var inputShape: ShapeTup
     var weightShape: (Int, Int)
     

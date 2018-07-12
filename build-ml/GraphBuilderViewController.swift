@@ -10,7 +10,6 @@ import UIKit
 
 class GraphBuilderViewController: UIViewController {
     var layerObjs = [UIButton]()
-    var testLayerObj: UIButton = LayerButton(layerImgName: "inputLayer")
     let debugLabel = UILabel()
     let viewTitle = UILabel()
     let backButton = UIButton()
@@ -26,10 +25,8 @@ class GraphBuilderViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        testLayerObj = instantiateLayerButton(layerName: "Input")
         view.addSubview(debugLabel)
         view.addSubview(viewTitle)
-        view.addSubview(testLayerObj)
         view.backgroundColor = UIColor.white
         // Do any additional setup after loading the view.
         
@@ -43,7 +40,6 @@ class GraphBuilderViewController: UIViewController {
 //        makeBackButton()
         
         // Debug only
-        layerObjs = [testLayerObj]
         view.clipsToBounds = true
         
         // Scroll Graph
@@ -52,9 +48,6 @@ class GraphBuilderViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Set Drag N Drop
-        print("entered")
-        
         // Make sure to display data loaded from persistence
         updateView()
     }
@@ -72,11 +65,7 @@ class GraphBuilderViewController: UIViewController {
     // Set up dragging of the debug label
     func allowDragDebug() {
         debugLabel.isUserInteractionEnabled = true
-        
-        // Note that there is a specific delegate for dragging text boxes...(?)
-//        let dropInteraction = UIDragInteraction(delegate: self.debugLabel.view)
-//        view.addInteraction(dropInteraction)
-//        let masterVC = tabBarController! as! MainViewController
+
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.debugPan(_:)))
         debugLabel.addGestureRecognizer(panGesture)
     }
@@ -126,18 +115,29 @@ class GraphBuilderViewController: UIViewController {
         var prev: CGRect = debugLabel.frame
         
         for layer in tabVC.userModel.toAdd {
-            let but = instantiateLayerButton(layerName: layer)
-            layerObjs.append(but)
-            print("button: \(layer) added")
+            let but = instantiateLayerButton(layer: layer)
+            print("button: \(type(of: layer)) added")
             view.addSubview(but)
+            
+            // Giving each button the same size
             but.frame = CGRect(x: 50.0, y: prev.maxY, width: 75.0, height: 75.0)
-            //            layer.snp.makeConstraints { (make) -> Void in
-            //                make.top.equalTo(prev).offset(15.0)
-            //                make.centerX.equalTo(prev)
-            //                make.height.greaterThanOrEqualTo(75.0).priority(600)
-            //                make.width.greaterThanOrEqualTo(75.0).priority(600)
-            //            }
+            
+            // Now to always center the button underneath the other button
+            var centerPoint = view.center
+            var cX = centerPoint.x
+            var cY = centerPoint.y
+            if let above = layerObjs.last {
+                centerPoint = above.center
+                cX = centerPoint.x
+                cY = centerPoint.y
+                let height = above.frame.height / 2.0
+                cY += height
+            }
+            let offset = CGFloat(30.0)
+            let newCenter = CGPoint(x: cX, y: cY + offset)
+            but.center = newCenter
             prev = but.frame
+            layerObjs.append(but)
         }
         
         tabVC.userModel.flush()
@@ -191,26 +191,26 @@ class GraphBuilderViewController: UIViewController {
     }
     
     // Handles creation of the layer button objects
-    func instantiateLayerButton(layerName: String) -> UIButton {
-        let button = UIButton(type: .custom)
-        var img = UIImage()
+    func instantiateLayerButton(layer: ModelLayer) -> UIButton {
+        let button = LayerButton(actualLayer: layer)
+        let layerName = type(of: layer).name
         if layerName.elementsEqual("Conv2D") {
-            img = #imageLiteral(resourceName: "conv2dlayer")
+            
             //            return LayerButton(layerImgName: layerName)
         } else if layerName.elementsEqual("Input") {
-            img = #imageLiteral(resourceName: "inputlayer")
             button.addTarget(self, action: #selector(touchInputLayer), for: UIControlEvents.touchUpInside)
 //            return LayerButton(layerImgName: layerName)
         } else if layerName.elementsEqual("Dense") {
-            img = #imageLiteral(resourceName: "denselayer")
 //            return LayerButton(layerImgName: layerName)
         } else {
             fatalError("bad layer name given: \(layerName)")
         }
-        button.setBackgroundImage(img, for: .normal)
-        button.setBackgroundImage(img, for: .selected)
-        button.setTitle(layerName, for: .normal)
-        button.setTitle(layerName, for: .selected)
+        print(layerName)
+//        let img = UIImage(named: layerName)
+//        button.setBackgroundImage(img, for: .normal)
+//        button.setBackgroundImage(img, for: .selected)
+//        button.setTitle(layerName, for: .normal)
+//        button.setTitle(layerName, for: .selected)
         return button
     }
 
