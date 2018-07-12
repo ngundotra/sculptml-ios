@@ -31,6 +31,17 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
             picker?.delegate = self
         }
     }
+    
+    // Reload the settings from the model
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let iLayer = modelLayer {
+            let shape = iLayer.outputShape
+            picker1.selectRow(shape.d0, inComponent: 0, animated: false)
+            picker2.selectRow(shape.d1, inComponent: 0, animated: false)
+            picker3.selectRow(shape.d2, inComponent: 0, animated: false)
+        }
+    }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

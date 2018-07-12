@@ -49,6 +49,9 @@
                                         <autoresizingMask key="autoresizingMask"/>
                                         <color key="tintColor" red="0.59985106290000001" green="0.69721846359999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="saveTouch:" destination="baQ-Ju-Y8H" eventType="touchUpInside" id="ccN-BR-IAD"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dim 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p6y-f8-dod">
                                         <rect key="frame" x="18" y="29" width="43" height="21"/>
