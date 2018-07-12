@@ -102,12 +102,16 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
-    @objc func touchInputLayer() {
-        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC")
+    // Passes the underlying ModelLayer to the corresponding popup ViewController
+    @objc func touchInputLayer(button: LayerButton) {
+        let prevStyle = modalPresentationStyle
+        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC") as! InputLayerAlertViewController
+        vc.modelLayer = button.modelLayer as! SPInputLayer
 //        vc.setLayer(layer: )
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
         print("touched!")
+        modalPresentationStyle = prevStyle
     }
     
     func updateLayerObjs() {
@@ -191,14 +195,14 @@ class GraphBuilderViewController: UIViewController {
     }
     
     // Handles creation of the layer button objects
+    // Attaches the ModelLayer to the Layer upon creation, and attaches corresponding UIInteractions
     func instantiateLayerButton(layer: ModelLayer) -> UIButton {
         let button = LayerButton(actualLayer: layer)
         let layerName = type(of: layer).name
         if layerName.elementsEqual("Conv2D") {
-            
-            //            return LayerButton(layerImgName: layerName)
+//            return LayerButton(layerImgName: layerName)
         } else if layerName.elementsEqual("Input") {
-            button.addTarget(self, action: #selector(touchInputLayer), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(touchInputLayer(button:)), for: UIControlEvents.touchUpInside)
 //            return LayerButton(layerImgName: layerName)
         } else if layerName.elementsEqual("Dense") {
 //            return LayerButton(layerImgName: layerName)
@@ -206,11 +210,6 @@ class GraphBuilderViewController: UIViewController {
             fatalError("bad layer name given: \(layerName)")
         }
         print(layerName)
-//        let img = UIImage(named: layerName)
-//        button.setBackgroundImage(img, for: .normal)
-//        button.setBackgroundImage(img, for: .selected)
-//        button.setTitle(layerName, for: .normal)
-//        button.setTitle(layerName, for: .selected)
         return button
     }
 

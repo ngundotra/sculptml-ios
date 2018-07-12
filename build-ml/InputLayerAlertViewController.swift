@@ -15,6 +15,7 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     @IBOutlet weak var picker1: UIPickerView!
     @IBOutlet weak var picker2: UIPickerView!
     @IBOutlet weak var picker3: UIPickerView!
+    var modelLayer: SPInputLayer?
     
     // would ideally have ~2048, but just not easy right now
     let maxIn = 512
@@ -35,6 +36,15 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
         return 1
     }
     
+    @IBAction func saveTouch(_ sender: Any) {
+        let dim1 = picker1.selectedRow(inComponent: 0)
+        let dim2 = picker2.selectedRow(inComponent: 0)
+        let dim3 = picker3.selectedRow(inComponent: 0)
+        modelLayer?.inputShape = ShapeTup(dim1, dim2, dim3)
+        print(modelLayer?.outputShape)
+        dismiss(animated: true, completion: nil)
+    }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(row)"
     }
@@ -51,6 +61,7 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     @IBAction func cancelTouch(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
     /*
     // MARK: - Navigation
 

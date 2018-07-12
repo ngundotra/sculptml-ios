@@ -17,16 +17,16 @@ class LayerButton: UIButton {
         // Drawing code
     }
     */
-    var layerModel: ModelLayer
+    var modelLayer: ModelLayer
     
     init(actualLayer: ModelLayer) {
-        self.layerModel = actualLayer
+        self.modelLayer = actualLayer
         
         super.init(frame: CGRect(x: 80.0, y: 200.0, width: 75.0, height: 75.0))
         print(buttonType)
         
-        let layerImg = UIImage(named: type(of: layerModel).imgName)
-        self.setTitle(type(of: layerModel).name, for: .normal)
+        let layerImg = UIImage(named: type(of: modelLayer).imgName)
+        self.setTitle(type(of: modelLayer).name, for: .normal)
         self.isHidden = false
         self.setBackgroundImage(layerImg, for: .normal)
         self.setBackgroundImage(layerImg, for: .disabled)
