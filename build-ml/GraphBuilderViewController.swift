@@ -105,6 +105,7 @@ class GraphBuilderViewController: UIViewController {
     func updateView() {
         updateLayerObjs()
         updateDebugLabel()
+        updateGraphValidity()
         view.bringSubview(toFront: viewTitle)
         view.bringSubview(toFront: debugLabel)
     }
@@ -140,13 +141,18 @@ class GraphBuilderViewController: UIViewController {
             tabVC.userModel.addLayer(actualLayer: layer)
         }
         
-        // check if the model is valid
+        tabVC.userModel.flush()
+    }
+    
+    func updateGraphValidity() {
+        // check if the model is valid, kind of unnecessary tho
+        // bc we present bad layers on a layer by layer basis
+        let tabVC = tabBarController! as! MainViewController
         let valid = tabVC.userModel.isValid()
         print("Is a valid graph: \(valid)")
         for layerButton in layerObjs {
             layerButton.updateBorder()
         }
-        tabVC.userModel.flush()
     }
     
     // MARK: This is where we could let user rename their model
@@ -184,6 +190,7 @@ class GraphBuilderViewController: UIViewController {
     @objc func touchInputLayer(button: LayerButton) {
         let prevStyle = modalPresentationStyle
         let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC") as! InputLayerAlertViewController
+        vc.graphBuilder = self
         vc.modelLayer = (button.modelLayer as! SPInputLayer)
         //        vc.setLayer(layer: )
         modalPresentationStyle = .popover
@@ -194,6 +201,7 @@ class GraphBuilderViewController: UIViewController {
     @objc func touchConv2DLayer(button: LayerButton) {
         let prevStyle = modalPresentationStyle
         let vc = UIStoryboard(name: "Conv2DAlert", bundle: nil).instantiateViewController(withIdentifier: "Conv2DAlertVC") as! Conv2DAlertViewController
+        vc.graphBuilder = self
         vc.modelLayer = (button.modelLayer as! SPConv2DLayer)
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
@@ -203,6 +211,7 @@ class GraphBuilderViewController: UIViewController {
     @objc func touchDenseLayer(button: LayerButton) {
         let prevStyle = modalPresentationStyle
         let vc = UIStoryboard(name: "DenseAlert", bundle: nil).instantiateViewController(withIdentifier: "DenseLayerVC") as! DenseAlertViewController
+        vc.graphBuilder = self
         vc.modelLayer = (button.modelLayer as! SPDenseLayer)
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)

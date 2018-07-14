@@ -28,9 +28,10 @@ class GraphModel {
     }
     
     internal func attachLastLayer(to idx: Int) {
-        var lastlayer = layers.last!
-        let prevLayer = layers[idx]
-        lastlayer.inputShape = prevLayer.outputShape
+        let lastLayer = layers.last!
+        var prevLayer = layers[idx]
+        prevLayer.nextLayer = lastLayer
+        prevLayer.updateChildren()
     }
     
     // Returns multiline description of the model (assuming it's sequential)
@@ -66,8 +67,8 @@ class GraphModel {
                 }
                 // You cannot have multiple input layers
                 if let inputlayer2 = layer as? SPInputLayer {
-                    print("Multiple input layers in the model")
                     if inputlayer2 !== inputLayer {
+                        print("Multiple input layers in the model")
                         return false
                     }
                 }
@@ -89,23 +90,24 @@ protocol ModelLayer {
     // Set property is for changing which layer precedes current layer
     var inputShape: ShapeTup { get set }
     var outputShape: ShapeTup { get }
+    var nextLayer: ModelLayer? { get set }
     static var imgName: String { get }
     static var name: String { get }
     
     func updateParams(params: [String : Int]) -> Void
+    func updateChildren() -> Void
     func validLayer() -> Bool
 }
 
 // InputShapes are always 3-tuples
 //
-struct ShapeTup: CustomStringConvertible, Equatable {
-    var description: String {
-        return "(\(d0), \(d1), \(d2))"
-    }
-    
+class ShapeTup: CustomStringConvertible, Equatable {
     var d0: Int
     var d1: Int
     var d2: Int
+    var description: String {
+        return "(\(d0), \(d1), \(d2))"
+    }
     
     init(_ d0: Int, _ d1: Int, _ d2: Int) {
         self.d0 = d0
@@ -129,6 +131,7 @@ struct ShapeTup: CustomStringConvertible, Equatable {
 class SPInputLayer: ModelLayer {
     static let imgName: String = "inputlayer"
     static let name: String = "Input"
+    var nextLayer: ModelLayer?
     var inputShape: ShapeTup
     var outputShape: ShapeTup {
         return inputShape
@@ -142,6 +145,12 @@ class SPInputLayer: ModelLayer {
         inputShape = ShapeTup(tup: tupShape)
     }
     
+    func updateChildren() {
+        print("updatingchildren: in")
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
+    }
+    
     func updateParams(params: [String : Int]) {
         if let d0 = params["dim0"] {
             inputShape.d0 = d0
@@ -152,6 +161,7 @@ class SPInputLayer: ModelLayer {
         if let d2 = params["dim2"] {
             inputShape.d2 = d2
         }
+        updateChildren()
     }
     
     func validLayer() -> Bool {
@@ -167,6 +177,7 @@ class SPConv2DLayer: ModelLayer {
     var stride: (Int, Int)
     var filters: Int
     var padding: (Int, Int)
+    var nextLayer: ModelLayer?
     var outputShape: ShapeTup {
         let (h, w, ch) = (inputShape.d0, inputShape.d1, inputShape.d2)
         let (pH, pW) = padding
@@ -191,6 +202,12 @@ class SPConv2DLayer: ModelLayer {
         stride = (1, 1)
         filters = 64
         padding = (0, 0)
+    }
+    
+    func updateChildren() {
+        print("updatingchildren - c2d")
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
     }
     
     // Holy ass this seems so stupid
@@ -222,6 +239,7 @@ class SPConv2DLayer: ModelLayer {
         if let f = params["filters"] {
             filters = f
         }
+        updateChildren()
     }
     
     func validLayer() -> Bool {
@@ -239,16 +257,23 @@ class SPDenseLayer: ModelLayer {
     static let name: String = "Dense"
     var inputShape: ShapeTup
     var weightShape: (Int, Int)
+    var nextLayer: ModelLayer?
     
     // I don't know how to throw good iOS errors :/
     var outputShape: ShapeTup {
-        let (w0, w1) = weightShape
-        return ShapeTup(0, inputShape.d0, w1)
+        let (_, w1) = weightShape
+        return ShapeTup(0, 0, w1)
     }
     
     init() {
         inputShape = ShapeTup(0, 0, 69)
         weightShape = (69, 128)
+    }
+    
+    func updateChildren() {
+        print("updatingchildren -dn")
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
     }
     
     func updateParams(params: [String : Int]) {
@@ -260,9 +285,12 @@ class SPDenseLayer: ModelLayer {
             let (w0, _) = weightShape
             weightShape = (w0, w1)
         }
+        updateChildren()
     }
     
     func validLayer() -> Bool {
+        print(inputShape)
+        print(outputShape)
         return inputShape.d0 == 0 && inputShape.d1 == 0 && inputShape.d2 > 0 &&
             outputShape.d0 == 0 && outputShape.d1 == 0 && outputShape.d2 > 0
     }
