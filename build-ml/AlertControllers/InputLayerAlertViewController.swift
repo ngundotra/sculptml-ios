@@ -36,9 +36,9 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     override func viewWillAppear(_ animated: Bool) {
         if let iLayer = modelLayer {
             let shape = iLayer.outputShape
-            picker1.selectRow(shape.d0, inComponent: 0, animated: false)
-            picker2.selectRow(shape.d1, inComponent: 0, animated: false)
-            picker3.selectRow(shape.d2, inComponent: 0, animated: false)
+            picker1.selectRow(shape.d0 - 1, inComponent: 0, animated: false)
+            picker2.selectRow(shape.d1 - 1, inComponent: 0, animated: false)
+            picker3.selectRow(shape.d2 - 1, inComponent: 0, animated: false)
         }
     }
 
@@ -46,16 +46,17 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
         return 1
     }
     
+    // Avoid letting user set stuff to 0
     @IBAction func saveTouch(_ sender: Any) {
         let dim1 = picker1.selectedRow(inComponent: 0)
         let dim2 = picker2.selectedRow(inComponent: 0)
         let dim3 = picker3.selectedRow(inComponent: 0)
-        modelLayer?.inputShape = ShapeTup(dim1, dim2, dim3)
+        modelLayer?.inputShape = ShapeTup(dim1 + 1, dim2 + 1, dim3 + 1)
         dismiss(animated: true, completion: nil)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
+        return "\(row + 1)"
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

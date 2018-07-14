@@ -85,6 +85,19 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7B15004F20F95E3F00E70861 /* AlertControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
+				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
+				7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */,
+				7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */,
+				7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */,
+				7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */,
+			);
+			path = AlertControllers;
+			sourceTree = "<group>";
+		};
 		7BCA3E1720E181BF00651337 = {
 			isa = PBXGroup;
 			children = (
@@ -108,12 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */,
-				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
-				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
-				7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */,
-				7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */,
-				7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */,
-				7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */,
+				7B15004F20F95E3F00E70861 /* AlertControllers */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
 				7B0835EC20E337EB005323E0 /* MainViewController.swift */,

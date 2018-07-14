@@ -7,7 +7,7 @@
 //
 
 import Foundation
-// Should I add a Layer struct??
+
 class GraphModel {
     
     var layers = [ModelLayer]()
@@ -20,7 +20,17 @@ class GraphModel {
     }
     
     func addLayer(actualLayer: ModelLayer) {
+        let idxPrev = layers.count - 1
         layers.append(actualLayer)
+        if layers.count >= 2 {
+            attachLastLayer(to: idxPrev)
+        }
+    }
+    
+    internal func attachLastLayer(to idx: Int) {
+        var lastlayer = layers.last!
+        let prevLayer = layers[idx]
+        lastlayer.inputShape = prevLayer.outputShape
     }
     
     // Returns multiline description of the model (assuming it's sequential)
@@ -39,8 +49,40 @@ class GraphModel {
     func queueLayer(actualLayer: ModelLayer) {
         toAdd.append(actualLayer)
     }
+    
+    func isValid() -> Bool {
+        if layers.count < 1 {
+            return true
+        }
+        
+        // If first layer is an input layer
+        if let inputLayer = layers.first as? SPInputLayer {
+            for layer in self.layers {
+                // If output of previous layer does not match input of this layer, throw a fit
+                if !layer.validLayer() {
+                    print("\(layer) is not valid")
+                    
+                    return false
+                }
+                // You cannot have multiple input layers
+                if let inputlayer2 = layer as? SPInputLayer {
+                    print("Multiple input layers in the model")
+                    if inputlayer2 !== inputLayer {
+                        return false
+                    }
+                }
+            }
+        } else {
+            print("First layer is not an input layer")
+            return false
+        }
+        
+        
+        return true
+    }
 }
 
+// MARK: - ModelLayer Protocol
 // Named all the layers prefixed with 'SP' - squinch + peeze
 protocol ModelLayer {
     
@@ -51,11 +93,12 @@ protocol ModelLayer {
     static var name: String { get }
     
     func updateParams(params: [String : Int]) -> Void
+    func validLayer() -> Bool
 }
 
 // InputShapes are always 3-tuples
 //
-struct ShapeTup: CustomStringConvertible {
+struct ShapeTup: CustomStringConvertible, Equatable {
     var description: String {
         return "(\(d0), \(d1), \(d2))"
     }
@@ -76,8 +119,13 @@ struct ShapeTup: CustomStringConvertible {
         d1 = b
         d2 = c
     }
+    
+    static func ==(lhs: ShapeTup, rhs: ShapeTup) -> Bool {
+        return lhs.d0 == rhs.d0 && lhs.d1 == rhs.d1 && lhs.d2 == rhs.d2
+    }
 }
 
+// MARK: - SP Layers below
 class SPInputLayer: ModelLayer {
     static let imgName: String = "inputlayer"
     static let name: String = "Input"
@@ -104,6 +152,10 @@ class SPInputLayer: ModelLayer {
         if let d2 = params["dim2"] {
             inputShape.d2 = d2
         }
+    }
+    
+    func validLayer() -> Bool {
+        return true
     }
 }
 
@@ -171,6 +223,15 @@ class SPConv2DLayer: ModelLayer {
             filters = f
         }
     }
+    
+    func validLayer() -> Bool {
+        if inputShape.d0 > 0 && inputShape.d1 > 0 && inputShape.d2 > 0 {
+            if outputShape.d0 > 0 && outputShape.d1 > 0 && outputShape.d2 > 0 {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 class SPDenseLayer: ModelLayer {
@@ -200,4 +261,10 @@ class SPDenseLayer: ModelLayer {
             weightShape = (w0, w1)
         }
     }
+    
+    func validLayer() -> Bool {
+        return inputShape.d0 == 0 && inputShape.d1 == 0 && inputShape.d2 > 0 &&
+            outputShape.d0 == 0 && outputShape.d1 == 0 && outputShape.d2 > 0
+    }
+    
 }

@@ -45,22 +45,25 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
         dismiss(animated: true, completion: nil)
     }
     
+    // The plus one is to convert from the indices back
+    // Everything is buffered to avoid starting from 0
     @IBAction func saveTouch(_ sender: Any) {
         if let convLayer = modelLayer {
             let kh = kp1.selectedRow(inComponent: 0)
             let kw = kp2.selectedRow(inComponent: 0)
-            convLayer.kernelSize = (kh, kw)
+            convLayer.kernelSize = (kh + 1, kw + 1)
 
             let sh = sp1.selectedRow(inComponent: 0)
             let sw = sp2.selectedRow(inComponent: 0)
-            convLayer.stride = (sh, sw)
+            convLayer.stride = (sh + 1, sw + 1)
 
             let ph = pp1.selectedRow(inComponent: 0)
             let pw = pp2.selectedRow(inComponent: 0)
-            convLayer.padding = (ph, pw)
+            
+            convLayer.padding = (ph + 1, pw + 1)
 
             let fs = filters.selectedRow(inComponent: 0)
-            convLayer.filters = fs
+            convLayer.filters = fs + 1
         }
         dismiss(animated: true, completion: nil)
     }
@@ -73,13 +76,13 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
             let fs = convLayer.filters
             let (ph, pw) = convLayer.padding
             
-            kp1.selectRow(kh, inComponent: 0, animated: false)
-            kp2.selectRow(kw, inComponent: 0, animated: false)
-            sp1.selectRow(sh, inComponent: 0, animated: false)
-            sp2.selectRow(sw, inComponent: 0, animated: false)
-            pp1.selectRow(ph, inComponent: 0, animated: false)
-            pp2.selectRow(pw, inComponent: 0, animated: false)
-            filters.selectRow(fs, inComponent: 0, animated: false)
+            kp1.selectRow(kh - 1, inComponent: 0, animated: false)
+            kp2.selectRow(kw - 1, inComponent: 0, animated: false)
+            sp1.selectRow(sh - 1, inComponent: 0, animated: false)
+            sp2.selectRow(sw - 1, inComponent: 0, animated: false)
+            pp1.selectRow(ph - 1, inComponent: 0, animated: false)
+            pp2.selectRow(pw - 1, inComponent: 0, animated: false)
+            filters.selectRow(fs - 1, inComponent: 0, animated: false)
         }
         
     }
@@ -103,7 +106,7 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
+        return "\(row + 1)"
     }
     /*
     // MARK: - Navigation

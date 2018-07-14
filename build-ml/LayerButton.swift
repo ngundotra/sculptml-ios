@@ -35,5 +35,14 @@ class LayerButton: UIButton {
     required init?(coder aDecoder: NSCoder) {
         fatalError("LayerButton init(coder:) not implemented")
     }
+    
+    func updateBorder() {
+        if self.modelLayer.validLayer() {
+            self.layer.borderWidth = 0.0
+        } else {
+            self.layer.borderWidth = 2.0
+            self.layer.borderColor = UIColor.red.cgColor
+        }
+    }
 
 }

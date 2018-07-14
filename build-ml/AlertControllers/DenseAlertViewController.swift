@@ -37,15 +37,16 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewWillAppear(_ animated: Bool) {
         if let modelLayer = modelLayer {
             let (_, current) = modelLayer.weightShape
-            unitsPicker.selectRow(current, inComponent: 0, animated: false)
+            unitsPicker.selectRow(current - 1, inComponent: 0, animated: false)
         }
     }
     
+    // Avoid letting user set stuff to 0
     @IBAction func saveTouch(_ sender: Any) {
         if let modelLayer = modelLayer {
             let prev = modelLayer.inputShape.d2
             let units = unitsPicker.selectedRow(inComponent: 0)
-            modelLayer.weightShape = (prev, units)
+            modelLayer.weightShape = (prev, units + 1)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -59,7 +60,7 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row)"
+        return "\(row + 1)"
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

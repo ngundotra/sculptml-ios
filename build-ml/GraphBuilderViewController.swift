@@ -9,10 +9,9 @@
 import UIKit
 
 class GraphBuilderViewController: UIViewController {
-    var layerObjs = [UIButton]()
+    var layerObjs = [LayerButton]()
     let debugLabel = UILabel()
     let viewTitle = UILabel()
-    let backButton = UIButton()
     let debugHeader: String = "Debug Label:"
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,9 +35,6 @@ class GraphBuilderViewController: UIViewController {
         // Debug Label
         makeDebugLabel()
         
-        // Set Back Button
-//        makeBackButton()
-        
         // Debug only
         view.clipsToBounds = true
         
@@ -52,6 +48,7 @@ class GraphBuilderViewController: UIViewController {
         updateView()
     }
     
+    // MARK: - Set up programmatic view
     // Set constraints and information about the view controller title
     func makeTitleLabel() {
         viewTitle.snp.makeConstraints { (make) -> Void in
@@ -70,6 +67,7 @@ class GraphBuilderViewController: UIViewController {
         debugLabel.addGestureRecognizer(panGesture)
     }
     
+    // MARK: - Dragging Interactions
     // Manual hand-coding to add extra space between top of view and the iOS pull down menu
     @objc func debugPan(_ gestureRecognizer: UIPanGestureRecognizer) {
         let translation = gestureRecognizer.translation(in: self.view)
@@ -102,13 +100,22 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
+    // MARK: - Update View functions
+    // Called by TabVC when showing the
+    func updateView() {
+        updateLayerObjs()
+        updateDebugLabel()
+        view.bringSubview(toFront: viewTitle)
+        view.bringSubview(toFront: debugLabel)
+    }
+    
     func updateLayerObjs() {
         let tabVC = self.tabBarController! as! MainViewController
         var prev: CGRect = debugLabel.frame
         
+        // add layers if necessary from the model
         for layer in tabVC.userModel.toAdd {
             let but = instantiateLayerButton(layer: layer)
-            print("button: \(type(of: layer)) added")
             view.addSubview(but)
             
             // Giving each button the same size
@@ -130,17 +137,19 @@ class GraphBuilderViewController: UIViewController {
             but.center = newCenter
             prev = but.frame
             layerObjs.append(but)
+            tabVC.userModel.addLayer(actualLayer: layer)
         }
         
+        // check if the model is valid
+        let valid = tabVC.userModel.isValid()
+        print("Is a valid graph: \(valid)")
+        for layerButton in layerObjs {
+            layerButton.updateBorder()
+        }
         tabVC.userModel.flush()
     }
     
-    // Called by TabVC when showing the
-    func updateView() {
-        updateDebugLabel()
-        updateLayerObjs()
-    }
-    
+    // MARK: This is where we could let user rename their model
     fileprivate func updateDebugLabel() {
         let tabVC: MainViewController = tabBarController as! MainViewController
         
@@ -150,10 +159,13 @@ class GraphBuilderViewController: UIViewController {
         }
     }
     
+    // MARK: Set user model name
+    // FIXME: change debugLabel var name to be modelNameLabel
     // Makes debug label programmatically
     fileprivate func makeDebugLabel() {
         debugLabel.snp.makeConstraints{(make) -> Void in
-            make.right.equalTo(viewTitle)
+            make.right.equalTo(viewTitle).offset(-5.0)
+            make.top.equalTo(viewTitle).offset(32.5)
             make.height.greaterThanOrEqualTo(20.0)
         }
         debugLabel.numberOfLines = 0
@@ -162,17 +174,12 @@ class GraphBuilderViewController: UIViewController {
 //        allowDragDebug()
     }
     
-    // Currently unused
-    @objc func backToLayer() {
-        self.navigationController?.popViewController(animated: true)
-        print("nav button has been hit")
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Launching VCs for each layer button
     // Passes the underlying ModelLayer to the corresponding popup ViewController
     @objc func touchInputLayer(button: LayerButton) {
         let prevStyle = modalPresentationStyle
@@ -181,7 +188,6 @@ class GraphBuilderViewController: UIViewController {
         //        vc.setLayer(layer: )
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
-        print("touched!")
         modalPresentationStyle = prevStyle
     }
     
@@ -203,9 +209,10 @@ class GraphBuilderViewController: UIViewController {
         modalPresentationStyle = prevStyle
     }
     
+    // MARK: - Connect LayerView with the LayerModel
     // Handles creation of the layer button objects
     // Attaches the ModelLayer to the Layer upon creation, and attaches corresponding UIInteractions
-    func instantiateLayerButton(layer: ModelLayer) -> UIButton {
+    func instantiateLayerButton(layer: ModelLayer) -> LayerButton {
         let button = LayerButton(actualLayer: layer)
         let layerName = type(of: layer).name
         if layerName.elementsEqual("Conv2D") {
@@ -217,7 +224,6 @@ class GraphBuilderViewController: UIViewController {
         } else {
             fatalError("bad layer name given: \(layerName)")
         }
-        print(layerName)
         return button
     }
 
