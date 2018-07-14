@@ -10,6 +10,7 @@ import Foundation
 
 class GraphModel {
     
+    // FIXME: - Add support for multi-headed models by not storing this as list, and storing all info in the `nextLayer` of each layer obj
     var layers = [ModelLayer]()
     var toAdd = [ModelLayer]()
     var name: String!
