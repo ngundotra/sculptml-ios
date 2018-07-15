@@ -9,10 +9,15 @@
 import UIKit
 
 class GraphBuilderViewController: UIViewController {
+    let LAYER_OBJ_BUFFER = 37.5
+    
     var layerObjs = [LayerButton]()
     let debugLabel = UILabel()
     let viewTitle = UILabel()
     let debugHeader: String = "Debug Label:"
+    
+    var panGraph: UIPanGestureRecognizer?
+    var swipeGesture: UISwipeGestureRecognizer?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -39,8 +44,14 @@ class GraphBuilderViewController: UIViewController {
         view.clipsToBounds = true
         
         // Scroll Graph
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(scrollGraph))
-        view.addGestureRecognizer(panGesture)
+        // Set instance variable
+        panGraph = UIPanGestureRecognizer(target: self, action: #selector(scrollGraph))
+        view.addGestureRecognizer(panGraph!)
+        
+        swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeLayerObj(_:)))
+        view.addGestureRecognizer(swipeGesture!)
+        // Make sure swiping gets higher priority
+        panGraph?.require(toFail: swipeGesture!)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,6 +111,39 @@ class GraphBuilderViewController: UIViewController {
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
     }
     
+    // MARK:- Swipe
+    @objc func swipeLayerObj(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        // Look for the layer button this happened on
+        var button: LayerButton?
+        let location = gestureRecognizer.location(in: view)
+        
+        var idx = 0
+        for layer in layerObjs {
+            if layer.frame.contains(location) {
+                button = layer
+                break
+            }
+            idx += 1
+        }
+        
+        // If you did find the layer, print its name
+        if let button = button {
+            let name: String = type(of: button.modelLayer).name
+            print("\(name) found")
+            
+            // You should not be able to remove the input layer
+            if idx > 0 {
+                button.fadeOut()
+                let model = (tabBarController as! MainViewController).userModel
+                model?.removeLayer(at: idx, prevLayer: idx-1)
+                layerObjs.remove(at: idx)
+                updateGraphValidity()
+                Utils.slideUp(layers: layerObjs, from: idx - 1, buffer: LAYER_OBJ_BUFFER)
+            }
+            
+        }
+    }
+    
     // MARK: - Update View functions
     // Called by TabVC when showing the
     func updateView() {
@@ -130,8 +174,8 @@ class GraphBuilderViewController: UIViewController {
                 centerPoint = above.center
                 cX = centerPoint.x
                 cY = centerPoint.y
-                let height = above.frame.height / 2.0
-                cY += height
+                let height = LAYER_OBJ_BUFFER
+                cY += CGFloat(height)
             }
             let offset = CGFloat(30.0)
             let newCenter = CGPoint(x: cX, y: cY + offset)
@@ -149,10 +193,10 @@ class GraphBuilderViewController: UIViewController {
         // bc we present bad layers on a layer by layer basis
         let tabVC = tabBarController! as! MainViewController
         let valid = tabVC.userModel.isValid()
-        print("Is a valid graph: \(valid)")
         for layerButton in layerObjs {
             layerButton.updateBorder()
         }
+        updateDebugLabel()
     }
     
     // MARK: This is where we could let user rename their model
@@ -224,6 +268,7 @@ class GraphBuilderViewController: UIViewController {
     func instantiateLayerButton(layer: ModelLayer) -> LayerButton {
         let button = LayerButton(actualLayer: layer)
         let layerName = type(of: layer).name
+        
         if layerName.elementsEqual("Conv2D") {
             button.addTarget(self, action: #selector(touchConv2DLayer(button:)), for: UIControlEvents.touchUpInside)
         } else if layerName.elementsEqual("Input") {

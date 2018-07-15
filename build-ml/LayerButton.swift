@@ -44,5 +44,38 @@ class LayerButton: UIButton {
             self.layer.borderColor = UIColor.red.cgColor
         }
     }
+    
+    // MARK: animations courtesy of stack overflow
+    func shake() {
+        self.transform = CGAffineTransform(translationX: 20, y: 0)
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+            self.transform = CGAffineTransform.identity
+        }, completion: nil)
+    }
+    
+    func shake2() {
+        let midX = center.x
+        let midY = center.y
+        
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.06
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = CGPoint(x: midX - 10, y: midY)
+        animation.toValue = CGPoint(x: midX + 10, y: midY)
+        layer.add(animation, forKey: "position")
+    }
+    
+    func rotateShake() {
+        self.transform = CGAffineTransform(rotationAngle: CGFloat(60.0 / 180.0 * Double.pi))
+        UIView.animate(withDuration: 1.2, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 2.0, options: .curveEaseInOut, animations: {
+            self.transform = CGAffineTransform.identity
+        }, completion: nil)
+        
+    }
+    
+    func fadeOut() {
+        UIView.animate(withDuration: 1.0, animations: {self.alpha = 0.0})
+    }
 
 }

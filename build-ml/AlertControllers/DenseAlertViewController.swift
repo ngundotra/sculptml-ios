@@ -16,6 +16,7 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     let unitsMax = 512
     var modelLayer: SPDenseLayer?
+    var graphBuilder: GraphBuilderViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +45,11 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // Avoid letting user set stuff to 0
     @IBAction func saveTouch(_ sender: Any) {
         if let modelLayer = modelLayer {
-            let prev = modelLayer.inputShape.d2
             let units = unitsPicker.selectedRow(inComponent: 0)
-            modelLayer.weightShape = (prev, units + 1)
+            let dict = ["w1": units + 1]
+            modelLayer.updateParams(params: dict)
         }
+        graphBuilder?.updateGraphValidity()
         dismiss(animated: true, completion: nil)
     }
     

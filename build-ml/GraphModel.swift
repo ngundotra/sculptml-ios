@@ -20,14 +20,7 @@ class GraphModel {
         toAdd.append(SPInputLayer())
     }
     
-    func addLayer(actualLayer: ModelLayer) {
-        let idxPrev = layers.count - 1
-        layers.append(actualLayer)
-        if layers.count >= 2 {
-            attachLastLayer(to: idxPrev)
-        }
-    }
-    
+    // Connects the last layer to the layer at an index
     internal func attachLastLayer(to idx: Int) {
         let lastLayer = layers.last!
         var prevLayer = layers[idx]
@@ -41,6 +34,7 @@ class GraphModel {
         for layer in self.layers {
             desc = desc + "\n - " + type(of: layer).name
         }
+        desc = desc + "\n->" + getCurrentOutputShape()
         return desc
     }
     
@@ -48,10 +42,44 @@ class GraphModel {
         toAdd = []
     }
     
+    // MARK: Adding Layers
+    // Setup to have models added
+    // This adds layers to `toAdd`, which gets read from in GBVC to instantiate LayerButtons
+    // GBVC then calls addLayer(..) to add the layer to the model
     func queueLayer(actualLayer: ModelLayer) {
         toAdd.append(actualLayer)
     }
     
+    // Add a layer to the graph - usually you'll want to first queue the layer
+    // then read from the queue to create the layer button
+    func addLayer(actualLayer: ModelLayer) {
+        let idxPrev = layers.count - 1
+        layers.append(actualLayer)
+        if layers.count >= 2 {
+            attachLastLayer(to: idxPrev)
+        }
+    }
+    
+    // Remove a layer at this index
+    func removeLayer(at idx: Int, prevLayer prevIdx: Int) {
+        let layer = layers[idx]
+        var prevLayer = layers[prevIdx]
+        // Tie the graph together
+        prevLayer.nextLayer = layer.nextLayer
+        prevLayer.updateChildren()
+        // Remove the layer 
+        layers.remove(at: idx)
+    }
+    
+    // Returns the output shape of the last layer
+    func getCurrentOutputShape() -> String {
+        if let last = layers.last {
+            return "\(last.outputShape)"
+        }
+        return ""
+    }
+    
+    // Checks if whole graph is valid
     func isValid() -> Bool {
         if layers.count < 1 {
             return true
@@ -147,7 +175,6 @@ class SPInputLayer: ModelLayer {
     }
     
     func updateChildren() {
-        print("updatingchildren: in")
         nextLayer?.inputShape = outputShape
         nextLayer?.updateChildren()
     }
@@ -206,7 +233,6 @@ class SPConv2DLayer: ModelLayer {
     }
     
     func updateChildren() {
-        print("updatingchildren - c2d")
         nextLayer?.inputShape = outputShape
         nextLayer?.updateChildren()
     }
@@ -225,7 +251,7 @@ class SPConv2DLayer: ModelLayer {
             let (_, w) = stride
             stride = (sH, w)
         }
-        if let sW = params["sH"] {
+        if let sW = params["sW"] {
             let (h, _) = stride
             stride = (h, sW)
         }
@@ -272,7 +298,6 @@ class SPDenseLayer: ModelLayer {
     }
     
     func updateChildren() {
-        print("updatingchildren -dn")
         nextLayer?.inputShape = outputShape
         nextLayer?.updateChildren()
     }
@@ -290,8 +315,6 @@ class SPDenseLayer: ModelLayer {
     }
     
     func validLayer() -> Bool {
-        print(inputShape)
-        print(outputShape)
         return inputShape.d0 == 0 && inputShape.d1 == 0 && inputShape.d2 > 0 &&
             outputShape.d0 == 0 && outputShape.d1 == 0 && outputShape.d2 > 0
     }

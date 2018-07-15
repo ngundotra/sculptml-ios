@@ -10,13 +10,12 @@ import UIKit
 
 class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
-    // Honestly I should have 0 indexed these
     @IBOutlet weak var encasingView: UIView!
-    @IBOutlet weak var picker1: UIPickerView!
-    @IBOutlet weak var picker2: UIPickerView!
-    @IBOutlet weak var picker3: UIPickerView!
+    @IBOutlet weak var picker1: UIPickerView! // 0 indexed
+    @IBOutlet weak var picker2: UIPickerView! // 0 indexed
+    @IBOutlet weak var picker3: UIPickerView! // 1 indexed
     var modelLayer: SPInputLayer?
-    
+    var graphBuilder: GraphBuilderViewController?
     // would ideally have ~2048, but just not easy right now
     let maxIn = 512
     
@@ -36,8 +35,8 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     override func viewWillAppear(_ animated: Bool) {
         if let iLayer = modelLayer {
             let shape = iLayer.outputShape
-            picker1.selectRow(shape.d0 - 1, inComponent: 0, animated: false)
-            picker2.selectRow(shape.d1 - 1, inComponent: 0, animated: false)
+            picker1.selectRow(shape.d0, inComponent: 0, animated: false)
+            picker2.selectRow(shape.d1, inComponent: 0, animated: false)
             picker3.selectRow(shape.d2 - 1, inComponent: 0, animated: false)
         }
     }
@@ -48,15 +47,20 @@ class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, U
     
     // Avoid letting user set stuff to 0
     @IBAction func saveTouch(_ sender: Any) {
-        let dim1 = picker1.selectedRow(inComponent: 0)
-        let dim2 = picker2.selectedRow(inComponent: 0)
-        let dim3 = picker3.selectedRow(inComponent: 0)
-        modelLayer?.inputShape = ShapeTup(dim1 + 1, dim2 + 1, dim3 + 1)
+        let dim0 = picker1.selectedRow(inComponent: 0)
+        let dim1 = picker2.selectedRow(inComponent: 0)
+        let dim2 = picker3.selectedRow(inComponent: 0)
+        let dict = ["dim0": dim0, "dim1": dim1, "dim2": dim2 + 1]
+        modelLayer?.updateParams(params: dict)
+        graphBuilder?.updateGraphValidity()
         dismiss(animated: true, completion: nil)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "\(row + 1)"
+        if pickerView === picker3 {
+            return "\(row + 1)"
+        }
+        return "\(row)"
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

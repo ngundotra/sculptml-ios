@@ -49,4 +49,22 @@ class Utils: NSObject {
         }
         return newView
     }
+    
+    // Slides all layers from [idx, layers.count - 1] up so they touch
+    static func slideUp(layers: [LayerButton], from idx: Int, buffer: Double) {
+        if idx >= layers.count - 1 { return }
+        
+        var bot = layers[idx].frame.maxY // Bottom of screen is maxY
+        for i in (idx+1)...(layers.count - 1) {
+            var button = layers[i]
+            let finalDestination = bot + CGFloat(buffer)
+            var anim = CABasicAnimation(keyPath: "position")
+            anim.duration = 0.75
+            anim.fromValue = CGPoint(x: button.center.x, y: button.center.y)
+            anim.toValue = CGPoint(x: button.center.x, y: finalDestination)
+            button.layer.add(anim, forKey: "Position")
+            button.center = CGPoint(x: button.center.x, y: finalDestination)
+            bot = button.frame.maxY
+        }
+    }
 }

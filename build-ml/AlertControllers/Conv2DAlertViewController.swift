@@ -11,18 +11,22 @@ import UIKit
 class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var encasingView: UIView!
+    // Kernel
     @IBOutlet weak var kp1: UIPickerView!
     @IBOutlet weak var kp2: UIPickerView!
     let kernelMax = 32
     @IBOutlet weak var filters: UIPickerView!
     let filtersMax = 256
+    // Strides
     @IBOutlet weak var sp1: UIPickerView!
     @IBOutlet weak var sp2: UIPickerView!
     let stridesMax = 7
-    @IBOutlet weak var pp1: UIPickerView!
-    @IBOutlet weak var pp2: UIPickerView!
+    // Padding
+    @IBOutlet weak var pp1: UIPickerView! // 0 indexed
+    @IBOutlet weak var pp2: UIPickerView! // 0 indexed
     let paddingMax = 128
     var modelLayer: SPConv2DLayer?
+    var graphBuilder: GraphBuilderViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,20 +55,20 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
         if let convLayer = modelLayer {
             let kh = kp1.selectedRow(inComponent: 0)
             let kw = kp2.selectedRow(inComponent: 0)
-            convLayer.kernelSize = (kh + 1, kw + 1)
 
             let sh = sp1.selectedRow(inComponent: 0)
             let sw = sp2.selectedRow(inComponent: 0)
-            convLayer.stride = (sh + 1, sw + 1)
 
             let ph = pp1.selectedRow(inComponent: 0)
             let pw = pp2.selectedRow(inComponent: 0)
-            
-            convLayer.padding = (ph + 1, pw + 1)
 
             let fs = filters.selectedRow(inComponent: 0)
-            convLayer.filters = fs + 1
+            
+            let dict = ["kH": kh + 1, "kW": kw + 1, "sH": sh + 1, "sW": sw + 1,
+                        "pH": ph, "pW": pw, "filters": fs + 1]
+            convLayer.updateParams(params: dict)
         }
+        graphBuilder?.updateGraphValidity()
         dismiss(animated: true, completion: nil)
     }
     
@@ -80,8 +84,8 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
             kp2.selectRow(kw - 1, inComponent: 0, animated: false)
             sp1.selectRow(sh - 1, inComponent: 0, animated: false)
             sp2.selectRow(sw - 1, inComponent: 0, animated: false)
-            pp1.selectRow(ph - 1, inComponent: 0, animated: false)
-            pp2.selectRow(pw - 1, inComponent: 0, animated: false)
+            pp1.selectRow(ph, inComponent: 0, animated: false)
+            pp2.selectRow(pw, inComponent: 0, animated: false)
             filters.selectRow(fs - 1, inComponent: 0, animated: false)
         }
         
@@ -106,6 +110,9 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == pp1 || pickerView == pp2 {
+            return "\(row)"
+        }
         return "\(row + 1)"
     }
     /*
