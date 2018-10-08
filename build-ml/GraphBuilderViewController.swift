@@ -260,6 +260,8 @@ class GraphBuilderViewController: UIViewController {
         modalPresentationStyle = .popover
         present(vc, animated: true, completion: nil)
         modalPresentationStyle = prevStyle
+        //add to dictionary here
+        
     }
     
     // MARK: - Connect LayerView with the LayerModel
@@ -279,6 +281,12 @@ class GraphBuilderViewController: UIViewController {
             fatalError("bad layer name given: \(layerName)")
         }
         return button
+        
+        //FULL SEND BUTTON
+        // tabVC - has GraphModel class
+        //graphmodel contains var layers
+        // get all the parameter shit from layers
+        //when button is pressed, parse layers, put into json, full send
     }
 
     /*
