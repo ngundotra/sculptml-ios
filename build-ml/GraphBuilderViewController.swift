@@ -54,6 +54,24 @@ class GraphBuilderViewController: UIViewController {
         panGraph?.require(toFail: swipeGesture!)
     }
     
+    func createButton() {
+        let button = UIButton.init(type: system)
+        button.frame = CGRect(x: 50.0, y: 150.0, width: 200.0, height: 52.0)
+        button.setTitle("Like this video", for: .normal)
+        button.layer.borderWidth = 5.0
+        button.layer.borderColor = UIColor.white.cgColor
+        button.backgroundColor = UIColor.black
+        button.titleLabel?.textColor = UIColor.white
+        button.tintColor = UIColor.white
+        button.addTarget(self, action: #selector(buttonClicked(_ :)),
+            for: .touchUpInside)
+        self.view.addSubview(button)
+    }
+    
+    @obj func buttonClicked(_ : UIButton) {
+        print("Noah is pussy")
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         // Make sure to display data loaded from persistence
         updateView()
