@@ -39,7 +39,7 @@ class GraphBuilderViewController: UIViewController {
         
         // Button
         createButton()
-        
+
         // Debug Label
         makeDebugLabel()
         
@@ -223,7 +223,7 @@ class GraphBuilderViewController: UIViewController {
         }
         
         for layerButton in layerObjs {
-            layerButton.updateBorder()
+            layerButton.updateBorder();
         }
         updateDebugLabel()
     }

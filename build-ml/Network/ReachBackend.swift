@@ -11,7 +11,7 @@ import SystemConfiguration
 
 open class Reach {
     
-    /// Pings 'deco-ios.wipac.wisc.edu' for status response>
+    /// Pings 'www.google.com' for status response>
     /// - returns: 'true' if boolean variable 'Status' returns 200 or 403, else returns 'false'
     
     class func isConnectedToNetwork() -> (connected: Bool, code: Int) {
@@ -42,15 +42,15 @@ open class Reach {
                 if code == 200 || code == 403 { // are there other possible status codes?
                     network = true
                 } else {
-                    Debug().Log("Server status code was invalid (returned \(code))")
+                    print("Server status code was invalid (returned \(code))")
                 }
             } else {
                 code = -1
-                Debug().Log("Server response was invalid.")
+                print("Server response was invalid.")
             }
         } else {
             code = -1
-            Debug().Log("Server response timed out.")
+            print("Server response timed out.")
         }
         
         return (connected: network, code: code)
