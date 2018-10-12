@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2D39958CEE53829D6E66A0F8 /* Pods_build_ml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 966F2038B486190B65017186 /* Pods_build_ml.framework */; };
-		7B0835E720E19CD3005323E0 /* LayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */; };
 		7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */; };
 		7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EC20E337EB005323E0 /* MainViewController.swift */; };
 		7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EE20E49B04005323E0 /* GraphModel.swift */; };
@@ -27,10 +26,10 @@
 		7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2A20E181BF00651337 /* build_ml.xcdatamodeld */; };
 		7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2D20E181BF00651337 /* Assets.xcassets */; };
 		7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2F20E181BF00651337 /* LaunchScreen.storyboard */; };
+		BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC128244216C2B2100856619 /* LayerTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LayerTableViewCell.swift; path = "/Users/ngundotra/Documents/Dev/build-ml/build-ml/LayerTableViewCell.swift"; sourceTree = "<absolute>"; };
 		7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderViewController.swift; sourceTree = "<group>"; };
 		7B0835EC20E337EB005323E0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7B0835EE20E49B04005323E0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
@@ -54,6 +53,7 @@
 		88F5967C7A9E6B3BEEDE2E24 /* Pods-build-ml.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-build-ml.release.xcconfig"; path = "Pods/Target Support Files/Pods-build-ml/Pods-build-ml.release.xcconfig"; sourceTree = "<group>"; };
 		8BDCAF1B49F17803EC4215A2 /* Pods-build-ml.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-build-ml.debug.xcconfig"; path = "Pods/Target Support Files/Pods-build-ml/Pods-build-ml.debug.xcconfig"; sourceTree = "<group>"; };
 		966F2038B486190B65017186 /* Pods_build_ml.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_build_ml.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC128244216C2B2100856619 /* LayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +120,7 @@
 		7BCA3E2220E181BF00651337 /* build-ml */ = {
 			isa = PBXGroup;
 			children = (
-				7B0835E620E19CD3005323E0 /* LayerTableViewCell.swift */,
+				BC128244216C2B2100856619 /* LayerTableViewCell.swift */,
 				7B15004F20F95E3F00E70861 /* AlertControllers */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
@@ -263,8 +263,8 @@
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
 				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
-				7B0835E720E19CD3005323E0 /* LayerTableViewCell.swift in Sources */,
 				7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */,
+				BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */,
 				7B7C84DB20E5CC5400DE3251 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV3FYVB8JV;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -429,6 +430,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV3FYVB8JV;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
