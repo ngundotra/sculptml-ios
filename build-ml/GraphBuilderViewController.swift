@@ -36,7 +36,8 @@ class GraphBuilderViewController: UIViewController {
         
         // Title Label
         makeTitleLabel()
-        
+        //Button
+        createButton()
         // Debug Label
         makeDebugLabel()
         
@@ -55,7 +56,7 @@ class GraphBuilderViewController: UIViewController {
     }
     
     func createButton() {
-        let button = UIButton.init(type: system)
+        let button = UIButton.init(type: .system)
         button.frame = CGRect(x: 50.0, y: 150.0, width: 200.0, height: 52.0)
         button.setTitle("Like this video", for: .normal)
         button.layer.borderWidth = 5.0
@@ -68,7 +69,7 @@ class GraphBuilderViewController: UIViewController {
         self.view.addSubview(button)
     }
     
-    @obj func buttonClicked(_ : UIButton) {
+    @objc func buttonClicked(_ : UIButton) {
         print("Noah is pussy")
     }
     
@@ -212,7 +213,7 @@ class GraphBuilderViewController: UIViewController {
         let tabVC = tabBarController! as! MainViewController
         let valid = tabVC.userModel.isValid()
         for layerButton in layerObjs {
-            layerButton.updateBorder()
+            layerButton.updateBorder();
         }
         updateDebugLabel()
     }
