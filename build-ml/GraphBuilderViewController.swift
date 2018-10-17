@@ -36,8 +36,10 @@ class GraphBuilderViewController: UIViewController {
         
         // Title Label
         makeTitleLabel()
-        //Button
+        
+        // Button
         createButton()
+
         // Debug Label
         makeDebugLabel()
         
@@ -70,7 +72,11 @@ class GraphBuilderViewController: UIViewController {
     }
     
     @objc func buttonClicked(_ : UIButton) {
-        print("Noah is pussy")
+        print("Clicked")
+        let tabVC = tabBarController! as! MainViewController
+        for layer in tabVC.userModel.layers {
+            print(layer.getParams())
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -212,6 +218,10 @@ class GraphBuilderViewController: UIViewController {
         // bc we present bad layers on a layer by layer basis
         let tabVC = tabBarController! as! MainViewController
         let valid = tabVC.userModel.isValid()
+        for layer in tabVC.userModel.layers {
+            print(layer.outputShape)
+        }
+        
         for layerButton in layerObjs {
             layerButton.updateBorder();
         }

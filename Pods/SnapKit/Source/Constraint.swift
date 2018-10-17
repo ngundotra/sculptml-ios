@@ -49,6 +49,7 @@ public final class Constraint {
     public var layoutConstraints: [LayoutConstraint]
     
     public var isActive: Bool {
+<<<<<<< HEAD
         set {
             if newValue {
                 activate()
@@ -66,6 +67,14 @@ public final class Constraint {
             }
             return false
         }
+=======
+        for layoutConstraint in self.layoutConstraints {
+            if layoutConstraint.isActive {
+                return true
+            }
+        }
+        return false
+>>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
     }
     
     // MARK: Initialization
@@ -225,12 +234,15 @@ public final class Constraint {
         return self
     }
 
+<<<<<<< HEAD
     @discardableResult
     public func update(priority: ConstraintPriority) -> Constraint {
         self.priority = priority.value
         return self
     }
 
+=======
+>>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
     @available(*, deprecated:3.0, message:"Use update(offset: ConstraintOffsetTarget) instead.")
     public func updateOffset(amount: ConstraintOffsetTarget) -> Void { self.update(offset: amount) }
 

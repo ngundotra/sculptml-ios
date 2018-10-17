@@ -1,5 +1,9 @@
 PODS:
+<<<<<<< HEAD
   - SnapKit (4.0.1)
+=======
+  - SnapKit (4.0.0)
+>>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
 
 DEPENDENCIES:
   - SnapKit
@@ -9,7 +13,11 @@ SPEC REPOS:
     - SnapKit
 
 SPEC CHECKSUMS:
+<<<<<<< HEAD
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
+=======
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+>>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
 
 PODFILE CHECKSUM: 03444703e01ef5cda3bdcff1e09cba41c1aeac21
 

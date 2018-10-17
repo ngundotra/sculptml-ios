@@ -126,6 +126,7 @@ protocol ModelLayer {
     func updateParams(params: [String : Int]) -> Void
     func updateChildren() -> Void
     func validLayer() -> Bool
+    func getParams() -> [String : Any]
 }
 
 // InputShapes are always 3-tuples
@@ -194,6 +195,10 @@ class SPInputLayer: ModelLayer {
     
     func validLayer() -> Bool {
         return true
+    }
+    
+    func getParams() -> [String : Any] {
+        return ["layer": SPInputLayer.name, "dim": String(inputShape.d0)]
     }
 }
 
@@ -277,6 +282,14 @@ class SPConv2DLayer: ModelLayer {
         }
         return false
     }
+    
+    func getParams()  -> [String : Any] {
+        return ["name": SPConv2DLayer.name,
+                "dim": String(inputShape.d0),
+                "kernel": String(kernelSize.0) + ", " + String(kernelSize.1),
+                "stride": String(stride.0) + ", " + String(stride.1),
+                "padding": String(padding.0) + ", " + String(padding.1)]
+    }
 }
 
 class SPDenseLayer: ModelLayer {
@@ -317,6 +330,10 @@ class SPDenseLayer: ModelLayer {
     func validLayer() -> Bool {
         return inputShape.d0 == 0 && inputShape.d1 == 0 && inputShape.d2 > 0 &&
             outputShape.d0 == 0 && outputShape.d1 == 0 && outputShape.d2 > 0
+    }
+    
+    func getParams()  -> [String : Any] {
+        return ["layer": SPDenseLayer.name, "test" : String(weightShape.0) + " " + String(weightShape.1)]
     }
     
 }
