@@ -33,39 +33,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBA-p8-t9H">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBA-p8-t9H">
                                 <rect key="frame" x="170" y="265" width="35" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Build"/>
                                 <connections>
                                     <segue destination="tKQ-hU-439" kind="show" id="mau-IZ-t24"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6N-KO-ksF">
-                                <rect key="frame" x="164" y="303" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S6N-KO-ksF">
+                                <rect key="frame" x="163.5" y="303" width="48" height="30"/>
                                 <state key="normal" title="Deploy"/>
                                 <connections>
                                     <segue destination="k2n-no-kef" kind="show" id="U6M-I1-yxv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3Y-7c-hIU">
-                                <rect key="frame" x="158" y="341" width="61" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3Y-7c-hIU">
+                                <rect key="frame" x="157" y="341" width="61" height="30"/>
                                 <state key="normal" title="Datasets"/>
                                 <connections>
                                     <segue destination="MxE-DM-bwP" kind="show" id="mMh-qf-q75"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e63-XC-GTb">
-                                <rect key="frame" x="167" y="156" width="43" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e63-XC-GTb">
+                                <rect key="frame" x="166" y="156" width="43" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="S6N-KO-ksF" firstAttribute="centerX" secondItem="vNc-y2-Axt" secondAttribute="centerX" id="92B-jW-Nqe"/>
+                            <constraint firstItem="ScU-bK-gnR" firstAttribute="bottom" secondItem="D3Y-7c-hIU" secondAttribute="bottom" constant="296" id="Abr-nU-mgm"/>
+                            <constraint firstItem="HBA-p8-t9H" firstAttribute="top" secondItem="e63-XC-GTb" secondAttribute="bottom" constant="88" id="Ehb-Er-Go2"/>
+                            <constraint firstItem="D3Y-7c-hIU" firstAttribute="centerX" secondItem="vNc-y2-Axt" secondAttribute="centerX" id="IqH-oJ-FR6"/>
+                            <constraint firstItem="D3Y-7c-hIU" firstAttribute="top" secondItem="S6N-KO-ksF" secondAttribute="bottom" constant="8" id="OXW-ul-A7n"/>
+                            <constraint firstItem="HBA-p8-t9H" firstAttribute="centerX" secondItem="vNc-y2-Axt" secondAttribute="centerX" id="Q4g-dm-GgP"/>
+                            <constraint firstItem="e63-XC-GTb" firstAttribute="centerX" secondItem="vNc-y2-Axt" secondAttribute="centerX" id="Rsy-IX-OPs"/>
+                            <constraint firstItem="S6N-KO-ksF" firstAttribute="top" secondItem="HBA-p8-t9H" secondAttribute="bottom" constant="8" id="nZ1-7V-chl"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ScU-bK-gnR"/>
                     </view>
                 </viewController>

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
-eclass AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 

@@ -27,13 +27,28 @@
 		7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2D20E181BF00651337 /* Assets.xcassets */; };
 		7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BCA3E2F20E181BF00651337 /* LaunchScreen.storyboard */; };
 		BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC128244216C2B2100856619 /* LayerTableViewCell.swift */; };
-		BC6D71BD2180E4D000E3F817 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71B32180E4D000E3F817 /* VisionViewController.swift */; };
-		BC6D71BF2180E4D000E3F817 /* ObjectDetector.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71B62180E4D000E3F817 /* ObjectDetector.mlmodel */; };
-		BC6D71C02180E4D000E3F817 /* mnistCNN.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71B72180E4D000E3F817 /* mnistCNN.mlmodel */; };
-		BC6D71C12180E4D000E3F817 /* CNNEmotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71B82180E4D000E3F817 /* CNNEmotions.mlmodel */; };
 		BC6D71C52180E70E00E3F817 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */; };
+		BC6D71C72181041200E3F817 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C62181041200E3F817 /* VisionViewController.swift */; };
+		BC6D71E22181071200E3F817 /* CNNEmotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71DE218106CE00E3F817 /* CNNEmotions.mlmodel */; };
 		BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC918D6A21741782004FACCE /* MenuViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BC6D71D02181053400E3F817 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC6D71C82181045800E3F817 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A200663A9320F6CF8CD06B90DC649DED;
+			remoteInfo = "Pods-build-ml";
+		};
+		BC6D71D22181053400E3F817 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC6D71C82181045800E3F817 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D24DB25E84AF7368F7E021466093B935;
+			remoteInfo = SnapKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderViewController.swift; sourceTree = "<group>"; };
@@ -60,11 +75,10 @@
 		8BDCAF1B49F17803EC4215A2 /* Pods-build-ml.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-build-ml.debug.xcconfig"; path = "Pods/Target Support Files/Pods-build-ml/Pods-build-ml.debug.xcconfig"; sourceTree = "<group>"; };
 		966F2038B486190B65017186 /* Pods_build_ml.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_build_ml.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC128244216C2B2100856619 /* LayerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerTableViewCell.swift; sourceTree = "<group>"; };
-		BC6D71B32180E4D000E3F817 /* VisionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisionViewController.swift; path = Inference/VisionViewController.swift; sourceTree = "<group>"; };
-		BC6D71B62180E4D000E3F817 /* ObjectDetector.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ObjectDetector.mlmodel; sourceTree = "<group>"; };
-		BC6D71B72180E4D000E3F817 /* mnistCNN.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = mnistCNN.mlmodel; sourceTree = "<group>"; };
-		BC6D71B82180E4D000E3F817 /* CNNEmotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CNNEmotions.mlmodel; sourceTree = "<group>"; };
 		BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
+		BC6D71C62181041200E3F817 /* VisionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
+		BC6D71C82181045800E3F817 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		BC6D71DE218106CE00E3F817 /* CNNEmotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = CNNEmotions.mlmodel; sourceTree = "<group>"; };
 		BC918D6A21741782004FACCE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = ../MenuViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				966F2038B486190B65017186 /* Pods_build_ml.framework */,
+				BC6D71C82181045800E3F817 /* Pods.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -133,11 +148,11 @@
 			isa = PBXGroup;
 			children = (
 				BC128244216C2B2100856619 /* LayerTableViewCell.swift */,
+				BC6D71DF218106CE00E3F817 /* MLModels */,
 				7B15004F20F95E3F00E70861 /* AlertControllers */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
 				BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */,
-				BC6D71B32180E4D000E3F817 /* VisionViewController.swift */,
-				BC6D71B22180E4D000E3F817 /* Inference */,
+				BC6D71C62181041200E3F817 /* VisionViewController.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
 				BC918D6A21741782004FACCE /* MenuViewController.swift */,
 				7B0835EC20E337EB005323E0 /* MainViewController.swift */,
@@ -154,23 +169,23 @@
 			path = "build-ml";
 			sourceTree = "<group>";
 		};
-		BC6D71B22180E4D000E3F817 /* Inference */ = {
+		BC6D71C92181045800E3F817 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BC6D71B52180E4D000E3F817 /* MLModel */,
+				BC6D71D12181053400E3F817 /* Pods_build_ml.framework */,
+				BC6D71D32181053400E3F817 /* SnapKit.framework */,
 			);
-			path = Inference;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		BC6D71B52180E4D000E3F817 /* MLModel */ = {
+		BC6D71DF218106CE00E3F817 /* MLModels */ = {
 			isa = PBXGroup;
 			children = (
-				BC6D71B62180E4D000E3F817 /* ObjectDetector.mlmodel */,
-				BC6D71B72180E4D000E3F817 /* mnistCNN.mlmodel */,
-				BC6D71B82180E4D000E3F817 /* CNNEmotions.mlmodel */,
+				BC6D71DE218106CE00E3F817 /* CNNEmotions.mlmodel */,
 			);
-			path = MLModel;
-			sourceTree = "<group>";
+			name = MLModels;
+			path = "/Users/alexchan/Documents/college/sculptML/build-ml-ios-app/build-ml/MLModels";
+			sourceTree = "<absolute>";
 		};
 /* End PBXGroup section */
 
@@ -220,12 +235,35 @@
 			mainGroup = 7BCA3E1720E181BF00651337;
 			productRefGroup = 7BCA3E2120E181BF00651337 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = BC6D71C92181045800E3F817 /* Products */;
+					ProjectRef = BC6D71C82181045800E3F817 /* Pods.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				7BCA3E1F20E181BF00651337 /* build-ml */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		BC6D71D12181053400E3F817 /* Pods_build_ml.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Pods_build_ml.framework;
+			remoteRef = BC6D71D02181053400E3F817 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BC6D71D32181053400E3F817 /* SnapKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SnapKit.framework;
+			remoteRef = BC6D71D22181053400E3F817 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		7BCA3E1E20E181BF00651337 /* Resources */ = {
@@ -292,20 +330,18 @@
 				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
-				BC6D71BD2180E4D000E3F817 /* VisionViewController.swift in Sources */,
 				7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */,
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
-				BC6D71C02180E4D000E3F817 /* mnistCNN.mlmodel in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
 				BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */,
+				BC6D71E22181071200E3F817 /* CNNEmotions.mlmodel in Sources */,
 				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
-				BC6D71C12180E4D000E3F817 /* CNNEmotions.mlmodel in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
 				7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */,
 				BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */,
+				BC6D71C72181041200E3F817 /* VisionViewController.swift in Sources */,
 				BC6D71C52180E70E00E3F817 /* VisionObjectRecognitionViewController.swift in Sources */,
 				7B7C84DB20E5CC5400DE3251 /* Utils.swift in Sources */,
-				BC6D71BF2180E4D000E3F817 /* ObjectDetector.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
