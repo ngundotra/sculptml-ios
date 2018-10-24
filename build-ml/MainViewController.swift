@@ -11,8 +11,11 @@ import UIKit
 class MainViewController: UITabBarController {
     let graphBuilderVC = GraphBuilderViewController()
     let layerVC = ViewController()
-    
     var userModel: GraphModel!
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
     
     init(graphModel: GraphModel) {
         super.init(nibName: nil, bundle: nil)
