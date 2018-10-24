@@ -73,16 +73,3 @@ extension CGFloat: ConstraintPriorityTarget {
     }
     
 }
-<<<<<<< HEAD
-
-#if os(iOS) || os(tvOS)
-extension UILayoutPriority: ConstraintPriorityTarget {
-
-    public var constraintPriorityTargetValue: Float {
-        return self.rawValue
-    }
-
-}
-#endif
-=======
->>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c

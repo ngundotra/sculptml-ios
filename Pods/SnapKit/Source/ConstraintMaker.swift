@@ -171,9 +171,6 @@ public class ConstraintMaker {
     }
     
     internal static func makeConstraints(item: LayoutConstraintItem, closure: (_ make: ConstraintMaker) -> Void) {
-<<<<<<< HEAD
-        let constraints = prepareConstraints(item: item, closure: closure)
-=======
         let maker = ConstraintMaker(item: item)
         closure(maker)
         var constraints: [Constraint] = []
@@ -183,7 +180,6 @@ public class ConstraintMaker {
             }
             constraints.append(constraint)
         }
->>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
         for constraint in constraints {
             constraint.activateIfNeeded(updatingExisting: false)
         }
@@ -200,9 +196,6 @@ public class ConstraintMaker {
             return
         }
         
-<<<<<<< HEAD
-        let constraints = prepareConstraints(item: item, closure: closure)
-=======
         let maker = ConstraintMaker(item: item)
         closure(maker)
         var constraints: [Constraint] = []
@@ -212,7 +205,6 @@ public class ConstraintMaker {
             }
             constraints.append(constraint)
         }
->>>>>>> 5d51abd21f4ba9b1b813ffc192642717fd4c0f4c
         for constraint in constraints {
             constraint.activateIfNeeded(updatingExisting: true)
         }

@@ -18,8 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        let model = GraphModel(name: "User Model")
-        let mainVC = MainViewController(graphModel: model)
+//        let model = GraphModel(name: "User Model")
+//        let mainVC = MainViewController(graphModel: model)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let mainVC = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         self.window?.rootViewController = mainVC
         self.window?.makeKeyAndVisible()
         return true

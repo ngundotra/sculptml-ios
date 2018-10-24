@@ -183,7 +183,7 @@ class GraphBuilderViewController: UIViewController {
     func updateLayerObjs() {
         let tabVC = self.tabBarController! as! MainViewController
         var prev: CGRect = debugLabel.frame
-        
+        print(tabVC.userModel)
         // add layers if necessary from the model
         for layer in tabVC.userModel.toAdd {
             let but = instantiateLayerButton(layer: layer)
