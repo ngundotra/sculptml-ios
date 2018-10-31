@@ -1,6 +1,0 @@
-framework module Pods_build_ml {
-  umbrella header "Pods-build-ml-umbrella.h"
-
-  export *
-  module * { export * }
-}
