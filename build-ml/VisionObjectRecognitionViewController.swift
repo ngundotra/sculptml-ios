@@ -20,8 +20,8 @@ import Vision
 
 class VisionObjectRecognitionViewController: VisionViewController {
     
-    @IBOutlet weak var label: UILabel!
     private var detectionOverlay: CALayer! = nil
+    @IBOutlet weak var label: UILabel!
     
     // Vision parts
     private var requests = [VNRequest]()

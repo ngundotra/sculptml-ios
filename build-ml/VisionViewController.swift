@@ -15,7 +15,10 @@ class VisionViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var bufferSize: CGSize = .zero
     var rootLayer: CALayer! = nil
     
+    
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet var previewView: UIView!
+    
     private let session = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let videoDataOutput = AVCaptureVideoDataOutput()
@@ -29,6 +32,7 @@ class VisionViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAVCapture()
+        backButton.bringSubview(toFront: self.view)
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,7 +89,8 @@ class VisionViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         session.commitConfiguration()
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        // lol wat 
+        // lol wat
+        print(previewView)
         rootLayer = previewView.layer
         previewLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(previewLayer)

@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <Group
-      location = "group:/Users/alexchan/Documents/college/sculptML/build-ml-ios-app/build-ml/MLModels"
-      name = "MLModels">
-      <FileRef
-         location = "group:CNNEmotions.mlmodel">
-      </FileRef>
-   </Group>
-   <FileRef
-      location = "group:build-ml/MLModels">
-   </FileRef>
    <FileRef
       location = "group:build-ml.xcodeproj">
    </FileRef>
