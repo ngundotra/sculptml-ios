@@ -45,6 +45,7 @@ class GraphBuilderViewController: UIViewController {
         
         // Debug only
         view.clipsToBounds = true
+        // submitAction(sender: <#T##AnyObject#>) //JSON POST
         
         // Scroll Graph
         // Set instance variable
@@ -77,6 +78,7 @@ class GraphBuilderViewController: UIViewController {
         for layer in tabVC.userModel.layers {
             print(layer.getParams())
         }
+        jsonPOST() //need to fix
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -316,6 +318,108 @@ class GraphBuilderViewController: UIViewController {
         //graphmodel contains var layers
         // get all the parameter shit from layers
         //when button is pressed, parse layers, put into json, full send
+    }
+    
+    //JSON POST code below
+    func jsonPOST() {
+        //put JSON in AppData/Documents/JSONS and get from there then use the NSURL to send to server
+        //Big Idea: format JSON --> write JSON to Documents/JSONS/.. --> POST JSON
+        //declare parameter as a dictionary which contains string as key and value combination.
+        
+        
+        let messageDictionary = [
+            "model":["info": "Mnist CNN model from keras-team examples", "model name": "simple CNN",
+                     "num_layers": 8, "loss": "mse", "optimizer": "Adadelta", "input_layer": ["dim": "(28,28,1)"],
+                     "layer_0": ["layer": "Conv2DLyr","filters": 32,"kernel_size": "(3,3)","activation": "relu", "input_shape": "(28,28,1)"], "layer_1": [
+                "layer": "Conv2DLyr",
+                "filters": 64,
+                "kernel_size": "(3,3)",
+                "activation": "relu"
+                ],
+                "layer_2": [
+                "layer": "MaxPooling2DLyr",
+                "pool_size" : "(2,2)"
+                ],
+                "layer_3": [
+                "layer": "DropoutLyr",
+                "rate": 0.25
+                ],
+                "layer_4": [
+                "layer":"FlattenLyr"
+                ],
+                "layer_5": [
+                "layer": "DenseLyr",
+                "units": 128,
+                "activation": "relu"
+                ],
+                "layer_6": [
+                "layer": "DropoutLyr",
+                "rate": 0.5
+                ],
+                "layer_7": [
+                "layer": "DenseLyr",
+                "units": 10,
+                "activation":"softmax"
+                ] ],
+            "dataset":[ "name" : "MNIST",
+                "batch_size" : 128,
+                "img_rows" : 28,
+                "img_cols" : 28,
+                "num_classes" : 10,
+                "epochs" : 1,
+                "metrics" : ["accuracy"],
+                "loss" : "mse"]
+            ] as [String : Any]
+        
+        let jsonData = try! JSONSerialization.data(withJSONObject: messageDictionary)
+        _ = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
+    
+        //create the url with NSURL
+        let url = NSURL(string: "https://www.google.com")
+        
+        //create the session object
+        let session = URLSession.shared
+        
+        //now create the NSMutableRequest object using the url object
+        let request = NSMutableURLRequest(url: url! as URL)
+        request.httpMethod = "POST" //set http method as POST
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: messageDictionary, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        //HTTP Headers
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            do {
+                //create json object from data
+                if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: AnyObject] {
+                    print(json)
+                    // handle json...
+                }
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+            
+        })
+        
+        task.resume()
     }
 
     /*

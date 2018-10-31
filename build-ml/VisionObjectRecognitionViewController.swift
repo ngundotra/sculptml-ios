@@ -32,7 +32,7 @@ class VisionObjectRecognitionViewController: VisionViewController {
         let error: NSError! = nil
         
         do {
-            let visionModel = try VNCoreMLModel(for: CNNEmotions().model)
+            let visionModel = try VNCoreMLModel(for: MNIST().model)
             let objectRecognition = VNCoreMLRequest(model: visionModel, completionHandler: { (request, error) in
                 DispatchQueue.main.async(execute: {
                     // perform all the UI updates on the main queue
@@ -155,7 +155,7 @@ class VisionObjectRecognitionViewController: VisionViewController {
         textLayer.name = "Object Label"
         let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence:  %.2f", confidence))
         let largeFont = UIFont(name: "Helvetica", size: 24.0)!
-        formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
+//        formattedString.addAttributes([NSAttributedString.Key: largeFont], range: NSRange(location: 0, length: identifier.count))
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.size.height - 10, height: bounds.size.width - 10)
         textLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
