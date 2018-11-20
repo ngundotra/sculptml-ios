@@ -30,10 +30,7 @@
 		BC6D71C52180E70E00E3F817 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */; };
 		BC6D71C72181041200E3F817 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C62181041200E3F817 /* VisionViewController.swift */; };
 		BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC918D6A21741782004FACCE /* MenuViewController.swift */; };
-		BCB1DA7C21813D9300363F3B /* MLModels in Resources */ = {isa = PBXBuildFile; fileRef = BCB1DA7B21813D6A00363F3B /* MLModels */; };
-		BCB1DA7D21813DF600363F3B /* MLModels in Sources */ = {isa = PBXBuildFile; fileRef = BCB1DA7B21813D6A00363F3B /* MLModels */; };
 		BCB1DA7F21813E0D00363F3B /* MNIST.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */; };
-		BCB1DA82218142F400363F3B /* CNNEmotions.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BCB1DA81218142F400363F3B /* CNNEmotions.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,9 +79,7 @@
 		BC6D71C62181041200E3F817 /* VisionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
 		BC6D71C82181045800E3F817 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		BC918D6A21741782004FACCE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = ../MenuViewController.swift; sourceTree = "<group>"; };
-		BCB1DA7B21813D6A00363F3B /* MLModels */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MLModels; path = "/Users/alexchan/Documents/college/sculptML/build-ml-ios-app/build-ml/MLModels"; sourceTree = "<absolute>"; };
-		BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = MNIST.mlmodel; path = "build-ml/MLModels/MNIST.mlmodel"; sourceTree = "<group>"; };
-		BCB1DA81218142F400363F3B /* CNNEmotions.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = CNNEmotions.mlmodel; path = "build-ml/MLModels/CNNEmotions.mlmodel"; sourceTree = "<group>"; };
+		BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MNIST.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19E993FD21A3EF7800D01E19 /* MLModels */ = {
+			isa = PBXGroup;
+			children = (
+				BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */,
+			);
+			path = MLModels;
+			sourceTree = "<group>";
+		};
 		1E22700D33D9EE54389CC455 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,8 +136,6 @@
 		7BCA3E1720E181BF00651337 = {
 			isa = PBXGroup;
 			children = (
-				BCB1DA81218142F400363F3B /* CNNEmotions.mlmodel */,
-				BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */,
 				7B0835F020E4A028005323E0 /* Default-568h@2x.png */,
 				7BCA3E2220E181BF00651337 /* build-ml */,
 				7BCA3E2120E181BF00651337 /* Products */,
@@ -154,7 +155,7 @@
 		7BCA3E2220E181BF00651337 /* build-ml */ = {
 			isa = PBXGroup;
 			children = (
-				BCB1DA7B21813D6A00363F3B /* MLModels */,
+				19E993FD21A3EF7800D01E19 /* MLModels */,
 				BC128244216C2B2100856619 /* LayerTableViewCell.swift */,
 				7B15004F20F95E3F00E70861 /* AlertControllers */,
 				7BCA3E2320E181BF00651337 /* AppDelegate.swift */,
@@ -273,7 +274,6 @@
 				7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */,
 				7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */,
 				7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */,
-				BCB1DA7C21813D9300363F3B /* MLModels in Resources */,
 				7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */,
 				7BCA3E2920E181BF00651337 /* Main.storyboard in Resources */,
 			);
@@ -325,8 +325,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCB1DA82218142F400363F3B /* CNNEmotions.mlmodel in Sources */,
-				BCB1DA7D21813DF600363F3B /* MLModels in Sources */,
 				BCB1DA7F21813E0D00363F3B /* MNIST.mlmodel in Sources */,
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
 				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
@@ -488,14 +486,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV3FYVB8JV;
+				DEVELOPMENT_TEAM = 5389KGZA68;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-420";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -508,14 +506,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = HV3FYVB8JV;
+				DEVELOPMENT_TEAM = 5389KGZA68;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-420";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
