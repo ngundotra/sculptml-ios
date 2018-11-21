@@ -125,6 +125,7 @@ class VisionObjectRecognitionViewController: VisionViewController {
                                          height: bufferSize.height)
         detectionOverlay.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
         rootLayer.addSublayer(detectionOverlay)
+        view.bringSubview(toFront: label)
     }
     
     func updateLayerGeometry() {

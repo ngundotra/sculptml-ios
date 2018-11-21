@@ -84,7 +84,67 @@ class GraphBuilderViewController: UIViewController {
         for layer in tabVC.userModel.layers {
             print(layer.getParams())
         }
-        jsonPOST() //need to fix
+        let messageDictionary = [
+            "model": [
+                "info": "Mnist CNN model from keras-team examples",
+                "model_name": "bigDickCNN",
+                "num_layers": 8,
+                "optimizer": "Adadelta",
+                "input_layer": [
+                    "dim": "(28,28,1)"
+                ],
+                "layer_0": [
+                    "layer": "Conv2DLyr",
+                    "filters": 32,
+                    "kernel_size": "(3,3)",
+                    "activation": "relu",
+                    "input_shape": "(28,28,1)"
+                ],
+                "layer_1": [
+                    "layer": "Conv2DLyr",
+                    "filters": 64,
+                    "kernel_size": "(3,3)",
+                    "activation": "relu"
+                ],
+                "layer_2": [
+                    "layer": "MaxPooling2DLyr",
+                    "pool_size" : "(2,2)"
+                ],
+                "layer_3": [
+                    "layer": "DropoutLyr",
+                    "rate": 0.25
+                ],
+                "layer_4": [
+                    "layer":"FlattenLyr"
+                ],
+                "layer_5": [
+                    "layer": "DenseLyr",
+                    "units": 128,
+                    "activation": "relu"
+                ],
+                "layer_6": [
+                    "layer": "DropoutLyr",
+                    "rate": 0.5
+                ],
+                "layer_7": [
+                    "layer": "DenseLyr",
+                    "units": 10,
+                    "activation":"softmax"
+                ]
+            ],
+            "dataset":[
+                "name" : "MNIST",
+                "batch_size" : 32,
+                "img_rows" : 28,
+                "img_cols" : 28,
+                "num_classes" : 10,
+                "epochs" : 12,
+                "metrics" : ["accuracy"],
+                "loss" : "mse"
+            ]
+            ] as [String : Any]
+        jsonPOST(modelDictionary: messageDictionary)
+        // print(modelGET())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -327,73 +387,12 @@ class GraphBuilderViewController: UIViewController {
     }
     
     //JSON POST code below
-    func jsonPOST() {
+    func jsonPOST(modelDictionary: [String : Any]) {
         //put JSON in AppData/Documents/JSONS and get from there then use the NSURL to send to server
         //Big Idea: format JSON --> write JSON to Documents/JSONS/.. --> POST JSON
         //declare parameter as a dictionary which contains string as key and value combination.
         
-        
-        let messageDictionary = [
-            "model": [
-                "info": "Mnist CNN model from keras-team examples",
-                "model_name": "simple CNN",
-                "num_layers": 8,
-                "optimizer": "Adadelta",
-                "input_layer": [
-                    "dim": "(28,28,1)"
-                ],
-                "layer_0": [
-                    "layer": "Conv2DLyr",
-                    "filters": 32,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu",
-                    "input_shape": "(28,28,1)"
-                ],
-                "layer_1": [
-                    "layer": "Conv2DLyr",
-                    "filters": 64,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu"
-                ],
-                "layer_2": [
-                    "layer": "MaxPooling2DLyr",
-                    "pool_size" : "(2,2)"
-                ],
-                "layer_3": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.25
-                ],
-                "layer_4": [
-                    "layer":"FlattenLyr"
-                ],
-                "layer_5": [
-                    "layer": "DenseLyr",
-                    "units": 128,
-                    "activation": "relu"
-                ],
-                "layer_6": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.5
-                ],
-                "layer_7": [
-                    "layer": "DenseLyr",
-                    "units": 10,
-                    "activation":"softmax"
-                ]
-            ],
-            "dataset":[
-                "name" : "MNIST",
-                "batch_size" : 32,
-                "img_rows" : 28,
-                "img_cols" : 28,
-                "num_classes" : 10,
-                "epochs" : 12,
-                "metrics" : ["accuracy"],
-                "loss" : "mse"
-            ]
-            ] as [String : Any]
-        
-        let jsonData = try! JSONSerialization.data(withJSONObject: messageDictionary)
+        let jsonData = try! JSONSerialization.data(withJSONObject: modelDictionary)
         print(jsonData)
         _ = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
     
@@ -433,17 +432,22 @@ class GraphBuilderViewController: UIViewController {
      - returns:
      the URL of a local .mlmodel
      */
-    func modelGET() -> URL? { // make a button for this and recognize all saved models in DEPLOY mode
+    func modelGET(modelName: String) -> URL? { // make a button for this and recognize all saved models in DEPLOY mode
         var modelURL: URL?
         // FIXME: use a semaphore to block until model is received
-        getMLModel("http://latte.csua.berkeley.edu:5000/get-model/", parameters: ["model_name": "simple CNN"]) { fileURL, error in
+        let semaphore = DispatchSemaphore(value: 0)
+        getMLModel("http://latte.csua.berkeley.edu:5000/get-model", parameters: ["model_name": modelName]) { fileURL, error in
             if fileURL == nil || error != nil {
                 print(error ?? "something went wrong")
+                semaphore.signal()
                 return
             }
             
             modelURL = fileURL
+            semaphore.signal()
         }
+        
+        _ = semaphore.wait(timeout: DispatchTime.now() + Double(Int64(UInt64(10) * NSEC_PER_SEC)) / Double(NSEC_PER_SEC))
         
         return modelURL
     }
@@ -458,9 +462,11 @@ class GraphBuilderViewController: UIViewController {
             URLQueryItem(name: key, value: value)
         }
         components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
-        let request = URLRequest(url: components.url!)
+        var request = URLRequest(url: components.url!)
+        request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            print(response as Any)
             guard let data = data,                            // is there data
                 let response = response as? HTTPURLResponse,  // is there HTTP response
                 (200 ..< 300) ~= response.statusCode,         // is statusCode 2XX
@@ -473,6 +479,7 @@ class GraphBuilderViewController: UIViewController {
             do {
                 fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("test.mlmodel")
             } catch {
+                print("LOL this shit fucked.")
                 completion(nil, nil)
                 return
             }
@@ -480,6 +487,7 @@ class GraphBuilderViewController: UIViewController {
             do {
                 try data.write(to: fileURL, options: Data.WritingOptions.atomic)
             } catch {
+                print("Write failed.")
                 completion(nil, nil)
                 return
             }
