@@ -11,6 +11,8 @@ import UIKit
 class MainViewController: UITabBarController {
     let graphBuilderVC = GraphBuilderViewController()
     let layerVC = ViewController()
+    let modelsVC = ModelsViewController()
+    let lessonsVC = LessonsViewController()
     var userModel: GraphModel!
     
     init() {
@@ -33,7 +35,9 @@ class MainViewController: UITabBarController {
         // Do any additional setup after loading the view.
         graphBuilderVC.tabBarItem = UITabBarItem(title: "Graph", image: #imageLiteral(resourceName: "graph-icon"), selectedImage: #imageLiteral(resourceName: "graph-icon"))
         layerVC.tabBarItem = UITabBarItem(title: "Layers", image: #imageLiteral(resourceName: "layer-bar-icon"), selectedImage: #imageLiteral(resourceName: "layer-bar-icon"))
-        viewControllers = [graphBuilderVC, layerVC]
+        modelsVC.tabBarItem = UITabBarItem(title: "Your Models", image: #imageLiteral(resourceName: "layer-bar-icon"), selectedImage: #imageLiteral(resourceName: "layer-bar-icon"))
+        lessonsVC.tabBarItem = UITabBarItem(title: "Lessons", image: #imageLiteral(resourceName: "layer-bar-icon"), selectedImage: #imageLiteral(resourceName: "layer-bar-icon"))
+        viewControllers = [graphBuilderVC, layerVC, modelsVC, lessonsVC]
         
     }
     

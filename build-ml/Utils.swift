@@ -9,6 +9,18 @@
 import UIKit
 
 class Utils: NSObject {
+    
+    static func listDocumentsDirectory() -> [URL] {
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let fileURLs = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            return fileURLs
+        } catch {
+            print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
+            return []
+        }
+    }
 
     static func clipToBounds(view: UIView, frame: CGRect) {
         // Right

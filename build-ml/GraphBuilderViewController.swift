@@ -87,7 +87,7 @@ class GraphBuilderViewController: UIViewController {
         let messageDictionary = [
             "model": [
                 "info": "Mnist CNN model from keras-team examples",
-                "model_name": "bigDickCNN",
+                "model_name": "bigDickCNN-69",
                 "num_layers": 8,
                 "optimizer": "Adadelta",
                 "input_layer": [
@@ -144,7 +144,21 @@ class GraphBuilderViewController: UIViewController {
             ]
             ] as [String : Any]
         jsonPOST(modelDictionary: messageDictionary)
-        // print(modelGET())
+        let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                print("default")
+                
+            case .cancel:
+                print("cancel")
+                
+            case .destructive:
+                print("destructive")
+                
+                
+            }}))
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
