@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		193623AC21AC53F00072FF03 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193623A821AC53EF0072FF03 /* LessonsViewController.swift */; };
+		193623AD21AC53F00072FF03 /* ModelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193623AB21AC53EF0072FF03 /* ModelsViewController.swift */; };
 		2D39958CEE53829D6E66A0F8 /* Pods_build_ml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 966F2038B486190B65017186 /* Pods_build_ml.framework */; };
 		7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */; };
 		7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EC20E337EB005323E0 /* MainViewController.swift */; };
@@ -51,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		193623A821AC53EF0072FF03 /* LessonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonsViewController.swift; sourceTree = "<group>"; };
+		193623AB21AC53EF0072FF03 /* ModelsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelsViewController.swift; sourceTree = "<group>"; };
 		7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderViewController.swift; sourceTree = "<group>"; };
 		7B0835EC20E337EB005323E0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7B0835EE20E49B04005323E0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 		7BCA3E2220E181BF00651337 /* build-ml */ = {
 			isa = PBXGroup;
 			children = (
+				193623A821AC53EF0072FF03 /* LessonsViewController.swift */,
+				193623AB21AC53EF0072FF03 /* ModelsViewController.swift */,
 				19E993FD21A3EF7800D01E19 /* MLModels */,
 				BC128244216C2B2100856619 /* LayerTableViewCell.swift */,
 				7B15004F20F95E3F00E70861 /* AlertControllers */,
@@ -327,7 +333,9 @@
 			files = (
 				BCB1DA7F21813E0D00363F3B /* MNIST.mlmodel in Sources */,
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
+				193623AD21AC53F00072FF03 /* ModelsViewController.swift in Sources */,
 				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
+				193623AC21AC53F00072FF03 /* LessonsViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
 				7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */,
