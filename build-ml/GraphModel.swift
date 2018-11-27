@@ -118,7 +118,7 @@ class GraphModel {
         
         // loop through model layer list, generate corresponding layers + params
         // give automated name etc.?
-        
+        var base = ["model": [:]]
         var jsonSkeleton = [
             "model": [
                 "info": "",
@@ -207,6 +207,9 @@ class ShapeTup: CustomStringConvertible, Equatable {
     var d0: Int
     var d1: Int
     var d2: Int
+    var size: Int {
+        return (d0 != 0 ? d0 : 1)*(d1 != 0 ? d1 : 1)*(d2 != 0 ? d2 : 1)
+    }
     var description: String {
         return "(\(d0), \(d1), \(d2))"
     }
@@ -283,6 +286,7 @@ class SPConv2DLayer: ModelLayer {
     var kernelSize: (Int, Int)
     var stride: (Int, Int)
     var filters: Int
+    var activation: String = "relu"
     var padding: (Int, Int)
     var nextLayer: ModelLayer?
     var outputShape: ShapeTup {
@@ -360,9 +364,10 @@ class SPConv2DLayer: ModelLayer {
     func getParams()  -> [String : Any] {
         return ["name": SPConv2DLayer.name + "Lyr",
                 "dim": String(inputShape.d0),
-                "kernel": "(\(kernelSize.0), \(kernelSize.1))",
+                "kernel_size": "(\(kernelSize.0), \(kernelSize.1))",
                 "stride": "(\(stride.0), \(stride.1))",
-                "padding": "(\(padding.0), \(padding.1))"]
+//                "padding": "(\(padding.0), \(padding.1))",
+            "activation": "\(activation)"]
     }
 }
 
@@ -376,24 +381,30 @@ class SPMaxPooling2DLayer: ModelLayer {
         return ShapeTup(outH, outW, ch)
     }
     var poolSize: (Int, Int)
+    var stride: (Int, Int)
     var nextLayer: ModelLayer?
     static var imgName: String = "conv2dLayer"
     static var name: String = "MaxPooling2D"
-    static var description: String = "" // FIXME: layer description
+    static var description: String = "Filters regions by returning the largest element in each region" // FIXME: layer description
     
     init() { // default
         inputShape = ShapeTup(8, 0, 8)
         poolSize = (2, 2)
+        stride = (1, 1)
     }
     
     func updateParams(params: [String : Int]) {
+        if let p0 = params["pool0"] {
+            poolSize.0 = p0
+        }
+        if let p1 = params["pool1"] {
+            poolSize.1 = p1
+        }
         if let s0 = params["s0"] {
-            let (_, s1) = poolSize
-            poolSize = (s0, s1)
+            stride.0 = s0
         }
         if let s1 = params["s1"] {
-            let (s0, _) = poolSize
-            poolSize = (s0, s1)
+            stride.1 = s1
         }
         updateChildren()
     }
@@ -404,13 +415,13 @@ class SPMaxPooling2DLayer: ModelLayer {
     }
     
     func validLayer() -> Bool {
-        return inputShape.d0 > 0 && inputShape.d1 > 0 && inputShape.d2 > 0 && poolSize.0 > 0 && poolSize.1 > 0
+        return inputShape.d0 > 0 && inputShape.d1 > 0 && inputShape.d2 > 0 && poolSize.0 > 0 && poolSize.1 > 0 && stride.0 > 1 && stride.1 > 0
     }
     
     func getParams() -> [String : Any] {
         return ["name": SPMaxPooling2DLayer.name + "Lyr",
-                "dim": String(inputShape.d0),
-                "pool_size": "(\(poolSize.0), \(poolSize.1))"]
+                "pool_size": "(\(poolSize.0), \(poolSize.1))",
+                "stride:": "(\(stride.0), \(stride.1))"]
     }
 }
 
@@ -430,7 +441,7 @@ class SPDropoutLayer: ModelLayer {
     
     static var imgName: String = "dropoutlayer" // FIXME: dropout graphic?
     static var name: String = "Dropout"
-    static var description: String = "" // FIXME: layer description
+    static var description: String = "Reduces overfitting by dropping some values to 0 during training" // FIXME: layer description
     
     func updateParams(params: [String : Int]) {
         if let r = params["rate"] {
@@ -455,8 +466,7 @@ class SPDropoutLayer: ModelLayer {
 class SPFlattenLayer: ModelLayer {
     var inputShape: ShapeTup
     var outputShape: ShapeTup {
-        let (h, w, ch) = (inputShape.d0, inputShape.d1, inputShape.d2)
-        return ShapeTup(0, 0, (h != 0 ? h : 1)*(w != 0 ? w : 1)*(ch != 0 ? ch : 1))
+        return ShapeTup(0,0,inputShape.size)
     }
     var nextLayer: ModelLayer?
     static var imgName: String = "flattenlayer"
@@ -485,12 +495,59 @@ class SPFlattenLayer: ModelLayer {
     }
 }
 
+class SPReshapeLayer: ModelLayer {
+    var inputShape: ShapeTup
+    var outputShape: ShapeTup {
+        return dim
+    }
+    // This is the parameter they control
+    var dim: ShapeTup
+    var nextLayer: ModelLayer?
+    static var imgName: String = "reshapelayer"
+    static var name: String = "Reshape"
+    static var description: String = "Reshapes the previous layer's output into a new shape"
+    
+    init() {
+        inputShape = ShapeTup(8, 0, 8)
+        dim = ShapeTup(0, 0, 64)
+    }
+    
+    func updateParams(params: [String : Int]) {
+        if let d0 = params["d0"] {
+            dim.d0 = d0
+        }
+        if let d1 = params["d1"] {
+            dim.d1 = d1
+        }
+        if let d2 = params["d2"] {
+            dim.d2 = d2
+        }
+        updateChildren()
+    }
+    
+    func updateChildren() {
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
+    }
+    
+    func validLayer() -> Bool {
+        return dim.d0 != 0 && inputShape.size == outputShape.size
+    }
+    
+    func getParams() -> [String : Any] {
+        return ["name": SPFlattenLayer.name + "Lyr",
+                "dim": dim.description
+        ]
+    }
+}
+
 class SPDenseLayer: ModelLayer {
     static let imgName: String = "denselayer"
     static let name: String = "Dense"
     static let description: String = "Simplest deep transform"
     var inputShape: ShapeTup
     var weightShape: (Int, Int)
+    var activation: String
     var nextLayer: ModelLayer?
     
     // I don't know how to throw good iOS errors :/
@@ -502,6 +559,7 @@ class SPDenseLayer: ModelLayer {
     init() {
         inputShape = ShapeTup(0, 0, 69)
         weightShape = (69, 128)
+        activation = "relu"
     }
     
     func updateChildren() {
@@ -527,10 +585,6 @@ class SPDenseLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return getParams(output: false)
-    }
-    
-    func getParams(output: Bool)  -> [String : Any] {
-        return ["layer": SPDenseLayer.name + "Lyr", "units" : outputShape.d2, "activation" : output ? "softmax" : "relu"]
+        return ["layer": SPDenseLayer.name + "Lyr", "units" : outputShape.d2, "activation" : "\(activation)"]
     }
 }
