@@ -201,6 +201,12 @@ protocol ModelLayer {
     func getParams() -> [String : Any]
 }
 
+extension ModelLayer {
+    func getName() -> String { return Self.name }
+    func getDescription() -> String { return Self.description }
+    func getIconName() -> String { return Self.imgName }
+}
+
 // InputShapes are always 3-tuples
 //
 class ShapeTup: CustomStringConvertible, Equatable {
@@ -377,9 +383,9 @@ class SPMaxPooling2DLayer: ModelLayer {
     }
     var poolSize: (Int, Int)
     var nextLayer: ModelLayer?
-    static var imgName: String = "conv2dLayer"
+    static var imgName: String = "conv2dlayer"
     static var name: String = "MaxPooling2D"
-    static var description: String = "" // FIXME: layer description
+    static var description: String = "Downsamples the image"
     
     init() { // default
         inputShape = ShapeTup(8, 0, 8)
@@ -430,7 +436,7 @@ class SPDropoutLayer: ModelLayer {
     
     static var imgName: String = "denselayer" // FIXME: dropout graphic?
     static var name: String = "Dropout"
-    static var description: String = "" // FIXME: layer description
+    static var description: String = "Helps prevent overfitting"
     
     func updateParams(params: [String : Int]) {
         if let r = params["rate"] {
@@ -461,7 +467,7 @@ class SPFlattenLayer: ModelLayer {
     var nextLayer: ModelLayer?
     static var imgName: String = "denselayer"
     static var name: String = "Flatten"
-    static var description: String = "Flattens the previous layer's output into a vector"
+    static var description: String = "Flattens the previous layer's output"
     
     init() {
         inputShape = ShapeTup(8, 0, 8)

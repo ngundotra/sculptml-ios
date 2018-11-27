@@ -11,10 +11,10 @@ import UIKit
 // Really the LayerTableVC
 class ViewController: UITableViewController {
     // Example layers to fill out the table
-    var layerNames = ["Input", "Dense", "Conv2D"]
-    var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations"]
-    var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
-    var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}]
+    var layerNames: [String] = []
+    var layersInfo: [String] = []
+    var layerPhotos: [String] = []
+    var layerClasses: [ModelLayer] = [SPInputLayer(), SPDenseLayer(), SPConv2DLayer(), SPMaxPooling2DLayer(), SPFlattenLayer(), SPDropoutLayer()]
     var layerHeight = [false, true, false]
     
     let cellID = "layerCell"
@@ -27,6 +27,12 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = UIColor.white
+        
+        for layer in layerClasses {
+            layerNames.append(layer.getName())
+            layersInfo.append(layer.getDescription())
+            layerPhotos.append(layer.getIconName())
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -51,7 +57,7 @@ class ViewController: UITableViewController {
         let tabVC: MainViewController = self.tabBarController as! MainViewController
         
         // Add the layer to the model
-        let actualLayer = layerClasses[indexPath.row]()
+        let actualLayer = layerClasses[indexPath.row]
         tabVC.userModel.queueLayer(actualLayer: actualLayer)
         
         // Need some animation here!!
