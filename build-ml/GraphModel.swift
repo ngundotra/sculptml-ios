@@ -193,6 +193,7 @@ protocol ModelLayer {
     var nextLayer: ModelLayer? { get set }
     static var imgName: String { get }
     static var name: String { get }
+    static var description: String { get }
     
     func updateParams(params: [String : Int]) -> Void
     func updateChildren() -> Void
@@ -232,6 +233,7 @@ class ShapeTup: CustomStringConvertible, Equatable {
 class SPInputLayer: ModelLayer {
     static let imgName: String = "inputlayer"
     static let name: String = "Input"
+    static let description: String = "Specifies input to models"
     var nextLayer: ModelLayer?
     var inputShape: ShapeTup
     var outputShape: ShapeTup {
@@ -276,6 +278,7 @@ class SPInputLayer: ModelLayer {
 class SPConv2DLayer: ModelLayer {
     static let imgName: String = "conv2dlayer"
     static let name: String = "Conv2D"
+    static let description: String = "Transform that learns spatial relations"
     var inputShape: ShapeTup
     var kernelSize: (Int, Int)
     var stride: (Int, Int)
@@ -357,9 +360,9 @@ class SPConv2DLayer: ModelLayer {
     func getParams()  -> [String : Any] {
         return ["name": SPConv2DLayer.name + "Lyr",
                 "dim": String(inputShape.d0),
-                "kernel": String(kernelSize.0) + ", " + String(kernelSize.1),
-                "stride": String(stride.0) + ", " + String(stride.1),
-                "padding": String(padding.0) + ", " + String(padding.1)]
+                "kernel": "(\(kernelSize.0), \(kernelSize.1))",
+                "stride": "(\(stride.0), \(stride.1))",
+                "padding": "(\(padding.0), \(padding.1))"]
     }
 }
 
@@ -374,8 +377,9 @@ class SPMaxPooling2DLayer: ModelLayer {
     }
     var poolSize: (Int, Int)
     var nextLayer: ModelLayer?
-    static var imgName: String = "conv2dLayer" // FIXME: max pool graphic?
+    static var imgName: String = "conv2dLayer"
     static var name: String = "MaxPooling2D"
+    static var description: String = "" // FIXME: layer description
     
     init() { // default
         inputShape = ShapeTup(8, 0, 8)
@@ -406,7 +410,7 @@ class SPMaxPooling2DLayer: ModelLayer {
     func getParams() -> [String : Any] {
         return ["name": SPMaxPooling2DLayer.name + "Lyr",
                 "dim": String(inputShape.d0),
-                "pool_size": String(poolSize.0) + ", " + String(poolSize.1)]
+                "pool_size": "(\(poolSize.0), \(poolSize.1))"]
     }
 }
 
@@ -426,6 +430,7 @@ class SPDropoutLayer: ModelLayer {
     
     static var imgName: String = "denselayer" // FIXME: dropout graphic?
     static var name: String = "Dropout"
+    static var description: String = "" // FIXME: layer description
     
     func updateParams(params: [String : Int]) {
         if let r = params["rate"] {
@@ -456,6 +461,7 @@ class SPFlattenLayer: ModelLayer {
     var nextLayer: ModelLayer?
     static var imgName: String = "denselayer"
     static var name: String = "Flatten"
+    static var description: String = "Flattens the previous layer's output into a vector"
     
     init() {
         inputShape = ShapeTup(8, 0, 8)
@@ -482,6 +488,7 @@ class SPFlattenLayer: ModelLayer {
 class SPDenseLayer: ModelLayer {
     static let imgName: String = "denselayer"
     static let name: String = "Dense"
+    static let description: String = "Simplest deep transform"
     var inputShape: ShapeTup
     var weightShape: (Int, Int)
     var nextLayer: ModelLayer?
