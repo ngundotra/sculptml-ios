@@ -12,8 +12,7 @@ import UIKit
 class ViewController: UITableViewController {
     // Example layers to fill out the table
     var layerNames = ["Input", "Dense", "Conv2D"]
-    var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations",
-                      "Transform that learns sequential relations", "Replicates data to make image 2x larger"]
+    var layersInfo = ["Specifies input to models", "Simplest deep transform", "Transform that learns spatial relations"]
     var layerPhotos = ["inputlayer", "denselayer", "conv2dlayer"]
     var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}]
     var layerHeight = [false, true, false]

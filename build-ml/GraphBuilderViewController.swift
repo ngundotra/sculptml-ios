@@ -78,7 +78,7 @@ class GraphBuilderViewController: UIViewController {
         }
     }
     
-    @objc func buttonClicked(_ : UIButton) {
+    @objc func buttonClicked(_ : UIButton) { // make button hidden/greyed out if model isn't valid
         print("Clicked")
         let tabVC = tabBarController! as! MainViewController
         for layer in tabVC.userModel.layers {
@@ -143,7 +143,7 @@ class GraphBuilderViewController: UIViewController {
                 "loss" : "mse"
             ]
             ] as [String : Any]
-        jsonPOST(modelDictionary: messageDictionary)
+        jsonPOST(modelDictionary: messageDictionary) // FIXME: jsonPOST(modelDictionary: tabVC.userModel.toJSON())
         let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             switch action.style{
