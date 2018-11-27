@@ -424,7 +424,7 @@ class SPDropoutLayer: ModelLayer {
         rate = 0.25
     }
     
-    static var imgName: String = "denselayer" // FIXME: dropout graphic?
+    static var imgName: String = "dropoutlayer" // FIXME: dropout graphic?
     static var name: String = "Dropout"
     
     func updateParams(params: [String : Int]) {
@@ -454,7 +454,7 @@ class SPFlattenLayer: ModelLayer {
         return ShapeTup(0, 0, (h != 0 ? h : 1)*(w != 0 ? w : 1)*(ch != 0 ? ch : 1))
     }
     var nextLayer: ModelLayer?
-    static var imgName: String = "denselayer"
+    static var imgName: String = "flattenlayer"
     static var name: String = "Flatten"
     
     init() {
