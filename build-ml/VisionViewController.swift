@@ -90,7 +90,7 @@ class VisionViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         previewLayer = AVCaptureVideoPreviewLayer(session: session)
         previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         // lol wat
-        print(previewView)
+        // print(previewView)
         rootLayer = previewView.layer
         previewLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(previewLayer)

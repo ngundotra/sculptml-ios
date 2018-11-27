@@ -110,6 +110,77 @@ class GraphModel {
         
         return true
     }
+    
+    func toJSON() -> [String : Any] {
+        if !self.isValid() {
+            return [:]
+        }
+        
+        // loop through model layer list, generate corresponding layers + params
+        // give automated name etc.?
+        
+        var jsonSkeleton = [
+            "model": [
+                "info": "",
+                "model_name": "",
+                "num_layers": 1,
+                "optimizer": "Adadelta",
+                "input_layer": [
+                    "dim": ""
+                ],
+                "layer_0": [
+                    "layer": "Conv2DLyr",
+                    "filters": 32,
+                    "kernel_size": "(3,3)",
+                    "activation": "relu",
+                    "input_shape": "(28,28,1)"
+                ],
+                "layer_1": [
+                    "layer": "Conv2DLyr",
+                    "filters": 64,
+                    "kernel_size": "(3,3)",
+                    "activation": "relu"
+                ],
+                "layer_2": [
+                    "layer": "MaxPooling2DLyr",
+                    "pool_size" : "(2,2)"
+                ],
+                "layer_3": [
+                    "layer": "DropoutLyr",
+                    "rate": 0.25
+                ],
+                "layer_4": [
+                    "layer":"FlattenLyr"
+                ],
+                "layer_5": [
+                    "layer": "DenseLyr",
+                    "units": 128,
+                    "activation": "relu"
+                ],
+                "layer_6": [
+                    "layer": "DropoutLyr",
+                    "rate": 0.5
+                ],
+                "layer_7": [
+                    "layer": "DenseLyr",
+                    "units": 10,
+                    "activation":"softmax"
+                ]
+            ],
+            "dataset":[
+                "name" : "MNIST",
+                "batch_size" : 32,
+                "img_rows" : 28,
+                "img_cols" : 28,
+                "num_classes" : 10,
+                "epochs" : 12,
+                "metrics" : ["accuracy"],
+                "loss" : "mse"
+            ]
+            ] as [String : Any]
+        
+        return [:] // FIXME
+    }
 }
 
 // MARK: - ModelLayer Protocol
@@ -198,7 +269,7 @@ class SPInputLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return ["layer": SPInputLayer.name, "dim": String(inputShape.d0)]
+        return ["dim" : String(inputShape.d0)]
     }
 }
 
@@ -216,13 +287,13 @@ class SPConv2DLayer: ModelLayer {
         let (pH, pW) = padding
         let (kH, kW) = kernelSize
         let (sH, sW) = stride
-        let outH = dimCalc(h, pH, kH, sH)
-        let outW = dimCalc(w, pW, kW, sW)
+        let outH = SPConv2DLayer.dimCalc(h, pH, kH, sH)
+        let outW = SPConv2DLayer.dimCalc(w, pW, kW, sW)
         return ShapeTup(outH, outW, filters)
     }
     
     // Calculates ouput spatial dimension of conv2d layer
-    func dimCalc(_ h: Int, _ p: Int, _ k: Int, _ s: Int) -> Int {
+    static func dimCalc(_ h: Int, _ p: Int, _ k: Int, _ s: Int) -> Int {
         let inner: Double = (Double(h) + 2.0 * Double(p) - 1) / Double(s)
         let out = Int(floor(inner))
         return out
@@ -284,11 +355,127 @@ class SPConv2DLayer: ModelLayer {
     }
     
     func getParams()  -> [String : Any] {
-        return ["name": SPConv2DLayer.name,
+        return ["name": SPConv2DLayer.name + "Lyr",
                 "dim": String(inputShape.d0),
                 "kernel": String(kernelSize.0) + ", " + String(kernelSize.1),
                 "stride": String(stride.0) + ", " + String(stride.1),
                 "padding": String(padding.0) + ", " + String(padding.1)]
+    }
+}
+
+class SPMaxPooling2DLayer: ModelLayer {
+    var inputShape: ShapeTup
+    var outputShape: ShapeTup {
+        let (h, w, ch) = (inputShape.d0, inputShape.d1, inputShape.d2)
+        let (pH, pW) = poolSize
+        let outH = SPConv2DLayer.dimCalc(h, 0, pH, pH)
+        let outW = SPConv2DLayer.dimCalc(w, 0, pW, pW)
+        return ShapeTup(outH, outW, ch)
+    }
+    var poolSize: (Int, Int)
+    var nextLayer: ModelLayer?
+    static var imgName: String = "conv2dLayer" // FIXME: max pool graphic?
+    static var name: String = "MaxPooling2D"
+    
+    init() { // default
+        inputShape = ShapeTup(8, 0, 8)
+        poolSize = (2, 2)
+    }
+    
+    func updateParams(params: [String : Int]) {
+        if let s0 = params["s0"] {
+            let (_, s1) = poolSize
+            poolSize = (s0, s1)
+        }
+        if let s1 = params["s1"] {
+            let (s0, _) = poolSize
+            poolSize = (s0, s1)
+        }
+        updateChildren()
+    }
+    
+    func updateChildren() {
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
+    }
+    
+    func validLayer() -> Bool {
+        return inputShape.d0 > 0 && inputShape.d1 > 0 && inputShape.d2 > 0 && poolSize.0 > 0 && poolSize.1 > 0
+    }
+    
+    func getParams() -> [String : Any] {
+        return ["name": SPMaxPooling2DLayer.name + "Lyr",
+                "dim": String(inputShape.d0),
+                "pool_size": String(poolSize.0) + ", " + String(poolSize.1)]
+    }
+}
+
+class SPDropoutLayer: ModelLayer {
+    var inputShape: ShapeTup
+    var outputShape: ShapeTup {
+        return inputShape
+    }
+    
+    var nextLayer: ModelLayer?
+    var rate: Double
+    
+    init() { // default dropout
+        inputShape = ShapeTup(8, 0, 8)
+        rate = 0.25
+    }
+    
+    static var imgName: String = "denselayer" // FIXME: dropout graphic?
+    static var name: String = "Dropout"
+    
+    func updateParams(params: [String : Int]) {
+        if let r = params["rate"] {
+            rate = Double(r) / 100
+        }
+    }
+    
+    func updateChildren() {
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
+    }
+    
+    func validLayer() -> Bool {
+        return rate < 1.0 && rate > 0.0
+    }
+    
+    func getParams() -> [String : Any] {
+        return ["layer" : SPDropoutLayer.name + "Lyr", "rate" : rate]
+    }
+}
+
+class SPFlattenLayer: ModelLayer {
+    var inputShape: ShapeTup
+    var outputShape: ShapeTup {
+        let (h, w, ch) = (inputShape.d0, inputShape.d1, inputShape.d2)
+        return ShapeTup(0, 0, (h != 0 ? h : 1)*(w != 0 ? w : 1)*(ch != 0 ? ch : 1))
+    }
+    var nextLayer: ModelLayer?
+    static var imgName: String = "denselayer"
+    static var name: String = "Flatten"
+    
+    init() {
+        inputShape = ShapeTup(8, 0, 8)
+    }
+    
+    func updateParams(params: [String : Int]) {
+        return
+    }
+    
+    func updateChildren() {
+        nextLayer?.inputShape = outputShape
+        nextLayer?.updateChildren()
+    }
+    
+    func validLayer() -> Bool {
+        return true
+    }
+    
+    func getParams() -> [String : Any] {
+        return ["name": SPFlattenLayer.name + "Lyr"]
     }
 }
 
@@ -332,8 +519,11 @@ class SPDenseLayer: ModelLayer {
             outputShape.d0 == 0 && outputShape.d1 == 0 && outputShape.d2 > 0
     }
     
-    func getParams()  -> [String : Any] {
-        return ["layer": SPDenseLayer.name, "test" : String(weightShape.0) + " " + String(weightShape.1)]
+    func getParams() -> [String : Any] {
+        return getParams(output: false)
     }
     
+    func getParams(output: Bool)  -> [String : Any] {
+        return ["layer": SPDenseLayer.name + "Lyr", "units" : outputShape.d2, "activation" : output ? "softmax" : "relu"]
+    }
 }
