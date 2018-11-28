@@ -37,7 +37,7 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     override func viewWillAppear(_ animated: Bool) {
         if let modelLayer = modelLayer {
-            let (_, current) = modelLayer.weightShape
+            let current = modelLayer.units
             unitsPicker.selectRow(current - 1, inComponent: 0, animated: false)
         }
     }
@@ -46,7 +46,7 @@ class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBAction func saveTouch(_ sender: Any) {
         if let modelLayer = modelLayer {
             let units = unitsPicker.selectedRow(inComponent: 0)
-            let dict = ["w1": units + 1]
+            let dict = ["u": units + 1]
             modelLayer.updateParams(params: dict)
         }
         graphBuilder?.updateGraphValidity()

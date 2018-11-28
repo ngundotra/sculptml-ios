@@ -33,7 +33,7 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.center
         let messageText = NSMutableAttributedString(
-            string: "How would you like to create your profile picture?",
+            string: "How would you like to test your model?",
             attributes: [
                 NSAttributedStringKey.paragraphStyle: paragraphStyle,
                 NSAttributedStringKey.font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body),

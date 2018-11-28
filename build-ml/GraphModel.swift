@@ -552,19 +552,18 @@ class SPDenseLayer: ModelLayer {
     static let name: String = "Dense"
     static let description: String = "Simplest deep transform"
     var inputShape: ShapeTup
-    var weightShape: (Int, Int)
+    var units: Int
     var activation: String
     var nextLayer: ModelLayer?
     
     // I don't know how to throw good iOS errors :/
     var outputShape: ShapeTup {
-        let (_, w1) = weightShape
-        return ShapeTup(0, 0, w1)
+        return ShapeTup(0, 0, units)
     }
     
     init() {
         inputShape = ShapeTup(0, 0, 69)
-        weightShape = (69, 128)
+        units = 128
         activation = "relu"
     }
     
@@ -574,13 +573,8 @@ class SPDenseLayer: ModelLayer {
     }
     
     func updateParams(params: [String : Int]) {
-        if let w0 = params["w0"] {
-            let (_, w1) = weightShape
-            weightShape = (w0, w1)
-        }
-        if let w1 = params["w1"] {
-            let (w0, _) = weightShape
-            weightShape = (w0, w1)
+        if let u = params["u"] {
+            units = u
         }
         updateChildren()
     }

@@ -14,7 +14,7 @@ class ViewController: UITableViewController {
     var layerNames: [String] = []
     var layersInfo: [String] = []
     var layerPhotos: [String] = []
-    var layerClasses: [ModelLayer] = [SPInputLayer(), SPDenseLayer(), SPConv2DLayer(), SPMaxPooling2DLayer(), SPFlattenLayer(), SPDropoutLayer()]
+    var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}, {SPMaxPooling2DLayer()}, {SPFlattenLayer()}, {SPDropoutLayer()}]
     var layerHeight = [false, true, false]
     
     let cellID = "layerCell"
@@ -28,7 +28,8 @@ class ViewController: UITableViewController {
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = UIColor.white
         
-        for layer in layerClasses {
+        for lyrClass in layerClasses {
+            let layer = lyrClass()
             layerNames.append(layer.getName())
             layersInfo.append(layer.getDescription())
             layerPhotos.append(layer.getIconName())
@@ -57,7 +58,7 @@ class ViewController: UITableViewController {
         let tabVC: MainViewController = self.tabBarController as! MainViewController
         
         // Add the layer to the model
-        let actualLayer = layerClasses[indexPath.row]
+        let actualLayer = layerClasses[indexPath.row]()
         tabVC.userModel.queueLayer(actualLayer: actualLayer)
         
         // Need some animation here!!
