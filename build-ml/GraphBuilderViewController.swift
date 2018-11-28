@@ -342,37 +342,17 @@ class GraphBuilderViewController: UIViewController {
     
     // MARK: - Launching VCs for each layer button
     // Passes the underlying ModelLayer to the corresponding popup ViewController
-    @objc func touchInputLayer(button: LayerButton) {
+    // Trick was doing this so that it generalizes to each unique ModelLayerViewController
+    @objc func touchLayer(button: LayerButton) {
+        // Build name -> layer type for referencing
+
         let prevStyle = modalPresentationStyle
-        let vc = UIStoryboard(name: "InputAlert", bundle: nil).instantiateViewController(withIdentifier: "InputAlertVC") as! InputLayerAlertViewController
+        var vc = UIStoryboard(name: button.modelLayer.getName() + "Alert", bundle: nil).instantiateViewController(withIdentifier: button.modelLayer.getName() + "VC") as! ModelLayerViewControllerProtocol
         vc.graphBuilder = self
-        vc.modelLayer = (button.modelLayer as! SPInputLayer)
-        //        vc.setLayer(layer: )
+        vc.precastLayer = button.modelLayer
         modalPresentationStyle = .popover
-        present(vc, animated: true, completion: nil)
+        present(vc as! UIViewController, animated: true, completion: nil)
         modalPresentationStyle = prevStyle
-    }
-    
-    @objc func touchConv2DLayer(button: LayerButton) {
-        let prevStyle = modalPresentationStyle
-        let vc = UIStoryboard(name: "Conv2DAlert", bundle: nil).instantiateViewController(withIdentifier: "Conv2DAlertVC") as! Conv2DAlertViewController
-        vc.graphBuilder = self
-        vc.modelLayer = (button.modelLayer as! SPConv2DLayer)
-        modalPresentationStyle = .popover
-        present(vc, animated: true, completion: nil)
-        modalPresentationStyle = prevStyle
-    }
-    
-    @objc func touchDenseLayer(button: LayerButton) {
-        let prevStyle = modalPresentationStyle
-        let vc = UIStoryboard(name: "DenseAlert", bundle: nil).instantiateViewController(withIdentifier: "DenseLayerVC") as! DenseAlertViewController
-        vc.graphBuilder = self
-        vc.modelLayer = (button.modelLayer as! SPDenseLayer)
-        modalPresentationStyle = .popover
-        present(vc, animated: true, completion: nil)
-        modalPresentationStyle = prevStyle
-        //add to dictionary here
-        
     }
     
     // MARK: - Connect LayerView with the LayerModel
@@ -380,17 +360,7 @@ class GraphBuilderViewController: UIViewController {
     // Attaches the ModelLayer to the Layer upon creation, and attaches corresponding UIInteractions
     func instantiateLayerButton(layer: ModelLayer) -> LayerButton {
         let button = LayerButton(actualLayer: layer)
-        let layerName = type(of: layer).name
-        
-        if layerName.elementsEqual("Conv2D") {
-            button.addTarget(self, action: #selector(touchConv2DLayer(button:)), for: UIControlEvents.touchUpInside)
-        } else if layerName.elementsEqual("Input") {
-            button.addTarget(self, action: #selector(touchInputLayer(button:)), for: UIControlEvents.touchUpInside)
-        } else if layerName.elementsEqual("Dense") {
-            button.addTarget(self, action: #selector(touchDenseLayer(button:)), for: .touchUpInside)
-        } else {
-            fatalError("bad layer name given: \(layerName)")
-        }
+        button.addTarget(self, action: #selector(touchLayer(button:)), for: UIControlEvents.touchUpInside)
         return button
         
         //FULL SEND BUTTON

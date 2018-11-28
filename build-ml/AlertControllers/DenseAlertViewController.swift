@@ -8,14 +8,17 @@
 
 import UIKit
 
-class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class DenseAlertViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, ModelLayerViewControllerProtocol {
   
 
     @IBOutlet weak var encasingView: UIView!
     @IBOutlet weak var unitsPicker: UIPickerView!
     
     let unitsMax = 512
-    var modelLayer: SPDenseLayer?
+    var precastLayer: ModelLayer?
+    var modelLayer: SPDenseLayer? {
+        return precastLayer as? SPDenseLayer
+    }
     var graphBuilder: GraphBuilderViewController?
     
     override func viewDidLoad() {

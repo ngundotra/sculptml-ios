@@ -8,13 +8,16 @@
 
 import UIKit
 
-class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class InputLayerAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, ModelLayerViewControllerProtocol {
 
     @IBOutlet weak var encasingView: UIView!
     @IBOutlet weak var picker1: UIPickerView! // 0 indexed
     @IBOutlet weak var picker2: UIPickerView! // 0 indexed
     @IBOutlet weak var picker3: UIPickerView! // 1 indexed
-    var modelLayer: SPInputLayer?
+    var precastLayer: ModelLayer?
+    var modelLayer: SPInputLayer? {
+        return precastLayer as? SPInputLayer
+    }
     var graphBuilder: GraphBuilderViewController?
     // would ideally have ~2048, but just not easy right now
     let maxIn = 512

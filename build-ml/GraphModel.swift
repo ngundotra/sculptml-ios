@@ -11,6 +11,9 @@ import Foundation
 class GraphModel {
     
     // FIXME: - Add support for multi-headed models by not storing this as list, and storing all info in the `nextLayer` of each layer obj
+    
+    static let  LAYERS : [Any.Type] = [SPConv2DLayer.self, SPInputLayer.self, SPDenseLayer.self, SPMaxPooling2DLayer.self, SPDropoutLayer.self, SPFlattenLayer.self, SPReshapeLayer.self]
+
     var layers = [ModelLayer]()
     var toAdd = [ModelLayer]()
     var name: String!
@@ -588,3 +591,4 @@ class SPDenseLayer: ModelLayer {
         return ["layer": SPDenseLayer.name + "Lyr", "units" : outputShape.d2, "activation" : "\(activation)"]
     }
 }
+

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, ModelLayerViewControllerProtocol {
 
     @IBOutlet weak var encasingView: UIView!
     // Kernel
@@ -25,7 +25,10 @@ class Conv2DAlertViewController: UIViewController, UIPickerViewDataSource, UIPic
     @IBOutlet weak var pp1: UIPickerView! // 0 indexed
     @IBOutlet weak var pp2: UIPickerView! // 0 indexed
     let paddingMax = 128
-    var modelLayer: SPConv2DLayer?
+    var precastLayer: ModelLayer?
+    var modelLayer: SPConv2DLayer? {
+        return precastLayer as? SPConv2DLayer
+    }
     var graphBuilder: GraphBuilderViewController?
     
     override func viewDidLoad() {

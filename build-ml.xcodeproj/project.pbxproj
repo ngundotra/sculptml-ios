@@ -16,6 +16,7 @@
 		7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EE20E49B04005323E0 /* GraphModel.swift */; };
 		7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0835F020E4A028005323E0 /* Default-568h@2x.png */; };
 		7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */; };
+		7B49959021AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */; };
 		7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */; };
 		7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */; };
 		7B6DCEEB20F7F7ED00492042 /* DenseAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */; };
@@ -62,6 +63,7 @@
 		7B0835EE20E49B04005323E0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 		7B0835F020E4A028005323E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputLayerAlertViewController.swift; sourceTree = "<group>"; };
+		7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLayerViewControllerProtocol.swift; sourceTree = "<group>"; };
 		7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conv2DAlert.storyboard; sourceTree = "<group>"; };
 		7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conv2DAlertViewController.swift; sourceTree = "<group>"; };
 		7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DenseAlert.storyboard; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
+				7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */,
 				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
 				7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */,
 				7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */,
@@ -342,6 +345,7 @@
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				193623AF21AC547C0072FF03 /* DeployViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
+				7B49959021AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift in Sources */,
 				7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */,
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
@@ -498,14 +502,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5389KGZA68;
+				DEVELOPMENT_TEAM = G697A8LYBM;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-421";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-419";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -518,14 +522,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5389KGZA68;
+				DEVELOPMENT_TEAM = G697A8LYBM;
 				INFOPLIST_FILE = "build-ml/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-421";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ngundotra.build-ml-419";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
