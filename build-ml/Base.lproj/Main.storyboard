@@ -194,6 +194,50 @@
             </objects>
             <point key="canvasLocation" x="1222" y="952"/>
         </scene>
+        <!--Deploy View Controller-->
+        <scene sceneID="pDM-TF-1XK">
+            <objects>
+                <viewController id="bJd-w7-Db1" customClass="DeployViewController" customModule="build_ml" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IIq-zH-v9N">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="THY-vk-xgW">
+                                <rect key="frame" x="62" y="208" width="250" height="250"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Classification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V0y-ZL-RpX">
+                                <rect key="frame" x="136" y="556" width="102" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vzR-0n-D8b">
+                                <rect key="frame" x="96" y="466" width="183" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Select an image to classify"/>
+                                <connections>
+                                    <action selector="imageSelect:" destination="bJd-w7-Db1" eventType="touchUpInside" id="Ycl-eU-pRw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="r4a-Jg-kiA"/>
+                    </view>
+                    <connections>
+                        <outlet property="classification" destination="V0y-ZL-RpX" id="dvR-46-LUr"/>
+                        <outlet property="classifyButton" destination="vzR-0n-D8b" id="VPM-zl-QnD"/>
+                        <outlet property="imageView" destination="THY-vk-xgW" id="bjQ-Rd-JRn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GON-Uw-YHn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2248.8000000000002" y="1038.5307346326838"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="sqY-lh-wla"/>
