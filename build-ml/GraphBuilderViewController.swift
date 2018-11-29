@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class GraphBuilderViewController: UIViewController {
     let LAYER_OBJ_BUFFER = 37.5
@@ -56,6 +57,30 @@ class GraphBuilderViewController: UIViewController {
         view.addGestureRecognizer(swipeGesture!)
         // Make sure swiping gets higher priority
         panGraph?.require(toFail: swipeGesture!)
+        
+        /* let picker: UIPickerView
+        picker = UIPickerView(frame: CGRectMake(0, 200, view.frame.width, 300))
+        picker.backgroundColor = .whiteColor()
+        
+        picker.showsSelectionIndicator = true
+        picker.delegate = self
+        picker.dataSource = self
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.Default
+        toolBar.translucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "donePicker")
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "donePicker")
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.userInteractionEnabled = true
+        
+        textField1.inputView = picker
+        textField1.inputAccessoryView = toolBar */
     }
     
     func createSend2ServerButton() {
@@ -81,8 +106,11 @@ class GraphBuilderViewController: UIViewController {
     @objc func send2ServerClicked(_ : UIButton) {
         // make button hidden/greyed out if model isn't valid
         print("Clicked")
+        SwiftSpinner.show("Uploading your model...")
         let tabVC = tabBarController! as! MainViewController
         if jsonPOST(modelDictionary: tabVC.userModel.toJSON()) {
+            print("Signed in.")
+            SwiftSpinner.hide()
             let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 switch action.style{
@@ -95,6 +123,7 @@ class GraphBuilderViewController: UIViewController {
                 }}))
             self.present(alert, animated: true, completion: nil)
         } else {
+            SwiftSpinner.hide()
             let alert = UIAlertController(title: "Oof.", message: "There was a problem uploading your model, try again?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                 switch action.style{

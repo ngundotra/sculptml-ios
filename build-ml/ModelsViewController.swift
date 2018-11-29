@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import CoreML
+import SwiftSpinner
 
 class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -29,7 +30,9 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let modelURLs = Utils.listAppSupportDirectory()
         for url in modelURLs {
             let subPaths = url.pathComponents
-            modelNames.append(subPaths.last!)
+            if url.pathExtension == "mlmodelc" {
+                modelNames.append(subPaths.last!)
+            }
         }
         
         let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
@@ -51,11 +54,14 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         // Configure Refresh Control
         refreshController.addTarget(self, action: #selector(refreshModelData(_:)), for: .valueChanged)
+        // refreshController.perform(#selector(UIRefreshControl.endRefreshing), with: nil, afterDelay: 0.00)
     }
     
     @objc private func refreshModelData(_ sender: Any) {
         // Fetch Model Data
+        SwiftSpinner.show("Uploading your model...")
         if let modelUrl = modelGET(modelName: "bigDickCNN") {
+            SwiftSpinner.hide()
             print("Model GET successful.")
             var compiledUrl: URL!
             do {
@@ -85,6 +91,7 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let subPaths = modelUrl.pathComponents
             modelNames.append(subPaths.last!)
         } else {
+            SwiftSpinner.hide()
             print("Model GET unsuccessful.")
         }
         
@@ -174,8 +181,39 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.cellForRow(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = NSTextAlignment.center
+        let messageText = NSMutableAttributedString(
+            string: "This model supports grayscale inputs, would you like to use a notepad or your camera?",
+            attributes: [
+                NSAttributedStringKey.paragraphStyle: paragraphStyle,
+                NSAttributedStringKey.font : UIFont.preferredFont(forTextStyle: UIFontTextStyle.body),
+                NSAttributedStringKey.foregroundColor : UIColor.black
+            ]
+        )
+        let webAlert = UIAlertController()
+        webAlert.setValue(messageText, forKey: "attributedMessage")
+        
+        let notepadAction = UIAlertAction(title: "Notepad", style: .default, handler: {(alert: UIAlertAction!) in
+            DispatchQueue.main.async {
+                (self.tabBarController as! MainViewController).performSegue(withIdentifier: "notepad", sender: cell)
+            }
+        })
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {(alert: UIAlertAction!) in
+            DispatchQueue.main.async {
+                (self.tabBarController as! MainViewController).performSegue(withIdentifier: "deploy", sender: cell)
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        webAlert.addAction(notepadAction)
+        webAlert.addAction(cameraAction)
+        webAlert.addAction(cancelAction)
+        
         DispatchQueue.main.async {
-            (self.tabBarController as! MainViewController).performSegue(withIdentifier: "deploy", sender: cell)
+            self.present(webAlert, animated: true, completion: nil)
         }
     }
     

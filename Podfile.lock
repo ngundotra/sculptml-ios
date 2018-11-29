@@ -1,16 +1,20 @@
 PODS:
   - SnapKit (4.0.0)
+  - SwiftSpinner (1.5.0)
 
 DEPENDENCIES:
   - SnapKit
+  - SwiftSpinner
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - SnapKit
+    - SwiftSpinner
 
 SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftSpinner: 4c058c7a1d6b444dd2e1d70988ead40783097133
 
-PODFILE CHECKSUM: 03444703e01ef5cda3bdcff1e09cba41c1aeac21
+PODFILE CHECKSUM: cf5da6fc424220ea0ecbcf6feb44aa1f49a4c954
 
 COCOAPODS: 1.5.3
