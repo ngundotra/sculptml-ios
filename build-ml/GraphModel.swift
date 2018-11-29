@@ -16,7 +16,7 @@ class GraphModel {
 
     var layers = [ModelLayer]()
     var toAdd = [ModelLayer]()
-    var name: String!
+    var name: String = "User Model"
     
     init(name: String) {
         self.name = name
@@ -124,9 +124,31 @@ class GraphModel {
         var modelSpec: [String: Any] = [
             "info": "Right now optimizer & dataset are hard-coded:",
             "model_name": name,
-            "num_layers": layers.count,
+            "num_layers": layers.count - 1,
             "optimizer": "Adadelta",
             ]
+        var count = 0
+        print("Entering the JSON gen loop for each layer")
+        print(layers)
+        for layer in layers {
+            if count == 0 {
+                modelSpec["input_layer"] = layer.getParams()
+                count += 1
+                continue
+            }
+            let layerid = "layer_\(count-1)"
+            var layerParams = layer.getParams()
+            
+            // MARK:- HARDCODED LOGIC FOR SOFTMAX
+            // Fixme: - make activations accessible
+            // HARDCODED LOGIC
+            if count == (layers.count - 1) {
+                layerParams["activation"] = "softmax"
+            }
+            modelSpec[layerid] = layerParams
+            count += 1
+        }
+        print("Exited the JSON gen loop")
         let totalJSON: [String: Any] = ["model": modelSpec,
                                         "dataset": [
                                             "name" : "MNIST",
@@ -136,24 +158,7 @@ class GraphModel {
                                             "loss" : "categorical_crossentropy"
             ]
         ]
-        
-        var count = 0
-        for layer in layers {
-            if count == 0 {
-                continue
-            }
-            let layerid = "layer_\(count)"
-            var layerParams = layer.getParams()
-            count += 1
-            
-            // MARK:- HARDCODED LOGIC FOR SOFTMAX
-            // Fixme: - make activations accessible
-            // HARDCODED LOGIC
-            if count == (layers.count - 1) {
-                layerParams["activation"] = "softmax"
-            }
-            modelSpec[layerid] = layerParams
-        }
+        print(totalJSON)
         return totalJSON
     }
 }
@@ -255,7 +260,7 @@ class SPInputLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return ["dim" : String(inputShape.d0)]
+        return ["dim" : inputShape.description]
     }
 }
 
@@ -344,7 +349,7 @@ class SPConv2DLayer: ModelLayer {
     }
     
     func getParams()  -> [String : Any] {
-        return ["name": SPConv2DLayer.name + "Lyr",
+        return ["layer": SPConv2DLayer.name + "Lyr",
                 "dim": String(inputShape.d0),
                 "kernel_size": "(\(kernelSize.0), \(kernelSize.1))",
                 "stride": "(\(stride.0), \(stride.1))",
@@ -400,7 +405,7 @@ class SPMaxPooling2DLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return ["name": SPMaxPooling2DLayer.name + "Lyr",
+        return ["layer": SPMaxPooling2DLayer.name + "Lyr",
                 "pool_size": "(\(poolSize.0), \(poolSize.1))",
                 "stride:": "(\(stride.0), \(stride.1))"]
     }
@@ -472,7 +477,7 @@ class SPFlattenLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return ["name": SPFlattenLayer.name + "Lyr"]
+        return ["layer": SPFlattenLayer.name + "Lyr"]
     }
 }
 
@@ -516,7 +521,7 @@ class SPReshapeLayer: ModelLayer {
     }
     
     func getParams() -> [String : Any] {
-        return ["name": SPFlattenLayer.name + "Lyr",
+        return ["layer": SPFlattenLayer.name + "Lyr",
                 "dim": dim.description
         ]
     }

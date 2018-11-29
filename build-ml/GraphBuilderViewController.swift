@@ -67,7 +67,7 @@ class GraphBuilderViewController: UIViewController {
         button.backgroundColor = UIColor.black
         button.titleLabel?.textColor = UIColor.white
         button.tintColor = UIColor.white
-        button.addTarget(self, action: #selector(buttonClicked(_ :)),
+        button.addTarget(self, action: #selector(send2ServerClicked(_:)),
             for: .touchUpInside)
         self.view.addSubview(button)
         button.snp.makeConstraints { (make) in
@@ -78,72 +78,10 @@ class GraphBuilderViewController: UIViewController {
         }
     }
     
-    @objc func buttonClicked(_ : UIButton) {
+    @objc func send2ServerClicked(_ : UIButton) {
         // make button hidden/greyed out if model isn't valid
         print("Clicked")
         let tabVC = tabBarController! as! MainViewController
-        for layer in tabVC.userModel.layers {
-            print(layer.getParams())
-        }
-//        let messageDictionary = [
-//            "model": [
-//                "info": "Mnist CNN model from keras-team examples",
-//                "model_name": "bigDickCNN-69",
-//                "num_layers": 8,
-//                "optimizer": "Adadelta",
-//                "input_layer": [
-//                    "dim": "(28,28,1)"
-//                ],
-//                "layer_0": [
-//                    "layer": "Conv2DLyr",
-//                    "filters": 32,
-//                    "kernel_size": "(3,3)",
-//                    "activation": "relu",
-//                    "input_shape": "(28,28,1)"
-//                ],
-//                "layer_1": [
-//                    "layer": "Conv2DLyr",
-//                    "filters": 64,
-//                    "kernel_size": "(3,3)",
-//                    "activation": "relu"
-//                ],
-//                "layer_2": [
-//                    "layer": "MaxPooling2DLyr",
-//                    "pool_size" : "(2,2)"
-//                ],
-//                "layer_3": [
-//                    "layer": "DropoutLyr",
-//                    "rate": 0.25
-//                ],
-//                "layer_4": [
-//                    "layer":"FlattenLyr"
-//                ],
-//                "layer_5": [
-//                    "layer": "DenseLyr",
-//                    "units": 128,
-//                    "activation": "relu"
-//                ],
-//                "layer_6": [
-//                    "layer": "DropoutLyr",
-//                    "rate": 0.5
-//                ],
-//                "layer_7": [
-//                    "layer": "DenseLyr",
-//                    "units": 10,
-//                    "activation":"softmax"
-//                ]
-//            ],
-//            "dataset":[
-//                "name" : "MNIST",
-//                "batch_size" : 32,
-//                "img_rows" : 28,
-//                "img_cols" : 28,
-//                "num_classes" : 10,
-//                "epochs" : 12,
-//                "metrics" : ["accuracy"],
-//                "loss" : "mse"
-//            ]
-//            ] as [String : Any]
         jsonPOST(modelDictionary: tabVC.userModel.toJSON())
         let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
