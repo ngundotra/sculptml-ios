@@ -120,69 +120,41 @@ class GraphModel {
         }
         
         // loop through model layer list, generate corresponding layers + params
-        // give automated name etc.?
-        var base = ["model": [:]]
-        var jsonSkeleton = [
-            "model": [
-                "info": "",
-                "model_name": "",
-                "num_layers": 1,
-                "optimizer": "Adadelta",
-                "input_layer": [
-                    "dim": ""
-                ],
-                "layer_0": [
-                    "layer": "Conv2DLyr",
-                    "filters": 32,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu",
-                    "input_shape": "(28,28,1)"
-                ],
-                "layer_1": [
-                    "layer": "Conv2DLyr",
-                    "filters": 64,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu"
-                ],
-                "layer_2": [
-                    "layer": "MaxPooling2DLyr",
-                    "pool_size" : "(2,2)"
-                ],
-                "layer_3": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.25
-                ],
-                "layer_4": [
-                    "layer":"FlattenLyr"
-                ],
-                "layer_5": [
-                    "layer": "DenseLyr",
-                    "units": 128,
-                    "activation": "relu"
-                ],
-                "layer_6": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.5
-                ],
-                "layer_7": [
-                    "layer": "DenseLyr",
-                    "units": 10,
-                    "activation":"softmax"
-                ]
-            ],
-            "dataset":[
-                "name" : "MNIST",
-                "batch_size" : 32,
-                "img_rows" : 28,
-                "img_cols" : 28,
-                "num_classes" : 10,
-                "epochs" : 12,
-                "metrics" : ["accuracy"],
-                "loss" : "mse"
+        //
+        var modelSpec: [String: Any] = [
+            "info": "Right now optimizer & dataset are hard-coded:",
+            "model_name": name,
+            "num_layers": layers.count,
+            "optimizer": "Adadelta",
             ]
-            ] as [String : Any]
+        let totalJSON: [String: Any] = ["model": modelSpec,
+                                        "dataset": [
+                                            "name" : "MNIST",
+                                            "batch_size" : 32,
+                                            "epochs" : 12,
+                                            "metrics" : ["accuracy"],
+                                            "loss" : "categorical_crossentropy"
+            ]
+        ]
         
-        return jsonSkeleton
+        var count = 0
+        for layer in layers {
+            if count == 0 {
+                continue
+            }
+            let layerid = "layer_\(count)"
+            var layerParams = layer.getParams()
+            count += 1
+            
+            // MARK:- HARDCODED LOGIC FOR SOFTMAX
+            // Fixme: - make activations accessible
+            // HARDCODED LOGIC
+            if count == (layers.count - 1) {
+                layerParams["activation"] = "softmax"
+            }
+            modelSpec[layerid] = layerParams
+        }
+        return totalJSON
     }
 }
 
