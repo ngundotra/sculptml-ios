@@ -8,13 +8,16 @@
 
 import UIKit
 import SnapKit
+import CoreML
 
 class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var datasetNames: [String] = ["MNIST"]
-    private var modelNames: [String] = []
-    private var modelURLs: [URL] = []
-    private var tableView: UITableView!
+    var datasetNames: [String] = ["MNIST"]
+    var modelNames: [String] = []
+    var modelURLs: [URL] = []
+    var tableView: UITableView!
+    var selectedModelName: String = ""
+    
     private let refreshController = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -23,7 +26,7 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // FIXME: if MNIST.mlmodel is not in docs, add it?
         // TODO: add modelGET button (make sure not to download duplicates)
         
-        let modelURLs = Utils.listDocumentsDirectory()
+        let modelURLs = Utils.listAppSupportDirectory()
         for url in modelURLs {
             let subPaths = url.pathComponents
             modelNames.append(subPaths.last!)
@@ -52,7 +55,43 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc private func refreshModelData(_ sender: Any) {
         // Fetch Model Data
-        modelGET(modelName: "model") // FIXME
+        if let modelUrl = modelGET(modelName: "bigDickCNN") {
+            print("Model GET successful.")
+            var compiledUrl: URL!
+            do {
+                compiledUrl = try MLModel.compileModel(at: modelUrl)
+            } catch {
+                print("Unable to compile model.")
+                return
+            }
+            
+            // find the app support directory
+            let fileManager = FileManager.default
+            let appSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory,
+                                                           in: .userDomainMask, appropriateFor: compiledUrl, create: true)
+            // create a permanent URL in the app support directory
+            let permanentUrl = appSupportDirectory.appendingPathComponent(compiledUrl.lastPathComponent)
+            do {
+                // if the file exists, replace it. Otherwise, copy the file to the destination.
+                if fileManager.fileExists(atPath: permanentUrl.absoluteString) {
+                    _ = try fileManager.replaceItemAt(permanentUrl, withItemAt: compiledUrl)
+                } else {
+                    try fileManager.copyItem(at: compiledUrl, to: permanentUrl)
+                }
+            } catch {
+                print("Error during copy: \(error.localizedDescription)")
+            }
+            
+            let subPaths = modelUrl.pathComponents
+            modelNames.append(subPaths.last!)
+        } else {
+            print("Model GET unsuccessful.")
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.refreshController.endRefreshing()
+        }
     }
     
     /**
@@ -104,7 +143,7 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             
             var fileURL: URL!
             do {
-                fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("test.mlmodel")
+                fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(parameters["model_name"] ?? "test").mlmodel")
             } catch {
                 print("LOL this shit fucked.")
                 completion(nil, nil)
@@ -129,7 +168,15 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Num: \(indexPath.row)")
         print("Value: \(modelNames[indexPath.row])")
-        // TODO: goto notepad or camera roll and select images to classify on
+        
+        selectedModelName = modelNames[indexPath.row]
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        DispatchQueue.main.async {
+            (self.tabBarController as! MainViewController).performSegue(withIdentifier: "deploy", sender: cell)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -142,15 +189,12 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
     }
-    */
-
 }

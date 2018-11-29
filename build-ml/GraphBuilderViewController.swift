@@ -380,7 +380,6 @@ class GraphBuilderViewController: UIViewController {
         return success
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -388,6 +387,4 @@ class GraphBuilderViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
-
 }

@@ -40,7 +40,6 @@
 		BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC128244216C2B2100856619 /* LayerTableViewCell.swift */; };
 		BC6D71C52180E70E00E3F817 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */; };
 		BC6D71C72181041200E3F817 /* VisionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6D71C62181041200E3F817 /* VisionViewController.swift */; };
-		BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC918D6A21741782004FACCE /* MenuViewController.swift */; };
 		BCB1DA7F21813E0D00363F3B /* MNIST.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -100,7 +99,6 @@
 		BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
 		BC6D71C62181041200E3F817 /* VisionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisionViewController.swift; sourceTree = "<group>"; };
 		BC6D71C82181045800E3F817 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
-		BC918D6A21741782004FACCE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = ../MenuViewController.swift; sourceTree = "<group>"; };
 		BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MNIST.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,7 +192,6 @@
 				BC6D71C42180E70E00E3F817 /* VisionObjectRecognitionViewController.swift */,
 				BC6D71C62181041200E3F817 /* VisionViewController.swift */,
 				7B7C84DA20E5CC5400DE3251 /* Utils.swift */,
-				BC918D6A21741782004FACCE /* MenuViewController.swift */,
 				7B0835EC20E337EB005323E0 /* MainViewController.swift */,
 				7BCA3E2520E181BF00651337 /* ViewController.swift */,
 				7B0835EE20E49B04005323E0 /* GraphModel.swift */,
@@ -376,7 +373,6 @@
 				7B7C84DD20E5DFC600DE3251 /* LayerButton.swift in Sources */,
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
-				BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */,
 				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
 				7B49959C21AF6DBB00F27E91 /* DropoutAlertViewController.swift in Sources */,

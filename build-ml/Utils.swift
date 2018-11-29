@@ -67,6 +67,21 @@ class Utils: NSObject {
             return []
         }
     }
+    
+    static func listAppSupportDirectory() -> [URL] {
+        let fileManager = FileManager.default
+        let supportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        do {
+            if !fileManager.fileExists(atPath: supportURL.absoluteString) {
+                try fileManager.createDirectory(at: supportURL, withIntermediateDirectories: true)
+            }
+            let fileURLs = try fileManager.contentsOfDirectory(at: supportURL, includingPropertiesForKeys: nil)
+            return fileURLs
+        } catch {
+            print("Error while enumerating files \(supportURL.path): \(error.localizedDescription)")
+            return []
+        }
+    }
 
     static func clipToBounds(view: UIView, frame: CGRect) {
         // Right

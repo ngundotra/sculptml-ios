@@ -21,15 +21,7 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     var model: MLModel!
-    var vnModel: VNCoreMLModel? {
-        do {
-            let _vn = try VNCoreMLModel(for: model)
-            return _vn
-        } catch _ {
-            print("Could not convert .mlmodel into vision model.")
-            return nil
-        }
-    }
+    var vnModel: VNCoreMLModel?
     var authorized: Bool = false
     
     let picker = UIImagePickerController()
@@ -45,6 +37,12 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
         
         authorized = Utils.checkCameraPermission()
         picker.delegate = self
+        
+        do {
+            vnModel = try VNCoreMLModel(for: model)
+        } catch _ {
+            print("Could not convert .mlmodel into vision model.")
+        }
         
         imageView.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
@@ -119,7 +117,7 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
             DispatchQueue.main.async {
                 print("VNClassificationObservation identifier: \(topClassification.identifier)")
                 print("Type of topClass: \(type(of: topClassification))")
-                self?.classification.text = topClassification.identifier // "\(classifications.first)"
+                self?.classification.text = "Classification: \(topClassification.identifier)" // "\(classifications.first)"
             }
         }
         
