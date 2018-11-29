@@ -7,5 +7,6 @@ target 'build-ml' do
 
   # Pods for build-ml
   pod 'SnapKit'
+  pod 'SwiftSpinner'
 
 end

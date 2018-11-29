@@ -10,7 +10,8 @@
 		193623AC21AC53F00072FF03 /* LessonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193623A821AC53EF0072FF03 /* LessonsViewController.swift */; };
 		193623AD21AC53F00072FF03 /* ModelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193623AB21AC53EF0072FF03 /* ModelsViewController.swift */; };
 		193623AF21AC547C0072FF03 /* DeployViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193623AE21AC547C0072FF03 /* DeployViewController.swift */; };
-		1986FD6121AFB20600DC15F1 /* test.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1986FD6021AFB20600DC15F1 /* test.mlmodel */; };
+		193A46B321B08DF300123393 /* NotepadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A46B221B08DF300123393 /* NotepadViewController.swift */; };
+		193A46B721B0938700123393 /* Pencil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A46B621B0938700123393 /* Pencil.swift */; };
 		2D39958CEE53829D6E66A0F8 /* Pods_build_ml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 966F2038B486190B65017186 /* Pods_build_ml.framework */; };
 		7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */; };
 		7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0835EC20E337EB005323E0 /* MainViewController.swift */; };
@@ -44,6 +45,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		193A46B021B08C8900123393 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BC6D71C82181045800E3F817 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E720B0ABD78C2C13A0B1BF232EA557E1;
+			remoteInfo = SwiftSpinner;
+		};
 		BC6D71D02181053400E3F817 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BC6D71C82181045800E3F817 /* Pods.xcodeproj */;
@@ -64,7 +72,8 @@
 		193623A821AC53EF0072FF03 /* LessonsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonsViewController.swift; sourceTree = "<group>"; };
 		193623AB21AC53EF0072FF03 /* ModelsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelsViewController.swift; sourceTree = "<group>"; };
 		193623AE21AC547C0072FF03 /* DeployViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeployViewController.swift; sourceTree = "<group>"; };
-		1986FD6021AFB20600DC15F1 /* test.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = test.mlmodel; sourceTree = "<group>"; };
+		193A46B221B08DF300123393 /* NotepadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotepadViewController.swift; sourceTree = "<group>"; };
+		193A46B621B0938700123393 /* Pencil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pencil.swift; sourceTree = "<group>"; };
 		7B0835E820E30A30005323E0 /* GraphBuilderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphBuilderViewController.swift; sourceTree = "<group>"; };
 		7B0835EC20E337EB005323E0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7B0835EE20E49B04005323E0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
@@ -117,7 +126,6 @@
 		19E993FD21A3EF7800D01E19 /* MLModels */ = {
 			isa = PBXGroup;
 			children = (
-				1986FD6021AFB20600DC15F1 /* test.mlmodel */,
 				BCB1DA7E21813E0C00363F3B /* MNIST.mlmodel */,
 			);
 			path = MLModels;
@@ -203,6 +211,8 @@
 				7BCA3E3220E181BF00651337 /* Info.plist */,
 				7BCA3E2A20E181BF00651337 /* build_ml.xcdatamodeld */,
 				193623AE21AC547C0072FF03 /* DeployViewController.swift */,
+				193A46B221B08DF300123393 /* NotepadViewController.swift */,
+				193A46B621B0938700123393 /* Pencil.swift */,
 			);
 			path = "build-ml";
 			sourceTree = "<group>";
@@ -212,6 +222,7 @@
 			children = (
 				BC6D71D12181053400E3F817 /* Pods_build_ml.framework */,
 				BC6D71D32181053400E3F817 /* SnapKit.framework */,
+				193A46B121B08C8900123393 /* SwiftSpinner.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,6 +289,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		193A46B121B08C8900123393 /* SwiftSpinner.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftSpinner.framework;
+			remoteRef = 193A46B021B08C8900123393 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BC6D71D12181053400E3F817 /* Pods_build_ml.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -341,10 +359,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-build-ml/Pods-build-ml-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSpinner/SwiftSpinner.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSpinner.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -360,9 +380,9 @@
 			files = (
 				BCB1DA7F21813E0D00363F3B /* MNIST.mlmodel in Sources */,
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
+				193A46B721B0938700123393 /* Pencil.swift in Sources */,
 				193623AD21AC53F00072FF03 /* ModelsViewController.swift in Sources */,
 				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
-				1986FD6121AFB20600DC15F1 /* test.mlmodel in Sources */,
 				7B49959821AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift in Sources */,
 				193623AC21AC53F00072FF03 /* LessonsViewController.swift in Sources */,
 				7B49959421AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift in Sources */,
@@ -374,6 +394,7 @@
 				7BCA3E2420E181BF00651337 /* AppDelegate.swift in Sources */,
 				7B0835E920E30A30005323E0 /* GraphBuilderViewController.swift in Sources */,
 				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
+				193A46B321B08DF300123393 /* NotepadViewController.swift in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
 				7B49959C21AF6DBB00F27E91 /* DropoutAlertViewController.swift in Sources */,
 				7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */,
