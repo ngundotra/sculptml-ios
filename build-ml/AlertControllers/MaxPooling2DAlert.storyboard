@@ -10,96 +10,70 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Conv2D Alert View Controller-->
+        <!--MaxPooling2D Alert View Controller-->
         <scene sceneID="T1q-ES-0nu">
             <objects>
-                <viewController storyboardIdentifier="Conv2DVC" modalPresentationStyle="overCurrentContext" id="AAw-Yu-Zjp" customClass="Conv2DAlertViewController" customModule="build_ml" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MaxPooling2DVC" modalPresentationStyle="overCurrentContext" id="AAw-Yu-Zjp" userLabel="MaxPooling2D Alert View Controller" customClass="MaxPooling2DAlertViewController" customModule="build_ml" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3vT-Lu-XhI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Akz-TW-sOD">
-                                <rect key="frame" x="39" y="215" width="297" height="237"/>
+                                <rect key="frame" x="39" y="215" width="297" height="177"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Kernel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zip-97-5cr">
-                                        <rect key="frame" x="31" y="29" width="49" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pool Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zip-97-5cr">
+                                        <rect key="frame" x="31" y="37" width="70" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SIp-YM-PeP">
-                                        <rect key="frame" x="0.0" y="58" width="52" height="52"/>
+                                        <rect key="frame" x="8" y="66" width="52" height="52"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pw4-ez-n6o">
-                                        <rect key="frame" x="67" y="58" width="55" height="52"/>
+                                        <rect key="frame" x="88" y="66" width="54" height="52"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="21l-cP-eeb">
-                                        <rect key="frame" x="0.0" y="154" width="52" height="52"/>
+                                        <rect key="frame" x="161" y="66" width="51" height="52"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oa4-yJ-3Uk">
-                                        <rect key="frame" x="67" y="154" width="55" height="52"/>
+                                        <rect key="frame" x="227" y="66" width="54" height="52"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
-                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rx1-7E-BcY">
-                                        <rect key="frame" x="164" y="154" width="52" height="52"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    </pickerView>
-                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ax-T0-iEQ">
-                                        <rect key="frame" x="231" y="154" width="55" height="52"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    </pickerView>
-                                    <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W4G-wO-Ms9">
-                                        <rect key="frame" x="202" y="58" width="55" height="52"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    </pickerView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Filters" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7VQ-ZF-z1j">
-                                        <rect key="frame" x="202" y="29" width="47" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Strides" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OqQ-kC-WbB">
-                                        <rect key="frame" x="31" y="125" width="54" height="21"/>
+                                        <rect key="frame" x="194" y="37" width="54" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Conv2D Layer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJs-lc-5KK">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="MaxPooling2D Layer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJs-lc-5KK">
                                         <rect key="frame" x="-12" y="0.0" width="320" height="29"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Padding" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rfQ-FE-PTo">
-                                        <rect key="frame" x="194" y="125" width="63" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ln-m9-wKY">
-                                        <rect key="frame" x="234" y="207" width="48" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Cancel"/>
-                                        <connections>
-                                            <action selector="cancelTouch:" destination="AAw-Yu-Zjp" eventType="touchUpInside" id="0In-Dg-mvP"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZ9-Uf-MoR">
-                                        <rect key="frame" x="131" y="207" width="34" height="30"/>
+                                        <rect key="frame" x="131" y="138" width="34" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Save"/>
                                         <connections>
                                             <action selector="saveTouch:" destination="AAw-Yu-Zjp" eventType="touchUpInside" id="EYa-g6-Bzt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ln-m9-wKY">
+                                        <rect key="frame" x="230" y="138" width="48" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="cancelTouch:" destination="AAw-Yu-Zjp" eventType="touchUpInside" id="0In-Dg-mvP"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -111,11 +85,8 @@
                     </view>
                     <connections>
                         <outlet property="encasingView" destination="Akz-TW-sOD" id="xUZ-MH-odo"/>
-                        <outlet property="filters" destination="W4G-wO-Ms9" id="Gni-hr-f4f"/>
                         <outlet property="kp1" destination="SIp-YM-PeP" id="4zN-eY-wQc"/>
                         <outlet property="kp2" destination="pw4-ez-n6o" id="lK2-z0-qqg"/>
-                        <outlet property="pp1" destination="rx1-7E-BcY" id="epP-FP-lqe"/>
-                        <outlet property="pp2" destination="2ax-T0-iEQ" id="5KV-BX-Nui"/>
                         <outlet property="sp1" destination="21l-cP-eeb" id="ZRE-PT-bj8"/>
                         <outlet property="sp2" destination="oa4-yJ-3Uk" id="NoI-4O-QDJ"/>
                     </connections>

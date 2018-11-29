@@ -26,7 +26,9 @@ class LayerButton: UIButton {
         print(buttonType)
         
         let layerImg = UIImage(named: type(of: modelLayer).imgName)
-        self.setTitle(type(of: modelLayer).name, for: .normal)
+        // This looks gross now, also the user should know the name of the layer
+        // from the icon, I assume this was for debugging
+//        self.setTitle(type(of: modelLayer).name, for: .normal)
         self.isHidden = false
         self.setBackgroundImage(layerImg, for: .normal)
         self.setBackgroundImage(layerImg, for: .disabled)

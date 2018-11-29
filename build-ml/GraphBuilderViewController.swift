@@ -37,8 +37,8 @@ class GraphBuilderViewController: UIViewController {
         // Title Label
         makeTitleLabel()
         
-        // Button
-        createButton()
+        // Create button 2 send JSON 2 server
+        createSend2ServerButton()
 
         // Debug Label
         makeDebugLabel()
@@ -58,7 +58,7 @@ class GraphBuilderViewController: UIViewController {
         panGraph?.require(toFail: swipeGesture!)
     }
     
-    func createButton() {
+    func createSend2ServerButton() {
         let button = UIButton.init(type: .system)
         button.frame = CGRect(x: 50.0, y: 150.0, width: 200.0, height: 52.0)
         button.setTitle("Full Send Model", for: .normal)
@@ -78,85 +78,82 @@ class GraphBuilderViewController: UIViewController {
         }
     }
     
-    @objc func buttonClicked(_ : UIButton) { // make button hidden/greyed out if model isn't valid
+    @objc func buttonClicked(_ : UIButton) {
+        // make button hidden/greyed out if model isn't valid
         print("Clicked")
         let tabVC = tabBarController! as! MainViewController
         for layer in tabVC.userModel.layers {
             print(layer.getParams())
         }
-        let messageDictionary = [
-            "model": [
-                "info": "Mnist CNN model from keras-team examples",
-                "model_name": "bigDickCNN-69",
-                "num_layers": 8,
-                "optimizer": "Adadelta",
-                "input_layer": [
-                    "dim": "(28,28,1)"
-                ],
-                "layer_0": [
-                    "layer": "Conv2DLyr",
-                    "filters": 32,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu",
-                    "input_shape": "(28,28,1)"
-                ],
-                "layer_1": [
-                    "layer": "Conv2DLyr",
-                    "filters": 64,
-                    "kernel_size": "(3,3)",
-                    "activation": "relu"
-                ],
-                "layer_2": [
-                    "layer": "MaxPooling2DLyr",
-                    "pool_size" : "(2,2)"
-                ],
-                "layer_3": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.25
-                ],
-                "layer_4": [
-                    "layer":"FlattenLyr"
-                ],
-                "layer_5": [
-                    "layer": "DenseLyr",
-                    "units": 128,
-                    "activation": "relu"
-                ],
-                "layer_6": [
-                    "layer": "DropoutLyr",
-                    "rate": 0.5
-                ],
-                "layer_7": [
-                    "layer": "DenseLyr",
-                    "units": 10,
-                    "activation":"softmax"
-                ]
-            ],
-            "dataset":[
-                "name" : "MNIST",
-                "batch_size" : 32,
-                "img_rows" : 28,
-                "img_cols" : 28,
-                "num_classes" : 10,
-                "epochs" : 12,
-                "metrics" : ["accuracy"],
-                "loss" : "mse"
-            ]
-            ] as [String : Any]
-        jsonPOST(modelDictionary: messageDictionary) // FIXME: jsonPOST(modelDictionary: tabVC.userModel.toJSON())
+//        let messageDictionary = [
+//            "model": [
+//                "info": "Mnist CNN model from keras-team examples",
+//                "model_name": "bigDickCNN-69",
+//                "num_layers": 8,
+//                "optimizer": "Adadelta",
+//                "input_layer": [
+//                    "dim": "(28,28,1)"
+//                ],
+//                "layer_0": [
+//                    "layer": "Conv2DLyr",
+//                    "filters": 32,
+//                    "kernel_size": "(3,3)",
+//                    "activation": "relu",
+//                    "input_shape": "(28,28,1)"
+//                ],
+//                "layer_1": [
+//                    "layer": "Conv2DLyr",
+//                    "filters": 64,
+//                    "kernel_size": "(3,3)",
+//                    "activation": "relu"
+//                ],
+//                "layer_2": [
+//                    "layer": "MaxPooling2DLyr",
+//                    "pool_size" : "(2,2)"
+//                ],
+//                "layer_3": [
+//                    "layer": "DropoutLyr",
+//                    "rate": 0.25
+//                ],
+//                "layer_4": [
+//                    "layer":"FlattenLyr"
+//                ],
+//                "layer_5": [
+//                    "layer": "DenseLyr",
+//                    "units": 128,
+//                    "activation": "relu"
+//                ],
+//                "layer_6": [
+//                    "layer": "DropoutLyr",
+//                    "rate": 0.5
+//                ],
+//                "layer_7": [
+//                    "layer": "DenseLyr",
+//                    "units": 10,
+//                    "activation":"softmax"
+//                ]
+//            ],
+//            "dataset":[
+//                "name" : "MNIST",
+//                "batch_size" : 32,
+//                "img_rows" : 28,
+//                "img_cols" : 28,
+//                "num_classes" : 10,
+//                "epochs" : 12,
+//                "metrics" : ["accuracy"],
+//                "loss" : "mse"
+//            ]
+//            ] as [String : Any]
+        jsonPOST(modelDictionary: tabVC.userModel.toJSON())
         let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             switch action.style{
             case .default:
                 print("default")
-                
             case .cancel:
                 print("cancel")
-                
             case .destructive:
                 print("destructive")
-                
-                
             }}))
         self.present(alert, animated: true, completion: nil)
     }
@@ -345,7 +342,11 @@ class GraphBuilderViewController: UIViewController {
     // Trick was doing this so that it generalizes to each unique ModelLayerViewController
     @objc func touchLayer(button: LayerButton) {
         // Build name -> layer type for referencing
-
+        
+        // LMAO Flatten layers have no view controllers--that would be weird
+        if type(of: button) === SPFlattenLayer.self {
+            return
+        }
         let prevStyle = modalPresentationStyle
         var vc = UIStoryboard(name: button.modelLayer.getName() + "Alert", bundle: nil).instantiateViewController(withIdentifier: button.modelLayer.getName() + "VC") as! ModelLayerViewControllerProtocol
         vc.graphBuilder = self

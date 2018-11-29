@@ -13,8 +13,8 @@ class ViewController: UITableViewController {
     // Example layers to fill out the table
     var layerNames: [String] = []
     var layersInfo: [String] = []
-    var layerPhotos: [String] = []
-    var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}, {SPMaxPooling2DLayer()}, {SPFlattenLayer()}, {SPDropoutLayer()}]
+    var layerPhotos: [String] = [] // set in awakeFromNib & again in viewDidLoad
+    var layerClasses: [() -> ModelLayer] = [{SPInputLayer()}, {SPDenseLayer()}, {SPConv2DLayer()}, {SPMaxPooling2DLayer()}, {SPFlattenLayer()}, {SPDropoutLayer()}, {SPReshapeLayer()}]
     var layerHeight = [false, true, false]
     
     let cellID = "layerCell"

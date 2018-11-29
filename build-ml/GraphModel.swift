@@ -12,7 +12,7 @@ class GraphModel {
     
     // FIXME: - Add support for multi-headed models by not storing this as list, and storing all info in the `nextLayer` of each layer obj
     
-    static let  LAYERS : [Any.Type] = [SPConv2DLayer.self, SPInputLayer.self, SPDenseLayer.self, SPMaxPooling2DLayer.self, SPDropoutLayer.self, SPFlattenLayer.self, SPReshapeLayer.self]
+    static let LAYERS : [Any.Type] = [SPConv2DLayer.self, SPInputLayer.self, SPDenseLayer.self, SPMaxPooling2DLayer.self, SPDropoutLayer.self, SPFlattenLayer.self, SPReshapeLayer.self]
 
     var layers = [ModelLayer]()
     var toAdd = [ModelLayer]()
@@ -403,16 +403,16 @@ class SPMaxPooling2DLayer: ModelLayer {
     }
     
     func updateParams(params: [String : Int]) {
-        if let p0 = params["pool0"] {
+        if let p0 = params["poolW"] {
             poolSize.0 = p0
         }
-        if let p1 = params["pool1"] {
+        if let p1 = params["poolH"] {
             poolSize.1 = p1
         }
-        if let s0 = params["s0"] {
+        if let s0 = params["sW"] {
             stride.0 = s0
         }
-        if let s1 = params["s1"] {
+        if let s1 = params["sH"] {
             stride.1 = s1
         }
         updateChildren()

@@ -17,6 +17,12 @@
 		7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B0835F020E4A028005323E0 /* Default-568h@2x.png */; };
 		7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */; };
 		7B49959021AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */; };
+		7B49959221AF5F1100F27E91 /* MaxPooling2DAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B49959121AF5F1100F27E91 /* MaxPooling2DAlert.storyboard */; };
+		7B49959421AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B49959321AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift */; };
+		7B49959621AF653300F27E91 /* ReshapeAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B49959521AF653300F27E91 /* ReshapeAlert.storyboard */; };
+		7B49959821AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B49959721AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift */; };
+		7B49959A21AF6D1200F27E91 /* DropoutAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B49959921AF6D1200F27E91 /* DropoutAlert.storyboard */; };
+		7B49959C21AF6DBB00F27E91 /* DropoutAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B49959B21AF6DBB00F27E91 /* DropoutAlertViewController.swift */; };
 		7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */; };
 		7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */; };
 		7B6DCEEB20F7F7ED00492042 /* DenseAlert.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */; };
@@ -64,6 +70,12 @@
 		7B0835F020E4A028005323E0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputLayerAlertViewController.swift; sourceTree = "<group>"; };
 		7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLayerViewControllerProtocol.swift; sourceTree = "<group>"; };
+		7B49959121AF5F1100F27E91 /* MaxPooling2DAlert.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MaxPooling2DAlert.storyboard; sourceTree = "<group>"; };
+		7B49959321AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaxPooling2DAlertViewController.swift; sourceTree = "<group>"; };
+		7B49959521AF653300F27E91 /* ReshapeAlert.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ReshapeAlert.storyboard; sourceTree = "<group>"; };
+		7B49959721AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReshapeLayerAlertViewController.swift; sourceTree = "<group>"; };
+		7B49959921AF6D1200F27E91 /* DropoutAlert.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DropoutAlert.storyboard; sourceTree = "<group>"; };
+		7B49959B21AF6DBB00F27E91 /* DropoutAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropoutAlertViewController.swift; sourceTree = "<group>"; };
 		7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Conv2DAlert.storyboard; sourceTree = "<group>"; };
 		7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conv2DAlertViewController.swift; sourceTree = "<group>"; };
 		7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DenseAlert.storyboard; sourceTree = "<group>"; };
@@ -132,12 +144,18 @@
 			isa = PBXGroup;
 			children = (
 				7B7C84DE20E5F1FA00DE3251 /* InputAlert.storyboard */,
+				7B49959521AF653300F27E91 /* ReshapeAlert.storyboard */,
 				7B49958F21AF55EA00F27E91 /* ModelLayerViewControllerProtocol.swift */,
 				7B6DCEE620F41A2B00492042 /* Conv2DAlert.storyboard */,
+				7B49959121AF5F1100F27E91 /* MaxPooling2DAlert.storyboard */,
 				7B6DCEEA20F7F7ED00492042 /* DenseAlert.storyboard */,
+				7B49959921AF6D1200F27E91 /* DropoutAlert.storyboard */,
 				7B6DCEE820F7EB6500492042 /* Conv2DAlertViewController.swift */,
+				7B49959321AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift */,
 				7B6DCEEC20F7F91200492042 /* DenseAlertViewController.swift */,
+				7B49959B21AF6DBB00F27E91 /* DropoutAlertViewController.swift */,
 				7B10E33D20ED2228008B5429 /* InputLayerAlertViewController.swift */,
+				7B49959721AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift */,
 			);
 			path = AlertControllers;
 			sourceTree = "<group>";
@@ -281,13 +299,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B49959621AF653300F27E91 /* ReshapeAlert.storyboard in Resources */,
 				7B6DCEEB20F7F7ED00492042 /* DenseAlert.storyboard in Resources */,
 				7B7C84DF20E5F1FA00DE3251 /* InputAlert.storyboard in Resources */,
+				7B49959A21AF6D1200F27E91 /* DropoutAlert.storyboard in Resources */,
 				7B6DCEE720F41A2B00492042 /* Conv2DAlert.storyboard in Resources */,
 				7BCA3E3120E181BF00651337 /* LaunchScreen.storyboard in Resources */,
 				7B0835F120E4A028005323E0 /* Default-568h@2x.png in Resources */,
 				7BCA3E2E20E181BF00651337 /* Assets.xcassets in Resources */,
 				7BCA3E2920E181BF00651337 /* Main.storyboard in Resources */,
+				7B49959221AF5F1100F27E91 /* MaxPooling2DAlert.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +362,9 @@
 				7B0835ED20E337EB005323E0 /* MainViewController.swift in Sources */,
 				193623AD21AC53F00072FF03 /* ModelsViewController.swift in Sources */,
 				7B6DCEE920F7EB6500492042 /* Conv2DAlertViewController.swift in Sources */,
+				7B49959821AF65AC00F27E91 /* ReshapeLayerAlertViewController.swift in Sources */,
 				193623AC21AC53F00072FF03 /* LessonsViewController.swift in Sources */,
+				7B49959421AF5F9100F27E91 /* MaxPooling2DAlertViewController.swift in Sources */,
 				7BCA3E2620E181BF00651337 /* ViewController.swift in Sources */,
 				193623AF21AC547C0072FF03 /* DeployViewController.swift in Sources */,
 				7BCA3E2C20E181BF00651337 /* build_ml.xcdatamodeld in Sources */,
@@ -352,6 +375,7 @@
 				BC918D6B21741782004FACCE /* MenuViewController.swift in Sources */,
 				7B6DCEED20F7F91200492042 /* DenseAlertViewController.swift in Sources */,
 				7B0835EF20E49B04005323E0 /* GraphModel.swift in Sources */,
+				7B49959C21AF6DBB00F27E91 /* DropoutAlertViewController.swift in Sources */,
 				7B10E33E20ED2228008B5429 /* InputLayerAlertViewController.swift in Sources */,
 				BC128245216C2B2100856619 /* LayerTableViewCell.swift in Sources */,
 				BC6D71C72181041200E3F817 /* VisionViewController.swift in Sources */,
