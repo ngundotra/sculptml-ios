@@ -20,9 +20,7 @@ class MenuViewController: UIViewController {
     {
         if segue.destination is MainViewController
         {
-            let vc = segue.destination as? MainViewController
-            let model = GraphModel(name: "User Model")
-            vc?.userModel = model
+            
         }
     }
     /*

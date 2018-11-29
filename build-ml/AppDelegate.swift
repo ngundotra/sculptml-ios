@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let model = GraphModel(name: "User Model")
 //        let mainVC = MainViewController(graphModel: model)
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let mainVC = storyBoard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        let mainVC = storyBoard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
         self.window?.rootViewController = mainVC
         self.window?.makeKeyAndVisible()
         return true

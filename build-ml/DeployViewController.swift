@@ -7,16 +7,32 @@
 //
 
 import UIKit
+import SnapKit
 import CoreML
+import Vision
+import Photos
 import Accelerate
 
 class DeployViewController: UIViewController, UINavigationControllerDelegate {
     
-    static let imageFormats = ["rgb", "bgr", "grayscale"]
-    var imageFormat: String!
+    var modelInputDimension: (Int, Int, Int) = (28, 28, 1)
+    var imageFormat: String! {
+        return modelInputDimension.2 == 1 ? "grayscale" : "rgb"
+    }
     
     var model: MLModel!
-    var modelInputDimension: (Int, Int, Int) = (28, 28, 1)
+    var vnModel: VNCoreMLModel? {
+        do {
+            let _vn = try VNCoreMLModel(for: model)
+            return _vn
+        } catch _ {
+            print("Could not convert .mlmodel into vision model.")
+            return nil
+        }
+    }
+    var authorized: Bool = false
+    
+    let picker = UIImagePickerController()
     
     @IBOutlet weak var classification: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -26,7 +42,25 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
         super.viewDidLoad()
         // TODO: get model params, pass into image dimension into input specs
         // Do any additional setup after loading the view.
-        // 
+        
+        authorized = Utils.checkCameraPermission()
+        picker.delegate = self
+        
+        imageView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.height.equalTo(modelInputDimension.1 * 4)
+            make.width.equalTo(modelInputDimension.0 * 4)
+        }
+        
+        classifyButton.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.lessThanOrEqualTo(imageView.snp.bottom)
+        }
+        
+        classification.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.lessThanOrEqualTo(classifyButton.snp.bottom)
+        }
     }
     
     @IBAction func imageSelect(_ sender: Any) {
@@ -45,11 +79,10 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
         
         let plAction = UIAlertAction(title: "Choose from Library", style: .default, handler: {(alert: UIAlertAction!) in
             // set to photo library
-            let picker = UIImagePickerController()
-            picker.allowsEditing = false
-            picker.delegate = self
-            picker.sourceType = .photoLibrary
-            self.present(picker, animated: true)
+            self.picker.sourceType = .photoLibrary
+            self.picker.allowsEditing = false
+            
+            self.present(self.picker, animated: true)
         })
         
         let camAction = UIAlertAction(title: "Take a Photo", style: .default, handler: {(alert: UIAlertAction!) in
@@ -58,12 +91,10 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
             }
             
             // set to camera
-            let cameraPicker = UIImagePickerController()
-            cameraPicker.delegate = self
-            cameraPicker.sourceType = .camera
-            cameraPicker.allowsEditing = false
+            self.picker.sourceType = .camera
+            self.picker.allowsEditing = false
             
-            self.present(cameraPicker, animated: true)
+            self.present(self.picker, animated: true)
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -74,6 +105,31 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
         
         DispatchQueue.main.async {
             self.present(webAlert, animated: true, completion: nil)
+        }
+    }
+    
+    func classify(image: UIImage) {
+        // Classify the image
+        let classificationRequest = VNCoreMLRequest(model: vnModel!) { [weak self] request, error in
+            guard let results = request.results as? [VNClassificationObservation], let topClassification = results.first else {
+                self?.classification.text = "Failed to classify"
+                return
+            }
+            
+            DispatchQueue.main.async {
+                print("VNClassificationObservation identifier: \(topClassification.identifier)")
+                print("Type of topClass: \(type(of: topClassification))")
+                self?.classification.text = topClassification.identifier // "\(classifications.first)"
+            }
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let handler = VNImageRequestHandler(ciImage: CIImage(cgImage: image.cgImage!))
+            do {
+                try handler.perform([classificationRequest])
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -90,16 +146,18 @@ class DeployViewController: UIViewController, UINavigationControllerDelegate {
 }
 
 extension DeployViewController: UIImagePickerControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    @objc func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
         classification.text = "Analyzing Image..."
         guard let image = info["UIImagePickerControllerOriginalImage"] as? UIImage else {
             return
         }
+        
+        print(0)
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: modelInputDimension.0, height: modelInputDimension.1), true, 2.0)
         image.draw(in: CGRect(x: 0, y: 0, width: modelInputDimension.0, height: modelInputDimension.1))
@@ -112,6 +170,8 @@ extension DeployViewController: UIImagePickerControllerDelegate {
         guard (status == kCVReturnSuccess) else {
             return
         }
+        
+        print(1)
         
         CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
         let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
@@ -126,13 +186,19 @@ extension DeployViewController: UIImagePickerControllerDelegate {
         newImage.draw(in: CGRect(x: 0, y: 0, width: newImage.size.width, height: newImage.size.height))
         UIGraphicsPopContext()
         CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        
+        print(2)
+        
         if imageFormat == "rgb" {
             imageView.image = newImage
+            classify(image: newImage)
         } else if imageFormat == "grayscale" {
             guard let cgImage = newImage.cgImage else {
                 print("Unable to get CGImage")
                 return
             }
+            
+            print(3)
             
             /*
              The format of the source asset.
@@ -247,9 +313,13 @@ extension DeployViewController: UIImagePickerControllerDelegate {
                 vImage_Flags(kvImageNoFlags),
                 nil)
             
+            print(4)
+            
             // Display the grayscale result.
             if let result = result {
-                imageView.image = UIImage(cgImage: result.takeRetainedValue())
+                let greyscaleImage = UIImage(cgImage: result.takeRetainedValue())
+                imageView.image = greyscaleImage
+                classify(image: greyscaleImage)
             } else {
                 print("lol oh shit.")
             }
