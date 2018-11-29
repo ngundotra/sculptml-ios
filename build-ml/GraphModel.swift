@@ -120,13 +120,30 @@ class GraphModel {
         }
         
         // loop through model layer list, generate corresponding layers + params
-        //
         var modelSpec: [String: Any] = [
             "info": "Right now optimizer & dataset are hard-coded:",
             "model_name": name,
             "num_layers": layers.count - 1,
             "optimizer": "Adadelta",
             ]
+        var datasetSpec: [String : Any]
+        let mnist = false
+        if mnist {
+            datasetSpec = [
+            "name" : "MNIST",
+            "batch_size" : 32,
+            "epochs" : 12,
+            "metrics" : ["accuracy"]
+            ]
+        } else {
+            datasetSpec = [
+            "name" : "Iris",
+            "batch_size" : 16,
+            "epochs" : 12,
+            "metrics" : ["accuracy"],
+            "loss" : "categorical_crossentropy"
+            ]
+        }
         var count = 0
         print("Entering the JSON gen loop for each layer")
         print(layers)
@@ -149,14 +166,9 @@ class GraphModel {
             count += 1
         }
         print("Exited the JSON gen loop")
-        let totalJSON: [String: Any] = ["model": modelSpec,
-                                        "dataset": [
-                                            "name" : "MNIST",
-                                            "batch_size" : 32,
-                                            "epochs" : 12,
-                                            "metrics" : ["accuracy"],
-                                            "loss" : "categorical_crossentropy"
-            ]
+        let totalJSON: [String: Any] = [
+            "model": modelSpec,
+            "dataset": datasetSpec
         ]
         print(totalJSON)
         return totalJSON
@@ -230,7 +242,7 @@ class SPInputLayer: ModelLayer {
     }
     
     init() {
-        inputShape = ShapeTup(6, 6, 6)
+        inputShape = ShapeTup(28, 28, 1)
     }
     
     init(tupShape: (Int, Int, Int)) {
