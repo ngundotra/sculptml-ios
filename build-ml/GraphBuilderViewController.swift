@@ -18,6 +18,9 @@ class GraphBuilderViewController: UIViewController {
     
     var panGraph: UIPanGestureRecognizer?
     var swipeGesture: UISwipeGestureRecognizer?
+    var pinchGraph: UIPinchGestureRecognizer?
+    // This is what we will use when we initialize
+    var scale: Float = 1.0
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -45,12 +48,16 @@ class GraphBuilderViewController: UIViewController {
         
         // Debug only
         view.clipsToBounds = true
-        // submitAction(sender: <#T##AnyObject#>) //JSON POST
+        // submitAction(sender: <#T##AnyObject#>) // JSON POST
         
         // Scroll Graph
         // Set instance variable
         panGraph = UIPanGestureRecognizer(target: self, action: #selector(scrollGraph))
         view.addGestureRecognizer(panGraph!)
+        
+        pinchGraph = UIPinchGestureRecognizer(target: self, action: #selector(scalePiece))
+        // Just kidding this doesn't work because the spacing between the buttons gets whack!
+//        view.addGestureRecognizer(pinchGraph!)
         
         swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeLayerObj(_:)))
         view.addGestureRecognizer(swipeGesture!)
@@ -151,6 +158,42 @@ class GraphBuilderViewController: UIViewController {
             }
         }
         gestureRecognizer.setTranslation(CGPoint(x: 0, y: 0), in: self.view)
+    }
+    
+    // Resize the graph when you pinch! :)
+    @objc func scalePiece(_ gestureRecognizer : UIPinchGestureRecognizer) {
+        guard gestureRecognizer.view != nil else { return }
+        
+        var avgX: CGFloat = 0.0
+        var avgY: CGFloat = 0.0
+        
+        for layer in layerObjs {
+            avgX += CGFloat(layer.center.x)
+            avgY += CGFloat(layer.center.y)
+        }
+        avgX /= CGFloat(layerObjs.count)
+        avgY /= CGFloat(layerObjs.count)
+        
+        if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
+            let gScale = min(gestureRecognizer.scale, CGFloat(1.0))
+            print(gScale)
+            let relativeScale = gestureRecognizer.scale / CGFloat(scale)
+            for layer in layerObjs {
+//                layer.transform = (layer.transform.scaledBy(x: relativeScale, y: relativeScale))
+                let disp = layer.center
+                let dist = sqrt((avgX - disp.x) * (avgX - disp.x) + (avgY - disp.y) * (avgY - disp.y))
+                let xPos = (layer.center.x <= avgX) ? -1.0 : 1.0
+                let yPos = (layer.center.y <= avgY) ? 1.0 : -1.0
+                layer.transform = (layer.transform.translatedBy(x: CGFloat(0.0), y: CGFloat(yPos)))
+            }
+            scale = Float(gestureRecognizer.scale)
+        }
+    }
+    
+    // Fixes the spacing between pieces of the graph buttons by moving the bottom ones up
+    func fixSpacingFromByMovingBottom(topBut: LayerButton, botBut: LayerButton?) {
+        guard botBut != nil else {return}
+        
     }
     
     // MARK:- Swipe
