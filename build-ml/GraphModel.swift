@@ -182,7 +182,7 @@ class GraphModel {
             ]
             ] as [String : Any]
         
-        return [:] // FIXME
+        return jsonSkeleton
     }
 }
 

@@ -344,9 +344,11 @@ class GraphBuilderViewController: UIViewController {
         // Build name -> layer type for referencing
         
         // LMAO Flatten layers have no view controllers--that would be weird
-        if type(of: button) === SPFlattenLayer.self {
+        if button.modelLayer is SPFlattenLayer {
+            print("no viewcontroller for flatten layer bc no params")
             return
         }
+        
         let prevStyle = modalPresentationStyle
         var vc = UIStoryboard(name: button.modelLayer.getName() + "Alert", bundle: nil).instantiateViewController(withIdentifier: button.modelLayer.getName() + "VC") as! ModelLayerViewControllerProtocol
         vc.graphBuilder = self

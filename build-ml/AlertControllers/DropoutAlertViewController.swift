@@ -37,6 +37,7 @@ class DropoutAlertViewController: UIViewController, ModelLayerViewControllerProt
         if let modelLayer = modelLayer {
             let current = modelLayer.rate
             rateLabel.text = "\(current)"
+            rateSlider.value = Float(current)
         }
     }
     
