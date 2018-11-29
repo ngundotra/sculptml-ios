@@ -7,8 +7,54 @@
 //
 
 import UIKit
+import Photos
+
+extension UserDefaults {
+    func object<T: Codable>(_ type: T.Type, with key: String, usingDecoder decoder: JSONDecoder = JSONDecoder()) -> T? {
+        guard let data = self.value(forKey: key) as? Data else { return nil }
+        return try? decoder.decode(type.self, from: data)
+    }
+    
+    func set<T: Codable>(object: T, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) {
+        let data = try? encoder.encode(object)
+        self.set(data, forKey: key)
+    }
+}
 
 class Utils: NSObject {
+    
+    static func checkCameraPermission() -> Bool {
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        case .authorized:
+            print("Access granted by user.")
+            return true
+        case .notDetermined:
+            print("Authorization undetermined until now.")
+            var auth = false
+            let semaphore = DispatchSemaphore(value: 0)
+            PHPhotoLibrary.requestAuthorization({
+                (newStatus) in
+                print("Status is \(newStatus)")
+                auth = newStatus == PHAuthorizationStatus.authorized
+                if auth {
+                    print("Authorized.")
+                }
+                semaphore.signal()
+            })
+            
+            _ = semaphore.wait(timeout: DispatchTime.now() + Double(Int64(UInt64(10) * NSEC_PER_SEC)) / Double(NSEC_PER_SEC))
+            return auth
+        case .restricted:
+            print("User does not have access to photo album.")
+            return false
+        case .denied:
+            print("User has denied permission.")
+            return false
+        default:
+            return false
+        }
+    }
     
     static func listDocumentsDirectory() -> [URL] {
         let fileManager = FileManager.default
@@ -18,6 +64,21 @@ class Utils: NSObject {
             return fileURLs
         } catch {
             print("Error while enumerating files \(documentsURL.path): \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    static func listAppSupportDirectory() -> [URL] {
+        let fileManager = FileManager.default
+        let supportURL = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        do {
+            if !fileManager.fileExists(atPath: supportURL.absoluteString) {
+                try fileManager.createDirectory(at: supportURL, withIntermediateDirectories: true)
+            }
+            let fileURLs = try fileManager.contentsOfDirectory(at: supportURL, includingPropertiesForKeys: nil)
+            return fileURLs
+        } catch {
+            print("Error while enumerating files \(supportURL.path): \(error.localizedDescription)")
             return []
         }
     }

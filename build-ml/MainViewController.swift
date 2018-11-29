@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreML
 
 class MainViewController: UITabBarController {
     let graphBuilderVC = GraphBuilderViewController()
@@ -46,14 +47,28 @@ class MainViewController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "deploy" {
+            let vc = segue.destination as! DeployViewController
+            var model: MLModel!
+            do {
+                let compiledURL = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(modelsVC.selectedModelName)
+                model = try MLModel(contentsOf: compiledURL)
+                vc.modelInputDimension = (28, 28, 1) // FIXME
+            } catch {
+                model = MNIST().model
+                vc.modelInputDimension = (28, 28, 1)
+                print("Error getting compiled model URL, using MNIST default.")
+            }
+            
+            vc.model = model
+        }
     }
-    */
 
 }

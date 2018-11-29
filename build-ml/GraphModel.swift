@@ -280,7 +280,7 @@ class SPInputLayer: ModelLayer {
 class SPConv2DLayer: ModelLayer {
     static let imgName: String = "conv2dlayer"
     static let name: String = "Conv2D"
-    static let description: String = "Transform that learns spatial relations"
+    static let description: String = "Transform that learns spatial features"
     var inputShape: ShapeTup
     var kernelSize: (Int, Int)
     var stride: (Int, Int)

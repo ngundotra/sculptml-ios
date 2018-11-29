@@ -89,22 +89,39 @@ class GraphBuilderViewController: UIViewController {
         // make button hidden/greyed out if model isn't valid
         print("Clicked")
         let tabVC = tabBarController! as! MainViewController
-        jsonPOST(modelDictionary: tabVC.userModel.toJSON())
-        let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            switch action.style{
-            case .default:
-                print("default")
-            case .cancel:
-                print("cancel")
-            case .destructive:
-                print("destructive")
-            }}))
-        self.present(alert, animated: true, completion: nil)
+        if jsonPOST(modelDictionary: tabVC.userModel.toJSON()) {
+            let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    print("default")
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }}))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Oof.", message: "There was a problem uploading your model, try again?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    print("default")
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }}))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Make sure to display data loaded from persistence
+        let tabVC = self.tabBarController! as! MainViewController
+        if tabVC.userModel == nil {
+            tabVC.userModel = GraphModel(name: "User Model")
+        }
         updateView()
     }
     
@@ -355,7 +372,7 @@ class GraphBuilderViewController: UIViewController {
     }
     
     //JSON POST code below
-    func jsonPOST(modelDictionary: [String : Any]) {
+    func jsonPOST(modelDictionary: [String : Any]) -> Bool {
         //put JSON in AppData/Documents/JSONS and get from there then use the NSURL to send to server
         //Big Idea: format JSON --> write JSON to Documents/JSONS/.. --> POST JSON
         //declare parameter as a dictionary which contains string as key and value combination.
@@ -364,22 +381,25 @@ class GraphBuilderViewController: UIViewController {
         print(jsonData)
         _ = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
     
-        //create the url with NSURL
+        // create the url with NSURL
         let url = NSURL(string: "http://latte.csua.berkeley.edu:5000/make-model")
         
-        //create the session object
+        // create the session object
         let session = URLSession.shared
         
-        //now create the NSMutableRequest object using the url object
+        // now create the NSMutableRequest object using the url object
         let request = NSMutableURLRequest(url: url! as URL)
-        request.httpMethod = "POST" //set http method as POST
+        request.httpMethod = "POST" // set http method as POST
         request.httpBody = jsonData
         
-        //HTTP Headers
+        // HTTP Headers
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        //create dataTask using the session object to send data to the server
+        var success: Bool = false
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        // create dataTask using the session object to send data to the server
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             guard let data = data, error == nil else {
                 print(error?.localizedDescription ?? "No data huehuehuehuehue")
@@ -391,81 +411,18 @@ class GraphBuilderViewController: UIViewController {
             } else {
                 print("Hmm...")
             }
-        }
-        
-        task.resume()
-    }
-    
-    /**
-     - returns:
-     the URL of a local .mlmodel
-     */
-    func modelGET(modelName: String) -> URL? { // make a button for this and recognize all saved models in DEPLOY mode
-        var modelURL: URL?
-        // FIXME: use a semaphore to block until model is received
-        let semaphore = DispatchSemaphore(value: 0)
-        getMLModel("http://latte.csua.berkeley.edu:5000/get-model", parameters: ["model_name": modelName]) { fileURL, error in
-            if fileURL == nil || error != nil {
-                print(error ?? "something went wrong")
-                semaphore.signal()
-                return
-            }
             
-            modelURL = fileURL
+            success = true
             semaphore.signal()
         }
         
+        task.resume()
+        
         _ = semaphore.wait(timeout: DispatchTime.now() + Double(Int64(UInt64(10) * NSEC_PER_SEC)) / Double(NSEC_PER_SEC))
         
-        return modelURL
-    }
-    
-    // TODO: make so models are named according to JSON spec and date of creation
-    // TODO: make get request for progress
-    // TODO: make buttons for all this jank
-    
-    func getMLModel(_ url: String, parameters: [String: String], completion: @escaping (URL?, Error?) -> Void) {
-        var components = URLComponents(string: url)!
-        components.queryItems = parameters.map { (key, value) in
-            URLQueryItem(name: key, value: value)
-        }
-        components.percentEncodedQuery = components.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
-        var request = URLRequest(url: components.url!)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            print(response as Any)
-            guard let data = data,                            // is there data
-                let response = response as? HTTPURLResponse,  // is there HTTP response
-                (200 ..< 300) ~= response.statusCode,         // is statusCode 2XX
-                error == nil else {                           // was there no error, otherwise ...
-                    completion(nil, error)
-                    return
-            }
-            
-            var fileURL: URL!
-            do {
-                fileURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("test.mlmodel")
-            } catch {
-                print("LOL this shit fucked.")
-                completion(nil, nil)
-                return
-            }
-            
-            do {
-                try data.write(to: fileURL, options: Data.WritingOptions.atomic)
-            } catch {
-                print("Write failed.")
-                completion(nil, nil)
-                return
-            }
-            // let responseObject = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
-            completion(fileURL, nil)
-        }
-        task.resume()
+        return success
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -473,6 +430,4 @@ class GraphBuilderViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
-
 }
