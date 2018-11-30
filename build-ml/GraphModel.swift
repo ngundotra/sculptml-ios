@@ -114,7 +114,7 @@ class GraphModel {
         return true
     }
     
-    func toJSON() -> [String : Any] {
+    func toJSON(mnist: Bool) -> [String : Any] {
         if !self.isValid() {
             return [:]
         }
@@ -127,7 +127,6 @@ class GraphModel {
             "optimizer": "Adadelta",
             ]
         var datasetSpec: [String : Any]
-        let mnist = false
         if mnist {
             datasetSpec = [
             "name" : "MNIST",
@@ -365,6 +364,7 @@ class SPConv2DLayer: ModelLayer {
                 "dim": String(inputShape.d0),
                 "kernel_size": "(\(kernelSize.0), \(kernelSize.1))",
                 "stride": "(\(stride.0), \(stride.1))",
+            "filters": filters,
                 "activation": "\(activation)"]
     }
 }

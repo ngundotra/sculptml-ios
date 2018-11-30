@@ -58,9 +58,10 @@ class ModelsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @objc private func refreshModelData(_ sender: Any) {
+        let tabVC = self.tabBarController as! MainViewController
         // Fetch Model Data
         SwiftSpinner.show("Uploading your model...")
-        if let modelUrl = modelGET(modelName: "bigDickCNN") {
+        if let modelUrl = modelGET(modelName: tabVC.userModel.name) {
             SwiftSpinner.hide()
             print("Model GET successful.")
             var compiledUrl: URL!
