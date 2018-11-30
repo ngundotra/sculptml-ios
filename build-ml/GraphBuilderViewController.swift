@@ -9,16 +9,19 @@
 import UIKit
 import SwiftSpinner
 
-class GraphBuilderViewController: UIViewController {
+class GraphBuilderViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let LAYER_OBJ_BUFFER = 37.5
     
     var layerObjs = [LayerButton]()
     let debugLabel = UILabel()
     let viewTitle = UILabel()
     let debugHeader: String = "Debug Label:"
+    var datasetMnist: Bool = true
     
     var panGraph: UIPanGestureRecognizer?
     var swipeGesture: UISwipeGestureRecognizer?
+    
+    var datasetPickerView: UIPickerView = UIPickerView()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -34,6 +37,15 @@ class GraphBuilderViewController: UIViewController {
         view.addSubview(viewTitle)
         view.backgroundColor = UIColor.white
         // Do any additional setup after loading the view.
+        
+        self.datasetPickerView.isHidden = false
+        self.datasetPickerView.dataSource = self
+        self.datasetPickerView.delegate = self
+        self.datasetPickerView.frame = CGRect(x: 100, y: 100, width: 100, height: 162)
+        // self.datasetPickerView.backgroundColor = UIColor.t
+        self.datasetPickerView.layer.borderColor = UIColor.white.cgColor
+        self.datasetPickerView.layer.borderWidth = 1
+        self.view.addSubview(self.datasetPickerView)
         
         // Title Label
         makeTitleLabel()
@@ -57,30 +69,36 @@ class GraphBuilderViewController: UIViewController {
         view.addGestureRecognizer(swipeGesture!)
         // Make sure swiping gets higher priority
         panGraph?.require(toFail: swipeGesture!)
-        
-        /* let picker: UIPickerView
-        picker = UIPickerView(frame: CGRectMake(0, 200, view.frame.width, 300))
-        picker.backgroundColor = .whiteColor()
-        
-        picker.showsSelectionIndicator = true
-        picker.delegate = self
-        picker.dataSource = self
-        
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.Default
-        toolBar.translucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.Plain, target: self, action: "donePicker")
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "donePicker")
-        
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.userInteractionEnabled = true
-        
-        textField1.inputView = picker
-        textField1.inputAccessoryView = toolBar */
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return row == 0 ? "MNIST" : "IRIS"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        datasetMnist = row == 0
+        // datasetPickerView.isHidden = false
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return 100
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 36.0
+    }
+    
+    func datasetPickerViewSelected(sender: AnyObject) {
+        // datasetPickerView.isHidden = false
+        print(datasetPickerView.description)
     }
     
     func createSend2ServerButton() {
@@ -101,6 +119,11 @@ class GraphBuilderViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(50)
         }
+        
+        self.datasetPickerView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(button.snp.top).inset(10)
+        }
     }
     
     @objc func send2ServerClicked(_ : UIButton) {
@@ -108,7 +131,7 @@ class GraphBuilderViewController: UIViewController {
         print("Clicked")
         SwiftSpinner.show("Uploading your model...")
         let tabVC = tabBarController! as! MainViewController
-        if jsonPOST(modelDictionary: tabVC.userModel.toJSON()) {
+        if jsonPOST(modelDictionary: tabVC.userModel.toJSON(mnist: datasetMnist)) {
             print("Signed in.")
             SwiftSpinner.hide()
             let alert = UIAlertController(title: "Congratulations!", message: "You've just uploaded a model!", preferredStyle: .alert)
@@ -142,7 +165,7 @@ class GraphBuilderViewController: UIViewController {
         // Make sure to display data loaded from persistence
         let tabVC = self.tabBarController! as! MainViewController
         if tabVC.userModel == nil {
-            tabVC.userModel = GraphModel(name: "User Model")
+            tabVC.userModel = GraphModel(name: "cnnmodel")
         }
         updateView()
     }
