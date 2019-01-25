@@ -434,7 +434,8 @@ class GraphBuilderViewController: UIViewController, UIPickerViewDelegate, UIPick
         _ = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
     
         // create the url with NSURL
-        let url = NSURL(string: "http://latte.csua.berkeley.edu:5000/make-model")
+        let server_url = "YOUR STRING HERE :)"
+        let url = NSURL(string: "\(server_url)/make-model")
         
         // create the session object
         let session = URLSession.shared
