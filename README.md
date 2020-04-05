@@ -44,3 +44,7 @@ Enjoy!
 # Contributions
 
 Big shoutout to colead Felipe Campos, and iOS team Alex Chan and Sai Mandava. On the overall SculptML project, thank you to the backend team: Newman Hu, Allen Chen, Candance Chiang, and Riley Shanahan.
+
+# Future Work
+
+We started this project with an additional desire to include shared augmented reality visualizations of the deep learning architectures you build and train for educational purposes. However, it quickly became apparent that this would become a large technical project in and of itself. So, we leave that task to a future endeavor.
