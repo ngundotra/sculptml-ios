@@ -1,10 +1,10 @@
 # SculptML iOS App
 
-This repo contains the code necessary to compile the iOS app to run on your phone. The only information you must supply is the url of the server you are running the `SculptML Flask App` on. You must put in the url of your server, along with the port you are hosting it on, in the `server_url` in the following 2 files: `GraphBuilderViewController.swift` and `ModelsViewController.swift`. 
+This repo contains the code necessary to compile the iOS app to run on your iPhone or iPad. The only information you must supply is the url of the server you are running the `SculptML Flask App` on. You must put in the url of your server, along with the port you are hosting it on, in the `server_url` in the following 2 files: `GraphBuilderViewController.swift` and `ModelsViewController.swift`. 
 
 ## Overview
 
-The app is designed to make the model-building process as simple as possible. This app was created because I believed that experimenting with deep learning architectures should not be limited to only those who know how to code. Deep learning is experimental field, and I wanted to explore the possibility to making a tool that could produce professional-grade models on the fly for especially curious non-coders. There's still a lot of work to be done before this becomes a professional-grade tool, and automating setup & server hosting. However, we have demonstrated that such an educational tool can easily be built for the mobile experience.
+The app is designed to make the model-building process as simple as possible. This app was created because we believed that experimenting with deep learning architectures should not be limited to only those who know how to code. Deep learning is experimental field, and I wanted to explore the possibility to making a tool that could produce professional-grade models on the fly for especially curious non-coders. There's still a lot of work to be done before this becomes a professional-grade tool, and automating setup & server hosting. However, we have demonstrated that such an educational tool can easily be built for the mobile experience.
 
 ## What Does This Do?
 
@@ -27,11 +27,11 @@ Once you have successfully uploaded a model, about 15 minutes later, you can mov
 
 ![models-screen](./iOS-screens/ModelsScreen.png)
 
-Once you have a downloaded model, you can click on it to test it out (MNIST models only). We let you test out the models by either drawing a number or taking a picture.
+Once you have a downloaded model, you can click on it to test it out (MNIST models only). We let you test out the models by either drawing a number on a Notepad, taking a picture with your camera, or uploading an image from your camera roll.
 
 ![ModelsToDeploy](./iOS-screens/ModelsToDeploy.png)
 
-For example, if we choose Notepad, we can actually experiment with drawing numbers, and classifying them. You can select colors by clicking on the pencils below, and reset the drawing by hitting the Reset button in the top left. Clicking the Classify button will use the square portion of the image on your model for classification, and will display its result in the white text box.
+For example, if we choose Notepad, we can actually experiment with drawing numbers, and classifying them using the custom model you built and trained on the MNIST dataset! You can select colors by clicking on the pencils below, and reset the drawing by hitting the Reset button in the top left. Clicking the Classify button will use the square portion of the image on your model for classification, and will display its result in the white text box.
 
 ![Normal Deploy](iOS-screens/NormalDeploy.png)
 
